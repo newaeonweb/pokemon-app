@@ -1,7 +1,8 @@
 {
   "APP_NAME": "pokemon app",
   "About": "Sobre",
-  "Hello world !": "Olá Mundo !",
+  "Hello Pokemon !": "Olá Pokemon !",
   "Home": "Início",
-  "Version": "Versão"
+  "Version": "Versão",
+  "WELCOME_MSG" : "Bem vindo ao mundo do Pokémon, você pode utilizar esse app para acessar o Pokémon TCG API, onde pode obter informaões sobre cards e sets do pokémons."
 }
