@@ -1,0 +1,41 @@
+{
+  "generator-ngx-rocket": {
+    "version": "9.2.0",
+    "props": {
+      "location": "path",
+      "strict": false,
+      "skipInstall": false,
+      "skipQuickstart": false,
+      "initGit": true,
+      "usePrefix": true,
+      "appName": "pokemon app",
+      "target": [
+        "web"
+      ],
+      "pwa": true,
+      "ui": "material",
+      "layout": "simple",
+      "auth": false,
+      "lazy": true,
+      "angulartics": true,
+      "languages": [
+        "en-US",
+        "pt-BR"
+      ],
+      "analyticsProvider": "ga",
+      "googleAnalyticsAccount": "UA-66666666-6",
+      "tools": [
+        "prettier",
+        "hads",
+        "jest",
+        "puppeteer"
+      ],
+      "utility": [],
+      "deploy": "github",
+      "projectName": "pokemon-app",
+      "packageManager": "npm",
+      "mobile": [],
+      "desktop": []
+    }
+  }
+}
