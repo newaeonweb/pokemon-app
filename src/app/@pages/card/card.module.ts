@@ -6,15 +6,10 @@ import { CardListComponent } from './card-list/card-list.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '@app/material.module';
+import { SharedModule } from '@shared';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    TranslateModule,
-    FlexLayoutModule,
-    MaterialModule,
-    CardRoutingModule
-  ],
-  declarations: [CardComponent, CardListComponent]
+  imports: [CommonModule, TranslateModule, FlexLayoutModule, SharedModule, MaterialModule, CardRoutingModule],
+  declarations: [CardComponent, CardListComponent],
 })
-export class CardModule { }
+export class CardModule {}

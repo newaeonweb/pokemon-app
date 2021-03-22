@@ -10,8 +10,9 @@
         <button
           mat-raised-button
           angulartics2On="click"
-          angularticsAction="Click button below quote"
-          [angularticsCategory]="cards"
+          angularticsAction="Click button show cards"
+          [angularticsCategory]="cards$"
+          routerLink="/card"
         >
           Click to see cards
         </button>

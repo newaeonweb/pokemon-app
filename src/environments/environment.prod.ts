@@ -9,7 +9,8 @@ import { env } from './.env';
 export const environment = {
   production: true,
   version: env.npm_package_version,
+  pokemonKey: env.pokemon_key,
   serverUrl: 'https://api.chucknorris.io',
   defaultLanguage: 'en-US',
-  supportedLanguages: ['en-US', 'pt-BR']
+  supportedLanguages: ['en-US', 'pt-BR'],
 };

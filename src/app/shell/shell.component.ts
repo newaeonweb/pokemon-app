@@ -9,23 +9,23 @@ import { UntilDestroy, untilDestroyed } from '@core';
 @Component({
   selector: 'app-shell',
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.scss']
+  styleUrls: ['./shell.component.scss'],
 })
 export class ShellComponent implements OnInit {
-
   @ViewChild('sidenav', { static: false }) sidenav!: MatSidenav;
 
-  constructor(private media: MediaObserver) { }
+  constructor(private media: MediaObserver) {}
 
   ngOnInit() {
     // Automatically close side menu on screens > sm breakpoint
     this.media
       .asObservable()
       .pipe(
-        filter((changes: MediaChange[]) => changes.some(change => change.mqAlias !== 'xs' && change.mqAlias !== 'sm')),
+        filter((changes: MediaChange[]) =>
+          changes.some((change) => change.mqAlias !== 'xs' && change.mqAlias !== 'sm')
+        ),
         untilDestroyed(this)
       )
       .subscribe(() => this.sidenav.close());
   }
-
 }

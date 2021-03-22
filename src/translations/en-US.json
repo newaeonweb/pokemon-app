@@ -1,8 +1,9 @@
 {
   "APP_NAME": "pokemon app",
   "About": "About",
+  "Card": "Card",
   "Hello Pokemon !": "Hello Pokemon !",
   "Home": "Home",
   "Version": "Version",
-  "WELCOME_MSG" : "Welcome to the Pokémon world, You can use this app to access Pokémon TCG API, which can get information on cards and sets about pokémons."
+  "WELCOME_MSG": "Welcome to the Pokémon world, You can use this app to access Pokémon TCG API, which can get information on cards and sets about pokémons."
 }

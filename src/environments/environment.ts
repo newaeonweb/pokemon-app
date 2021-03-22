@@ -13,9 +13,10 @@ import { env } from './.env';
 export const environment = {
   production: false,
   version: env.npm_package_version + '-dev',
+  pokemonKey: env.pokemon_key,
   serverUrl: '/api',
   defaultLanguage: 'en-US',
-  supportedLanguages: ['en-US', 'pt-BR']
+  supportedLanguages: ['en-US', 'pt-BR'],
 };
 
 /*
