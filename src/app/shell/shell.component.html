@@ -13,7 +13,11 @@
             <span translate>About</span>
           </a>
           <mat-divider></mat-divider>
+          <a mat-list-item routerLink="/card" routerLinkActive="active" (click)="sidenav.close()">
+            <span translate>Card</span>
+          </a>
         </mat-list>
+        <mat-divider></mat-divider>
       </nav>
     </mat-sidenav>
     <mat-sidenav-content>

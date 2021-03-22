@@ -1,0 +1,18 @@
+<div class="container">
+  <div fxLayout="row" fxLayoutAlign="center start">
+    <h1>Pokemon Cards</h1>
+  </div>
+
+  <div fxLayout="row" fxLayoutGap="20px">
+    <mat-card fxFlex="25" *ngFor="let item of [1, 2, 3, 4]">
+      <mat-card-header class="mat-title">Venusaur-EX</mat-card-header>
+      <mat-card-subtitle>
+        <p>supertype: Pokémon</p>
+        <p>subtypes: Basic, Ex</p>
+      </mat-card-subtitle>
+      <mat-card-content>
+        <p>Your opponent's Active Pokémon is now Poisoned.</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
