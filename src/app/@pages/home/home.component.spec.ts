@@ -9,14 +9,14 @@ import { CoreModule } from '@core';
 import { SharedModule } from '@shared';
 import { MaterialModule } from '@app/material.module';
 import { HomeComponent } from './home.component';
-import { QuoteService } from './quote.service';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
         imports: [
           BrowserAnimationsModule,
           FlexLayoutModule,
@@ -25,13 +25,12 @@ describe('HomeComponent', () => {
           Angulartics2Module.forRoot(),
           CoreModule,
           SharedModule,
-          HttpClientTestingModule
+          HttpClientTestingModule,
         ],
         declarations: [HomeComponent],
-        providers: [QuoteService]
-      })
-      .compileComponents();
-  }));
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
