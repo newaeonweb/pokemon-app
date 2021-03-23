@@ -7,9 +7,18 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from '@app/material.module';
 import { SharedModule } from '@shared';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, FlexLayoutModule, SharedModule, MaterialModule, CardRoutingModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TranslateModule,
+    FlexLayoutModule,
+    SharedModule,
+    MaterialModule,
+    CardRoutingModule,
+  ],
   declarations: [CardComponent, CardListComponent],
 })
 export class CardModule {}

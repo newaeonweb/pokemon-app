@@ -2,6 +2,39 @@
   <div fxLayout="row" fxLayoutAlign="center start">
     <h1>Pokemon Cards</h1>
   </div>
+  <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="space-between start">
+    <div fxFlex="30%">
+      <mat-form-field>
+        <mat-label>Filter by types</mat-label>
+        <mat-select (selectionChange)="applyFilterTypes()" [(ngModel)]="types">
+          <mat-option [value]="'All'">All</mat-option>
+          <mat-option *ngFor="let types of typesList" [value]="types"> {{ types }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="30%">
+      <mat-form-field>
+        <mat-label>Filter by subtypes</mat-label>
+        <mat-select (selectionChange)="applyFilterSubtypes()" [(ngModel)]="subtypes">
+          <mat-option [value]="'All'">All</mat-option>
+          <mat-option *ngFor="let subtypes of subtypesList" [value]="subtypes"> {{ subtypes }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="30%">
+      <mat-form-field>
+        <mat-label>Filter by supertypes</mat-label>
+        <mat-select (selectionChange)="applyFilterSupertypes()" [(ngModel)]="supertypes">
+          <mat-option [value]="'All'">All</mat-option>
+          <mat-option *ngFor="let supertypes of supertypesList" [value]="supertypes"> {{ supertypes }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="10%">
+      <button mat-stroked-button (click)="applyAllFilters()">Apply Filters</button>
+    </div>
+  </div>
+
   <div fxLayout="row" fxLayoutAlign="center start">
     <app-loader [isLoading]="isLoading"></app-loader>
   </div>
