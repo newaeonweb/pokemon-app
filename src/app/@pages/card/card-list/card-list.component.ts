@@ -13,12 +13,13 @@ export class CardListComponent implements OnInit, AfterViewInit {
   @ViewChild('paginator') paginator: MatPaginator;
   cards$: Observable<any>;
   isLoading = false;
+  isRecordsFound = false;
   page: number;
   pageSize: number;
   totalCount: number;
-  types = 'All';
-  subtypes = 'All';
-  supertypes = 'All';
+  types = '';
+  subtypes = '';
+  supertypes = '';
   typesList: Observable<string[]>;
   subtypesList: Observable<string[]>;
   supertypesList: Observable<string[]>;
@@ -74,11 +75,17 @@ export class CardListComponent implements OnInit, AfterViewInit {
   applyFilterSupertypes() {}
 
   applyAllFilters() {
+    this.isLoading = true;
     console.log(this.types, this.subtypes, this.supertypes);
     this.cards$ = this.pokemonService.getWithFilters({ superType: this.supertypes, types: this.types }).pipe(
       finalize(() => (this.isLoading = false)),
       tap((response: HttpApiResponse) => {
         console.log('🚀 - : CardListComponent -> applyAllFilters -> response', response.data);
+        if (response?.data?.length === 0 || response?.data === undefined) {
+          this.isRecordsFound = true;
+          return;
+        }
+        this.isRecordsFound = false;
         this.page = response.page;
         this.pageSize = response.pageSize;
         this.totalCount = response.totalCount;

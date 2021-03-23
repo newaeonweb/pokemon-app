@@ -1,9 +1,16 @@
 {
   "APP_NAME": "pokemon app",
+  "All": "Todos",
   "About": "Sobre",
+  "Apply Filters": "Aplicar filtros",
   "Card": "Cartão",
+  "Click to see cards": "Clique para ver os cartões",
+  "Filter by subtypes": "Filrar por sub tipos",
+  "Filter by supertypes": "Filtar por supertipo",
+  "Filter by types": "Filtrar por tipos",
   "Hello Pokemon !": "Olá Pokemon !",
   "Home": "Início",
+  "Pokemon Cards": "Cartões Pokemon",
   "Version": "Versão",
   "WELCOME_MSG": "Bem vindo ao mundo do Pokémon, você pode utilizar esse app para acessar o Pokémon TCG API, onde pode obter informaões sobre cards e sets do pokémons."
 }
