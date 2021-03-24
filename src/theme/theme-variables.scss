@@ -14,7 +14,7 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
 // stylelint-disable-next-line value-keyword-case
-$app-primary: mat-palette($mat-deep-orange, A400, A600, A900);
+$app-primary: mat-palette($mat-yellow, A400, A600, A900);
 // stylelint-disable-next-line value-keyword-case
 $app-accent: mat-palette($mat-pink, A200, A100, A400);
 
@@ -23,6 +23,15 @@ $app-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+
+// Dark Colors
+$dark-primary: mat-palette($mat-grey);
+// stylelint-disable-next-line value-keyword-case
+$dark-accent: mat-palette($mat-amber, A200, A100, A400);
+$dark-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$app-dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
 // Material design icons font path
 $material-design-icons-font-directory-path: "~material-design-icons-iconfont/dist/fonts/";

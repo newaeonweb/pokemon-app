@@ -5,10 +5,10 @@
   <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayoutAlign="space-between start">
     <div fxFlex="30%">
       <mat-form-field>
-        <mat-label><span translate>Filter by types</span></mat-label>
-        <mat-select (selectionChange)="applyFilterTypes()" [(ngModel)]="types">
+        <mat-label><span translate>Filter by supertypes</span></mat-label>
+        <mat-select (selectionChange)="applyFilterSupertypes()" [(ngModel)]="supertypes">
           <mat-option [value]="''"><span translate>All</span></mat-option>
-          <mat-option *ngFor="let types of typesList" [value]="types"> {{ types }}</mat-option>
+          <mat-option *ngFor="let supertypes of supertypesList" [value]="supertypes"> {{ supertypes }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
@@ -23,15 +23,18 @@
     </div>
     <div fxFlex="30%">
       <mat-form-field>
-        <mat-label><span translate>Filter by supertypes</span></mat-label>
-        <mat-select (selectionChange)="applyFilterSupertypes()" [(ngModel)]="supertypes">
+        <mat-label><span translate>Filter by types</span></mat-label>
+        <mat-select (selectionChange)="applyFilterTypes()" [(ngModel)]="types">
           <mat-option [value]="''"><span translate>All</span></mat-option>
-          <mat-option *ngFor="let supertypes of supertypesList" [value]="supertypes"> {{ supertypes }}</mat-option>
+          <mat-option *ngFor="let types of typesList" [value]="types"> {{ types }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
+
     <div fxFlex="10%">
-      <button mat-button color="primary" (click)="applyAllFilters()"><span translate>Apply Filters</span></button>
+      <button mat-raised-button color="primary" (click)="applyAllFilters()">
+        <span translate>Apply Filters</span>
+      </button>
     </div>
   </div>
 
@@ -46,13 +49,16 @@
       <div fxFlex="25%">
         <mat-card>
           <mat-card-header>
-            <mat-card-title fxLayout="row" fxLayoutAlign="space-between center">
-              <span> {{ card.name }}</span>
-              <small [hidden]="!card.hp">HP: {{ card.hp }}</small>
+            <mat-card-title>
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                <span fxFlex> {{ card.name }}</span>
+                <small [hidden]="!card.hp">HP: {{ card.hp }}</small>
+              </div>
             </mat-card-title>
             <mat-card-subtitle>
               <p>
-                <strong> supertype:</strong> {{ card.supertype }} | <strong> subtypes:</strong>
+                <strong> supertype:</strong> {{ card.supertype }} <br />
+                <strong> subtypes:</strong>
                 <span *ngFor="let item of card.subtypes">{{ item }}</span>
               </p>
             </mat-card-subtitle>
@@ -60,7 +66,7 @@
 
           <mat-card-content>
             <div class="img-placeholder">
-              <img src="{{ card.images.small }}" alt="" />
+              <img src="{{ card.images.small }}" alt="{{ card.name }}" loading="lazy" />
             </div>
           </mat-card-content>
         </mat-card>

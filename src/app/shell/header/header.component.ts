@@ -10,6 +10,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 })
 export class HeaderComponent implements OnInit {
   @Input() sidenav!: MatSidenav;
+  theme: string;
 
   constructor(private titleService: Title) {}
 
