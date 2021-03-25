@@ -14,13 +14,29 @@ export class HeaderComponent implements OnInit {
 
   constructor(@Inject(DOCUMENT) private document: any, private titleService: Title) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.currentTheme;
+  }
 
   get title(): string {
     return this.titleService.getTitle();
   }
 
+  get currentTheme() {
+    const darkTheme = localStorage.getItem('dark-theme');
+    if (darkTheme) {
+      return this.document.body.classList.add('dark-theme');
+    }
+  }
+
   changeTheme() {
-    this.document.body.classList.toggle('dark-theme');
+    const darkTheme = localStorage.getItem('dark-theme');
+    if (darkTheme) {
+      this.document.body.classList.remove('dark-theme');
+      localStorage.removeItem('dark-theme');
+      return;
+    }
+    this.document.body.classList.add('dark-theme');
+    localStorage.setItem('dark-theme', 'true');
   }
 }
