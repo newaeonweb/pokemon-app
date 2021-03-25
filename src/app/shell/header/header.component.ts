@@ -15,14 +15,14 @@ export class HeaderComponent implements OnInit {
   constructor(@Inject(DOCUMENT) private document: any, private titleService: Title) {}
 
   ngOnInit() {
-    this.currentTheme;
+    this.currentTheme();
   }
 
   get title(): string {
     return this.titleService.getTitle();
   }
 
-  get currentTheme() {
+  currentTheme() {
     const darkTheme = localStorage.getItem('dark-theme');
     if (darkTheme) {
       return this.document.body.classList.add('dark-theme');
