@@ -35,7 +35,7 @@ $custom-typography: mat-typography-config(
 
 .dark-theme {
   @include angular-material-theme($app-dark-theme);
-  @include mat-toolbar-theme($app-theme);
+  // @include mat-toolbar-theme($app-theme);
 }
 
 .container {
