@@ -100,6 +100,9 @@ MIT
 @biesbjerg/ngx-translate-extract-marker
 MIT
 
+@ngneat/cashew
+MIT
+
 @ngneat/until-destroy
 MIT
 
