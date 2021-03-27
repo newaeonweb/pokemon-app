@@ -12,7 +12,7 @@ const routes = {
   subtypes: () => `https://api.pokemontcg.io/v2/subtypes`,
   supertypes: () => `https://api.pokemontcg.io/v2/supertypes`,
   withFilters: (req: FilterParams) =>
-    `https://api.pokemontcg.io/v2/cards?q=supertype:${req.superType} types:${req.types} subtypes:${req.subtypes}`,
+    `https://api.pokemontcg.io/v2/cards?q=supertype:${req.supertypes} types:${req.types} subtypes:${req.subtypes}`,
 };
 
 export interface QueryParams {
@@ -25,7 +25,7 @@ export interface QueryParams {
 export interface FilterParams {
   types?: string;
   subtypes?: string;
-  superType?: string;
+  supertypes?: string;
 }
 
 export interface HttpApiResponse {
@@ -72,11 +72,18 @@ export class PokemonService {
   }
 
   getWithFilters(req: FilterParams): Observable<any> {
-    console.log('🚀 - : PokemonService -> constructor -> req', req);
-    if (req.subtypes === '' || req.superType === '' || req.types === '') {
-      return;
-    }
-    return this.httpClient.get(routes.withFilters(req)).pipe(
+    const Filters = (obj: {}) => {
+      for (const propName in obj) {
+        if (obj[propName] === '' || obj[propName] === undefined) {
+          delete obj[propName];
+        }
+      }
+      return obj;
+    };
+
+    const filteredParams = Filters(req);
+
+    return this.httpClient.get(routes.withFilters(filteredParams)).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load cards :-('))
     );

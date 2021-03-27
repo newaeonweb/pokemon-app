@@ -17,9 +17,11 @@ export class CardListComponent implements OnInit, AfterViewInit {
   page: number;
   pageSize: number;
   totalCount: number;
-  types = '';
-  subtypes = '';
-  supertypes = '';
+  filters = {
+    types: '',
+    subtypes: '',
+    supertypes: '',
+  };
   typesList: Observable<string[]>;
   subtypesList: Observable<string[]>;
   supertypesList: Observable<string[]>;
@@ -38,6 +40,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
           console.log(result);
         })
       )
+      // tslint:disable-next-line: deprecation
       .subscribe();
   }
 
@@ -76,24 +79,22 @@ export class CardListComponent implements OnInit, AfterViewInit {
 
   applyAllFilters() {
     this.isLoading = true;
+    const { supertypes, types, subtypes } = this.filters;
 
     // tslint:disable-next-line: max-line-length
-    this.cards$ = this.pokemonService
-      .getWithFilters({ superType: this.supertypes, types: this.types, subtypes: this.subtypes })
-      .pipe(
-        finalize(() => (this.isLoading = false)),
-        tap((response: HttpApiResponse) => {
-          console.log('🚀 - : CardListComponent -> applyAllFilters -> response', response.data);
-          if (response?.data?.length === 0 || response?.data === undefined) {
-            this.isRecordsFound = true;
-            return;
-          }
-          this.isRecordsFound = false;
-          this.page = response.page;
-          this.pageSize = response.pageSize;
-          this.totalCount = response.totalCount;
-        }),
-        map((response) => response.data)
-      );
+    this.cards$ = this.pokemonService.getWithFilters({ supertypes, types, subtypes }).pipe(
+      finalize(() => (this.isLoading = false)),
+      tap((response: HttpApiResponse) => {
+        if (response?.data?.length === 0 || response?.data === undefined) {
+          this.isRecordsFound = true;
+          return;
+        }
+        this.isRecordsFound = false;
+        this.page = response.page;
+        this.pageSize = response.pageSize;
+        this.totalCount = response.totalCount;
+      }),
+      map((response) => response.data)
+    );
   }
 }
