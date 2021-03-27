@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { withCache } from '@ngneat/cashew';
 
 const routes = {
   card: (req: QueryParams) =>
@@ -43,28 +44,28 @@ export class PokemonService {
   constructor(private httpClient: HttpClient) {}
 
   getCards(req: QueryParams): Observable<any> {
-    return this.httpClient.get(routes.card(req)).pipe(
+    return this.httpClient.get(routes.card(req), withCache()).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load cards :-('))
     );
   }
 
   getTypes(): Observable<string[]> {
-    return this.httpClient.get(routes.types()).pipe(
+    return this.httpClient.get(routes.types(), withCache()).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load cards :-('))
     );
   }
 
   getSubtypes(): Observable<any> {
-    return this.httpClient.get(routes.subtypes()).pipe(
+    return this.httpClient.get(routes.subtypes(), withCache()).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load cards :-('))
     );
   }
 
   getSupetypes(): Observable<any> {
-    return this.httpClient.get(routes.supertypes()).pipe(
+    return this.httpClient.get(routes.supertypes(), withCache()).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load cards :-('))
     );

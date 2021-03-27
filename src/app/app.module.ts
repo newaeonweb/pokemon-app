@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
+import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 
 import { environment } from '@env/environment';
 import { CoreModule } from '@core';
@@ -23,6 +24,7 @@ import { AppRoutingModule } from './app-routing.module';
     ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
     FormsModule,
     HttpClientModule,
+    HttpCacheInterceptorModule.forRoot(),
     TranslateModule.forRoot(),
     BrowserAnimationsModule,
     MaterialModule,
