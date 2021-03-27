@@ -25,7 +25,9 @@
     <mat-icon>format_color_fill</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="changeTheme()">Change Theme</button>
+    <button mat-menu-item (click)="changeTheme()">
+      <span translate>Change Theme</span>
+    </button>
   </mat-menu>
   <app-language-selector icon="true"></app-language-selector>
 </mat-toolbar>

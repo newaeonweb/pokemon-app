@@ -7,7 +7,7 @@
       <mat-form-field>
         <mat-label><span translate>Filter by supertypes</span></mat-label>
         <mat-select (selectionChange)="applyFilterSupertypes()" [(ngModel)]="supertypes">
-          <mat-option [value]="''"><span translate>All</span></mat-option>
+          <mat-option><span translate>All</span></mat-option>
           <mat-option *ngFor="let supertypes of supertypesList" [value]="supertypes"> {{ supertypes }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -16,7 +16,7 @@
       <mat-form-field>
         <mat-label><span translate>Filter by subtypes</span></mat-label>
         <mat-select (selectionChange)="applyFilterSubtypes()" [(ngModel)]="subtypes">
-          <mat-option [value]="''"><span translate>All</span></mat-option>
+          <mat-option><span translate>All</span></mat-option>
           <mat-option *ngFor="let subtypes of subtypesList" [value]="subtypes"> {{ subtypes }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -25,7 +25,7 @@
       <mat-form-field>
         <mat-label><span translate>Filter by types</span></mat-label>
         <mat-select (selectionChange)="applyFilterTypes()" [(ngModel)]="types">
-          <mat-option [value]="''"><span translate>All</span></mat-option>
+          <mat-option><span translate>All</span></mat-option>
           <mat-option *ngFor="let types of typesList" [value]="types"> {{ types }}</mat-option>
         </mat-select>
       </mat-form-field>
