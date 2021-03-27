@@ -5,6 +5,11 @@
 
 .logo {
   margin: 0 auto;
+  max-width: 640px;
+
+  img {
+    width: 100%;
+  }
 }
 
 q {
