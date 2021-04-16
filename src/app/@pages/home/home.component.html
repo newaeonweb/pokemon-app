@@ -11,7 +11,7 @@
           mat-raised-button
           angulartics2On="click"
           angularticsAction="Click button show cards"
-          [angularticsCategory]="cards$"
+          angularticsCategory="home"
           [routerLink]="['/card']"
           [queryParams]="{ page: 1, pageSize: 10, orderBy: 'name' }"
           queryParamsHandling="merge"

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { HttpApiResponse, PokemonService, FilterParams } from '@app/@pages/home/pokemon.service';
+import { HttpApiResponse, PokemonService, FilterParams } from '@app/@pages/card/_services/pokemon.service';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize, map, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
