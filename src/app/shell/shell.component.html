@@ -1,5 +1,6 @@
 <div fxFlex>
   <app-header [sidenav]="sidenav"></app-header>
+
   <mat-sidenav-container fxFill>
     <mat-sidenav #sidenav mode="over" ngClass.gt-sm="has-border">
       <nav>
@@ -21,6 +22,9 @@
       </nav>
     </mat-sidenav>
     <mat-sidenav-content>
+      <!-- <div *ngIf="loaderService.isLoading$ | async" class="loader-container">
+        <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
+      </div> -->
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>

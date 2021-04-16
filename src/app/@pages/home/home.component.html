@@ -12,7 +12,9 @@
           angulartics2On="click"
           angularticsAction="Click button show cards"
           [angularticsCategory]="cards$"
-          routerLink="/card"
+          [routerLink]="['/card']"
+          [queryParams]="{ page: 1, pageSize: 10, orderBy: 'name' }"
+          queryParamsHandling="merge"
         >
           <span translate> Click to see cards </span>
         </button>

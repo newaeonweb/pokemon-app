@@ -4,6 +4,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { filter } from 'rxjs/operators';
 
 import { UntilDestroy, untilDestroyed } from '@core';
+import { LoaderService } from '@app/@shared/loader/loader.service';
 
 @UntilDestroy()
 @Component({
@@ -14,7 +15,7 @@ import { UntilDestroy, untilDestroyed } from '@core';
 export class ShellComponent implements OnInit {
   @ViewChild('sidenav', { static: false }) sidenav!: MatSidenav;
 
-  constructor(private media: MediaObserver) {}
+  constructor(private media: MediaObserver, public loaderService: LoaderService) {}
 
   ngOnInit() {
     // Automatically close side menu on screens > sm breakpoint

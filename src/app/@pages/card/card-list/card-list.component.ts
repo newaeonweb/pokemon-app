@@ -1,8 +1,9 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { HttpApiResponse, PokemonService } from '@app/@pages/home/pokemon.service';
+import { HttpApiResponse, PokemonService, FilterParams } from '@app/@pages/home/pokemon.service';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize, map, tap } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-card-list',
@@ -26,11 +27,14 @@ export class CardListComponent implements OnInit, AfterViewInit {
   subtypesList: Observable<string[]>;
   supertypesList: Observable<string[]>;
 
-  constructor(private pokemonService: PokemonService) {}
+  request: FilterParams = {};
 
+  constructor(private pokemonService: PokemonService, private route: ActivatedRoute) {}
+
+  // Declare lifecycle methods first
   ngOnInit() {
-    this.loadData();
-
+    this.buildPaginationRequest();
+    this.loadData(this.request);
     this.loadFilters()
       .pipe(
         tap((result) => {
@@ -46,13 +50,22 @@ export class CardListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.paginator.page.subscribe(() => {
-      this.loadData('', this.paginator.pageIndex + 1, this.paginator.pageSize, 'name');
+      this.request.page = this.paginator.pageIndex + 1;
+      this.request.pageSize = this.paginator.pageSize;
+      this.loadData(this.request);
     });
   }
 
-  loadData(q: string = '', p: number = 1, s: number = 10, o: string = 'name') {
+  buildPaginationRequest() {
+    this.route.queryParams.subscribe((param) => {
+      this.request = Object.assign({}, param);
+    });
+  }
+
+  loadData(request: FilterParams) {
     this.isLoading = true;
-    this.cards$ = this.pokemonService.getCards({ query: q, page: p, pageSize: s, orderBy: o }).pipe(
+
+    this.cards$ = this.pokemonService.getCards(request).pipe(
       finalize(() => (this.isLoading = false)),
       tap((response: HttpApiResponse) => {
         this.page = response.page;
@@ -77,24 +90,31 @@ export class CardListComponent implements OnInit, AfterViewInit {
 
   applyFilterSupertypes() {}
 
-  applyAllFilters() {
+  applyAllFilters(q: string = '', p: number = 1, s: number = 10, o: string = 'name') {
     this.isLoading = true;
     const { supertypes, types, subtypes } = this.filters;
 
     // tslint:disable-next-line: max-line-length
-    this.cards$ = this.pokemonService.getWithFilters({ supertypes, types, subtypes }).pipe(
-      finalize(() => (this.isLoading = false)),
-      tap((response: HttpApiResponse) => {
-        if (response?.data?.length === 0 || response?.data === undefined) {
-          this.isRecordsFound = true;
-          return;
-        }
-        this.isRecordsFound = false;
-        this.page = response.page;
-        this.pageSize = response.pageSize;
-        this.totalCount = response.totalCount;
-      }),
-      map((response) => response.data)
-    );
+    this.cards$ = this.pokemonService
+      .getWithFilters({
+        query: `supertype:${supertypes} types:${types} subtypes:${subtypes}`,
+        page: p,
+        pageSize: s,
+        orderBy: o,
+      })
+      .pipe(
+        finalize(() => (this.isLoading = false)),
+        tap((response: HttpApiResponse) => {
+          if (response.data.length === 0 || response.data === undefined) {
+            this.isRecordsFound = true;
+            return;
+          }
+          this.isRecordsFound = false;
+          this.page = response.page;
+          this.pageSize = response.pageSize;
+          this.totalCount = response.totalCount;
+        }),
+        map((response) => response.data)
+      );
   }
 }
