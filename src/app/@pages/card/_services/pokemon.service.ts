@@ -4,22 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { withCache } from '@ngneat/cashew';
 
-const routes = {
-  card: (req: QueryParams) =>
-    // tslint:disable-next-line: max-line-length
-    `https://api.pokemontcg.io/v2/cards?q=${req.query}&page=${req.page}&pageSize=${req.pageSize}&orderBy=${req.orderBy}`,
-  types: () => `https://api.pokemontcg.io/v2/types`,
-  subtypes: () => `https://api.pokemontcg.io/v2/subtypes`,
-  supertypes: () => `https://api.pokemontcg.io/v2/supertypes`,
-  withFilters: (req: FilterParams) => {
-    let params: string;
-    if (req.query) {
-      params = `${req.query}&page=${req.page}&pageSize=${req.pageSize}&orderBy=${req.orderBy}`;
-    }
-
-    return `https://api.pokemontcg.io/v2/cards?q=supertype:${req.supertypes} types:${req.types} subtypes:${req.subtypes}&page=${req.page}&pageSize=${req.pageSize}&orderBy=${req.orderBy}`;
-  },
-};
+const API_URL = 'https://api.pokemontcg.io/v2';
 
 export interface QueryParams {
   query?: string;
@@ -64,28 +49,28 @@ export class PokemonService {
       params = params.append('orderBy', req.orderBy);
     }
 
-    return this.httpClient.get(`https://api.pokemontcg.io/v2/cards`, { params }).pipe(
+    return this.httpClient.get(`${API_URL}/cards`, { params }).pipe(
       map((body: any) => body),
-      catchError(() => of('Error, could not load cards :-('))
+      catchError((err) => this.handleError(err))
     );
   }
 
   getTypes(): Observable<string[]> {
-    return this.httpClient.get(routes.types(), withCache()).pipe(
+    return this.httpClient.get(`${API_URL}/types`, withCache()).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load cards :-('))
     );
   }
 
   getSubtypes(): Observable<any> {
-    return this.httpClient.get(routes.subtypes(), withCache()).pipe(
+    return this.httpClient.get(`${API_URL}/subtypes`, withCache()).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load cards :-('))
     );
   }
 
   getSupetypes(): Observable<any> {
-    return this.httpClient.get(routes.supertypes(), withCache()).pipe(
+    return this.httpClient.get(`${API_URL}/supertypes`, withCache()).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load cards :-('))
     );
@@ -101,17 +86,6 @@ export class PokemonService {
     params = params.append('pageSize', req.pageSize.toString());
     params = params.append('orderBy', req.orderBy);
 
-    // const Filters = (obj: {}) => {
-    //   for (const propName in obj) {
-    //     if (obj[propName] === '' || obj[propName] === undefined) {
-    //       delete obj[propName];
-    //     }
-    //   }
-    //   return obj;
-    // };
-
-    // const filteredParams = Filters(req);
-
     return this.httpClient.get(`https://api.pokemontcg.io/v2/cards`, { params }).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load cards :-('))
@@ -120,9 +94,10 @@ export class PokemonService {
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
-      console.error('An error occurred:', error.error.message);
+      // console.error('An ErrorEvent error occurred:', error.error.message);
     } else {
-      console.error('An error occurred:', error.message);
+      // console.error('An HttpErrorResponse error occurred:', error.message);
+      // backend error 404...
       return throwError(error);
     }
     return throwError('Ohps something wrong happen here; please try again later.');

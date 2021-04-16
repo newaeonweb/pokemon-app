@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { HttpApiResponse, PokemonService, FilterParams } from '@app/@pages/card/_services/pokemon.service';
 import { forkJoin, Observable } from 'rxjs';
-import { finalize, map, tap } from 'rxjs/operators';
+import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -66,6 +66,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
     this.isLoading = true;
 
     this.cards$ = this.pokemonService.getCards(request).pipe(
+      catchError(async (err) => (this.isRecordsFound = true)),
       finalize(() => (this.isLoading = false)),
       tap((response: HttpApiResponse) => {
         this.page = response.page;
