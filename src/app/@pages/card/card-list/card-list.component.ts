@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { HttpApiResponse, PokemonService, FilterParams } from '@app/@pages/card/_services/pokemon.service';
 import { forkJoin, Observable } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-list',
@@ -28,8 +28,9 @@ export class CardListComponent implements OnInit, AfterViewInit {
   supertypesList: Observable<string[]>;
 
   request: FilterParams = {};
+  activatedRoute: ActivatedRoute;
 
-  constructor(private pokemonService: PokemonService, private route: ActivatedRoute) {}
+  constructor(private pokemonService: PokemonService, private route: ActivatedRoute, private router: Router) {}
 
   // Declare lifecycle methods first
   ngOnInit() {
@@ -52,12 +53,20 @@ export class CardListComponent implements OnInit, AfterViewInit {
     this.paginator.page.subscribe(() => {
       this.request.page = this.paginator.pageIndex + 1;
       this.request.pageSize = this.paginator.pageSize;
+      this.request.orderBy = 'name';
+      // Update url query params
+      this.router.navigate([], {
+        relativeTo: this.activatedRoute,
+        queryParams: this.request,
+        queryParamsHandling: 'merge',
+      });
       this.loadData(this.request);
     });
   }
 
   buildPaginationRequest() {
     this.route.queryParams.subscribe((param) => {
+      this.activatedRoute = this.route.parent;
       this.request = Object.assign({}, param);
     });
   }
