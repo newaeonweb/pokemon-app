@@ -36,14 +36,14 @@ export class PokemonService {
 
   getCards(req: QueryParams): Observable<any> {
     let params = new HttpParams();
-    const queryIsEmpty = Object.values(req).every((q) => q === null || q === '');
+    const queryIsEmpty = req.query;
 
-    if (queryIsEmpty) {
+    if (queryIsEmpty === undefined) {
       params = params.append('page', '1');
       params = params.append('pageSize', '10');
       params = params.append('orderBy', 'name');
     } else {
-      params.set('q', req.query);
+      params = params.append('q', req.query);
       params = params.append('page', req.page?.toString());
       params = params.append('pageSize', req.pageSize?.toString());
       params = params.append('orderBy', req.orderBy);
@@ -51,7 +51,7 @@ export class PokemonService {
 
     return this.httpClient.get(`${API_URL}/cards`, { params }).pipe(
       map((body: any) => body),
-      catchError((err) => this.handleError(err))
+      catchError((err) => this.handleError(err.error))
     );
   }
 
@@ -71,22 +71,6 @@ export class PokemonService {
 
   getSupetypes(): Observable<any> {
     return this.httpClient.get(`${API_URL}/supertypes`, withCache()).pipe(
-      map((body: any) => body),
-      catchError(() => of('Error, could not load cards :-('))
-    );
-  }
-
-  getWithFilters(req: QueryParams): Observable<any> {
-    console.log('🚀 - : PokemonService -> constructor -> req', req);
-    const isEmpty = Object.values(req).every((x) => x === null || x === '');
-
-    let params = new HttpParams();
-    params = params.set('q', req.query);
-    params = params.append('page', req.page.toString());
-    params = params.append('pageSize', req.pageSize.toString());
-    params = params.append('orderBy', req.orderBy);
-
-    return this.httpClient.get(`https://api.pokemontcg.io/v2/cards`, { params }).pipe(
       map((body: any) => body),
       catchError(() => of('Error, could not load cards :-('))
     );

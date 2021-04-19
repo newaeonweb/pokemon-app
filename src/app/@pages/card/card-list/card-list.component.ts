@@ -15,6 +15,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
   cards$: Observable<any>;
   isLoading = false;
   isRecordsFound = false;
+  isError: boolean;
   page: number;
   pageSize: number;
   totalCount: number;
@@ -45,7 +46,6 @@ export class CardListComponent implements OnInit, AfterViewInit {
           console.log(result);
         })
       )
-      // tslint:disable-next-line: deprecation
       .subscribe();
   }
 
@@ -75,9 +75,15 @@ export class CardListComponent implements OnInit, AfterViewInit {
     this.isLoading = true;
 
     this.cards$ = this.pokemonService.getCards(request).pipe(
-      catchError(async (err) => (this.isRecordsFound = true)),
+      catchError(async (err) => {
+        this.isError = true;
+      }),
       finalize(() => (this.isLoading = false)),
       tap((response: HttpApiResponse) => {
+        if (response.data.length === 0 || response.data === undefined) {
+          this.isRecordsFound = true;
+          return;
+        }
         this.page = response.page;
         this.pageSize = response.pageSize;
         this.totalCount = response.totalCount;
@@ -94,37 +100,10 @@ export class CardListComponent implements OnInit, AfterViewInit {
     return forkJoin([typesList, subtypesList, supertypesList]);
   }
 
-  applyFilterTypes() {}
-
-  applyFilterSubtypes() {}
-
-  applyFilterSupertypes() {}
-
-  applyAllFilters(q: string = '', p: number = 1, s: number = 10, o: string = 'name') {
-    this.isLoading = true;
+  applyAllFilters() {
     const { supertypes, types, subtypes } = this.filters;
-
-    // tslint:disable-next-line: max-line-length
-    this.cards$ = this.pokemonService
-      .getWithFilters({
-        query: `supertype:${supertypes} types:${types} subtypes:${subtypes}`,
-        page: p,
-        pageSize: s,
-        orderBy: o,
-      })
-      .pipe(
-        finalize(() => (this.isLoading = false)),
-        tap((response: HttpApiResponse) => {
-          if (response.data.length === 0 || response.data === undefined) {
-            this.isRecordsFound = true;
-            return;
-          }
-          this.isRecordsFound = false;
-          this.page = response.page;
-          this.pageSize = response.pageSize;
-          this.totalCount = response.totalCount;
-        }),
-        map((response) => response.data)
-      );
+    const query = `supertype:${supertypes} types:${types} subtypes:${subtypes}`;
+    this.request = Object.assign(this.request, { query: query });
+    this.loadData(this.request);
   }
 }

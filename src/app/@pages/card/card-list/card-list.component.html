@@ -6,7 +6,7 @@
     <div fxFlex="25%" fxFlex.lt-md="50%" fxFlex.lt-sm="100%">
       <mat-form-field>
         <mat-label><span translate>Filter by supertypes</span></mat-label>
-        <mat-select (selectionChange)="applyFilterSupertypes()" [(ngModel)]="filters.supertypes">
+        <mat-select [(ngModel)]="filters.supertypes">
           <mat-option><span translate>All</span></mat-option>
           <mat-option *ngFor="let supertypes of supertypesList" [value]="supertypes"> {{ supertypes }}</mat-option>
         </mat-select>
@@ -15,7 +15,7 @@
     <div fxFlex="25%" fxFlex.lt-md="50%" fxFlex.lt-sm="100%">
       <mat-form-field>
         <mat-label><span translate>Filter by types</span></mat-label>
-        <mat-select (selectionChange)="applyFilterTypes()" [(ngModel)]="filters.types">
+        <mat-select [(ngModel)]="filters.types">
           <mat-option><span translate>All</span></mat-option>
           <mat-option *ngFor="let types of typesList" [value]="types"> {{ types }}</mat-option>
         </mat-select>
@@ -24,7 +24,7 @@
     <div fxFlex="25%" fxFlex.lt-md="50%" fxFlex.lt-sm="100%">
       <mat-form-field>
         <mat-label><span translate>Filter by subtypes</span></mat-label>
-        <mat-select (selectionChange)="applyFilterSubtypes()" [(ngModel)]="filters.subtypes">
+        <mat-select [(ngModel)]="filters.subtypes">
           <mat-option><span translate>All</span></mat-option>
           <mat-option *ngFor="let subtypes of subtypesList" [value]="subtypes"> {{ subtypes }}</mat-option>
         </mat-select>
@@ -45,6 +45,7 @@
   </div>
 
   <div *ngIf="isRecordsFound" fxLayout="row" fxLayoutAlign="center start">No records found</div>
+  <div *ngIf="isError" fxLayout="row" fxLayoutAlign="center start">{{ isError }}</div>
 
   <div
     fxLayout="row wrap"
