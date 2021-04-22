@@ -3,8 +3,9 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Observable, of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { withCache } from '@ngneat/cashew';
+import { environment } from '@env/environment';
 
-const API_URL = 'https://api.pokemontcg.io/v2';
+const API_URL = environment.serverUrl;
 
 export interface QueryParams {
   query?: string;
@@ -36,7 +37,7 @@ export class PokemonService {
 
   getCards(req: QueryParams): Observable<any> {
     let params = new HttpParams();
-    const queryIsEmpty = req.query;
+    const queryIsEmpty = req?.query;
 
     if (queryIsEmpty === undefined) {
       params = params.append('page', '1');
@@ -51,7 +52,7 @@ export class PokemonService {
 
     return this.httpClient.get(`${API_URL}/cards`, { params }).pipe(
       map((body: any) => body),
-      catchError((err) => this.handleError(err.error))
+      catchError((err) => this.handleError(err))
     );
   }
 
