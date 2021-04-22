@@ -71,16 +71,16 @@ export class CardListComponent implements OnInit, AfterViewInit {
     });
   }
 
-  loadData(request: FilterParams) {
+  loadData(request?: FilterParams) {
     this.isLoading = true;
 
     this.cards$ = this.pokemonService.getCards(request).pipe(
       catchError(async (err) => {
-        this.isError = true;
+        this.isError = err.message;
       }),
       finalize(() => (this.isLoading = false)),
       tap((response: HttpApiResponse) => {
-        if (response.data.length === 0 || response.data === undefined) {
+        if (response?.data.length === 0 || response?.data === undefined) {
           this.isRecordsFound = true;
           return;
         }
@@ -88,7 +88,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
         this.pageSize = response.pageSize;
         this.totalCount = response.totalCount;
       }),
-      map((response) => response.data)
+      map((response) => response?.data)
     );
   }
 
@@ -105,5 +105,11 @@ export class CardListComponent implements OnInit, AfterViewInit {
     const query = `supertype:${supertypes} types:${types} subtypes:${subtypes}`;
     this.request = Object.assign(this.request, { query: query });
     this.loadData(this.request);
+  }
+
+  clearFilters() {
+    // Clear obj values
+    Object.keys(this.filters).forEach((i) => (this.filters[i] = ''));
+    this.loadData();
   }
 }
