@@ -10,7 +10,7 @@ export const environment = {
   production: true,
   version: env.npm_package_version,
   pokemonKey: env.pokemon_key,
-  serverUrl: 'https://api.chucknorris.io',
+  serverUrl: 'https://api.pokemontcg.io/v2',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US', 'pt-BR'],
 };
