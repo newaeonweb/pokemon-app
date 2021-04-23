@@ -92,7 +92,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
     );
   }
 
-  loadFilters(): Observable<any> {
+  loadFilters(): Observable<any[]> {
     const typesList = this.pokemonService.getTypes();
     const subtypesList = this.pokemonService.getSubtypes();
     const supertypesList = this.pokemonService.getSupetypes();
@@ -102,6 +102,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
 
   applyAllFilters() {
     const { supertypes, types, subtypes } = this.filters;
+    if (!supertypes && !types && !subtypes) return;
     const query = `supertype:${supertypes} types:${types} subtypes:${subtypes}`;
     this.request = Object.assign(this.request, { query: query });
     this.loadData(this.request);
