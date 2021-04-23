@@ -43,7 +43,6 @@ export class CardListComponent implements OnInit, AfterViewInit {
           this.typesList = result[0].data;
           this.subtypesList = result[1].data;
           this.supertypesList = result[2].data;
-          console.log(result);
         })
       )
       .subscribe();
