@@ -8,13 +8,13 @@ import { environment } from '@env/environment';
 const API_URL = environment.serverUrl;
 
 export interface QueryParams {
-  query?: string;
+  query?: any;
   page?: number;
   pageSize?: number;
   orderBy?: string;
 }
 
-export interface FilterParams extends QueryParams {
+export interface FilterParams {
   types?: string;
   subtypes?: string;
   supertypes?: string;
@@ -40,9 +40,9 @@ export class PokemonService {
     const queryIsEmpty = req?.query;
 
     if (queryIsEmpty === undefined) {
-      params = params.append('page', '1');
-      params = params.append('pageSize', '10');
-      params = params.append('orderBy', 'name');
+      params = params.append('page', req.page?.toString());
+      params = params.append('pageSize', req.pageSize?.toString());
+      params = params.append('orderBy', req.orderBy);
     } else {
       params = params.append('q', req.query);
       params = params.append('page', req.page?.toString());

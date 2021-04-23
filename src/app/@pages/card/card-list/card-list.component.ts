@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { HttpApiResponse, PokemonService, FilterParams } from '@app/@pages/card/_services/pokemon.service';
+import { HttpApiResponse, PokemonService, FilterParams, QueryParams } from '@app/@pages/card/_services/pokemon.service';
 import { forkJoin, Observable } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,7 +28,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
   subtypesList: Observable<string[]>;
   supertypesList: Observable<string[]>;
 
-  request: FilterParams = {};
+  request: QueryParams;
   activatedRoute: ActivatedRoute;
 
   constructor(private pokemonService: PokemonService, private route: ActivatedRoute, private router: Router) {}
@@ -71,7 +71,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
     });
   }
 
-  loadData(request?: FilterParams) {
+  loadData(request?: QueryParams) {
     this.isLoading = true;
 
     this.cards$ = this.pokemonService.getCards(request).pipe(
@@ -111,6 +111,16 @@ export class CardListComponent implements OnInit, AfterViewInit {
   clearFilters() {
     // Clear obj values
     Object.keys(this.filters).forEach((i) => (this.filters[i] = ''));
-    this.loadData();
+    Object.keys(this.request).forEach((i) => (this.request[i] = ''));
+    this.request.page = 1;
+    this.request.pageSize = 10;
+    this.request.orderBy = 'name';
+
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: this.request,
+      queryParamsHandling: 'merge',
+    });
+    this.loadData(this.request);
   }
 }
