@@ -1,9 +1,14 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { HttpApiResponse, PokemonService, FilterParams, QueryParams } from '@app/@pages/card/_services/pokemon.service';
+import {
+  HttpApiResponse,
+  PokemonService,
+  QueryParams,
+  FilterRequest,
+} from '@app/@pages/card/_services/pokemon.service';
 import { forkJoin, Observable } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-list',
@@ -12,7 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CardListComponent implements OnInit, AfterViewInit {
   @ViewChild('paginator') paginator: MatPaginator;
-  cards$: Observable<any>;
+  cards$: Observable<HttpApiResponse>;
   isLoading = false;
   isRecordsFound = false;
   isError: boolean;
@@ -39,7 +44,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
     this.loadData(this.request);
     this.loadFilters()
       .pipe(
-        tap((result) => {
+        tap((result: FilterRequest) => {
           this.typesList = result[0].data;
           this.subtypesList = result[1].data;
           this.supertypesList = result[2].data;
@@ -64,7 +69,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
   }
 
   buildPaginationRequest() {
-    this.route.queryParams.subscribe((param) => {
+    this.route.queryParams.subscribe((param: Params) => {
       this.activatedRoute = this.route.parent;
       this.request = Object.assign({}, param);
     });
@@ -87,11 +92,11 @@ export class CardListComponent implements OnInit, AfterViewInit {
         this.pageSize = response.pageSize;
         this.totalCount = response.totalCount;
       }),
-      map((response) => response?.data)
+      map((response: HttpApiResponse) => response.data)
     );
   }
 
-  loadFilters(): Observable<any[]> {
+  loadFilters(): Observable<{}> {
     const typesList = this.pokemonService.getTypes();
     const subtypesList = this.pokemonService.getSubtypes();
     const supertypesList = this.pokemonService.getSupetypes();

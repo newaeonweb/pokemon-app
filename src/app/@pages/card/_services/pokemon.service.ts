@@ -21,12 +21,16 @@ export interface FilterParams {
 }
 
 export interface HttpApiResponse {
-  length: any;
+  length: number;
   count: number;
   page: number;
   pageSize: number;
   totalCount: number;
-  data: any[];
+  data: any;
+}
+
+export interface FilterRequest {
+  data: string[];
 }
 
 @Injectable({
@@ -35,7 +39,7 @@ export interface HttpApiResponse {
 export class PokemonService {
   constructor(private httpClient: HttpClient) {}
 
-  getCards(req: QueryParams): Observable<any> {
+  getCards(req: QueryParams): Observable<HttpApiResponse> {
     let params = new HttpParams();
     const queryIsEmpty = req?.query;
 
@@ -50,31 +54,27 @@ export class PokemonService {
       params = params.append('orderBy', req.orderBy);
     }
 
-    return this.httpClient.get(`${API_URL}/cards`, { params }).pipe(
-      map((body: any) => body),
-      catchError((err) => this.handleError(err))
-    );
+    return this.httpClient
+      .get<HttpApiResponse>(`${API_URL}/cards`, { params })
+      .pipe(catchError((err) => this.handleError(err)));
   }
 
-  getTypes(): Observable<string[]> {
-    return this.httpClient.get(`${API_URL}/types`, withCache()).pipe(
-      map((body: any) => body),
-      catchError(() => of('Error, could not load cards :-('))
-    );
+  getTypes(): Observable<string | FilterRequest> {
+    return this.httpClient
+      .get<FilterRequest>(`${API_URL}/types`, withCache())
+      .pipe(catchError(() => of('Error, could not load cards :-(')));
   }
 
-  getSubtypes(): Observable<any> {
-    return this.httpClient.get(`${API_URL}/subtypes`, withCache()).pipe(
-      map((body: any) => body),
-      catchError(() => of('Error, could not load cards :-('))
-    );
+  getSubtypes(): Observable<string | FilterRequest> {
+    return this.httpClient
+      .get<FilterRequest>(`${API_URL}/subtypes`, withCache())
+      .pipe(catchError(() => of('Error, could not load cards :-(')));
   }
 
-  getSupetypes(): Observable<any> {
-    return this.httpClient.get(`${API_URL}/supertypes`, withCache()).pipe(
-      map((body: any) => body),
-      catchError(() => of('Error, could not load cards :-('))
-    );
+  getSupetypes(): Observable<string | FilterRequest> {
+    return this.httpClient
+      .get<FilterRequest>(`${API_URL}/supertypes`, withCache())
+      .pipe(catchError(() => of('Error, could not load cards :-(')));
   }
 
   private handleError(error: HttpErrorResponse) {
