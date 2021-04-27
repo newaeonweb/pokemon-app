@@ -9,9 +9,9 @@ const API_URL = environment.serverUrl;
 
 export interface QueryParams {
   query?: any;
-  page?: number;
-  pageSize?: number;
-  orderBy?: string;
+  page: number;
+  pageSize: number;
+  orderBy: string;
 }
 
 export interface FilterParams {
@@ -40,19 +40,26 @@ export class PokemonService {
   constructor(private httpClient: HttpClient) {}
 
   getCards(req: QueryParams): Observable<HttpApiResponse> {
-    let params = new HttpParams();
-    const queryIsEmpty = req?.query;
+    // let params = new HttpParams();
+    // const queryIsEmpty = req?.query;
 
-    if (queryIsEmpty === undefined) {
-      params = params.append('page', req.page?.toString());
-      params = params.append('pageSize', req.pageSize?.toString());
-      params = params.append('orderBy', req.orderBy);
-    } else {
-      params = params.append('q', req.query);
-      params = params.append('page', req.page?.toString());
-      params = params.append('pageSize', req.pageSize?.toString());
-      params = params.append('orderBy', req.orderBy);
-    }
+    // if (queryIsEmpty === undefined) {
+    //   params = params.append('page', req.page?.toString());
+    //   params = params.append('pageSize', req.pageSize?.toString());
+    //   params = params.append('orderBy', req.orderBy);
+    // } else {
+    //   params = params.append('q', req.query);
+    //   params = params.append('page', req.page?.toString());
+    //   params = params.append('pageSize', req.pageSize?.toString());
+    //   params = params.append('orderBy', req.orderBy);
+    // }
+
+    // Simplify request
+    const params = new HttpParams({
+      fromString: `${req.query ? 'q=' + req.query : ''}&page=${req.page}&pageSize=${req.pageSize}&orderBy=${
+        req.orderBy
+      }`,
+    });
 
     return this.httpClient
       .get<HttpApiResponse>(`${API_URL}/cards`, { params })

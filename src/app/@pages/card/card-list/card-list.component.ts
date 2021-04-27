@@ -33,8 +33,12 @@ export class CardListComponent implements OnInit, AfterViewInit {
   subtypesList: Observable<string[]>;
   supertypesList: Observable<string[]>;
 
-  request: QueryParams;
   activatedRoute: ActivatedRoute;
+  request: QueryParams = {
+    page: 1,
+    pageSize: 10,
+    orderBy: 'name',
+  };
 
   constructor(private pokemonService: PokemonService, private route: ActivatedRoute, private router: Router) {}
 
@@ -71,7 +75,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
   buildPaginationRequest() {
     this.route.queryParams.subscribe((param: Params) => {
       this.activatedRoute = this.route.parent;
-      this.request = Object.assign({}, param);
+      this.request = { ...this.request, ...param };
     });
   }
 
@@ -108,7 +112,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
     const { supertypes, types, subtypes } = this.filters;
     if (!supertypes && !types && !subtypes) return;
     const query = `supertype:${supertypes} types:${types} subtypes:${subtypes}`;
-    this.request = Object.assign(this.request, { query: query });
+    this.request = Object.assign(this.request, { query: query, page: '1' });
     this.loadData(this.request);
   }
 
