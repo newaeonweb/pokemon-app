@@ -63,11 +63,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
       this.request.pageSize = this.paginator.pageSize;
       this.request.orderBy = 'name';
       // Update url query params
-      this.router.navigate([], {
-        relativeTo: this.activatedRoute,
-        queryParams: this.request,
-        queryParamsHandling: 'merge',
-      });
+      this.updateUrlParams(this.request);
       this.loadData(this.request);
     });
   }
@@ -76,6 +72,14 @@ export class CardListComponent implements OnInit, AfterViewInit {
     this.route.queryParams.subscribe((param: Params) => {
       this.activatedRoute = this.route.parent;
       this.request = { ...this.request, ...param };
+    });
+  }
+
+  updateUrlParams(request: QueryParams) {
+    return this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: request,
+      queryParamsHandling: 'merge',
     });
   }
 
@@ -112,7 +116,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
     const { supertypes, types, subtypes } = this.filters;
     if (!supertypes && !types && !subtypes) return;
     const query = `supertype:${supertypes} types:${types} subtypes:${subtypes}`;
-    this.request = Object.assign(this.request, { query: query, page: '1' });
+    this.request = Object.assign(this.request, { query: query, page: 1 });
     this.loadData(this.request);
   }
 
@@ -124,11 +128,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
     this.request.pageSize = 10;
     this.request.orderBy = 'name';
 
-    this.router.navigate([], {
-      relativeTo: this.activatedRoute,
-      queryParams: this.request,
-      queryParamsHandling: 'merge',
-    });
+    this.updateUrlParams(this.request);
     this.loadData(this.request);
   }
 }
