@@ -52,7 +52,7 @@
     "@biesbjerg/ngx-translate-extract-marker": "^1.0.0",
     "@ngneat/until-destroy": "^8.0.3",
     "@ngx-rocket/scripts": "^5.0.0",
-    "@schematics/angular": "^11.0.7",
+    "@schematics/angular": "^13.0.1",
     "@types/jasmine": "^3.6.2",
     "@types/jasminewd2": "^2.0.8",
     "@types/jest": "^26.0.19",
