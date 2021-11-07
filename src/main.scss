@@ -1,40 +1,41 @@
 /*
- * Entry point of global application style.
- * Component-specific style should not go here and be included directly as part of the components.
- */
+* Entry point of global application style.
+* Component-specific style should not go here and be included directly as part of the components.
+*/
+@use "@angular/material" as mat;
 
 // Theme variables, must be included before the libraries to allow overriding defaults
 @import "theme/theme-variables";
+
+// Theme customization
+@import "theme/theme";
 
 // 3rd party libraries
 @import "~material-design-icons-iconfont/src/material-design-icons";
 
 // Angular Material custom theme
 // The mixins below must be included once so we separated them from the variables
-@import "~@angular/material/theming";
 
 // Change typography
-$custom-typography: mat-typography-config(
+$custom-typography: mat.define-typography-config(
   $font-family: "Arvo, monospace",
-  $headline: mat-typography-level(32px, 48px, 700),
-  $body-1: mat-typography-level(16px, 24px, 500),
+  $headline: mat.define-typography-level(32px, 48px, 700),
+  $body-1: mat.define-typography-level(16px, 24px, 500),
 );
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core($custom-typography);
+@include mat.core($custom-typography);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($app-theme);
-
-// Theme customization
-@import "theme/theme";
+@include mat.all-component-themes($app-theme);
 
 .dark-theme {
-  @include angular-material-theme($app-dark-theme);
+  @include mat.all-component-themes($app-dark-theme);
+
   // @include mat-toolbar-theme($app-theme);
 }
 

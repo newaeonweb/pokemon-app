@@ -68,19 +68,19 @@ export class PokemonService {
 
   getTypes(): Observable<string | FilterRequest> {
     return this.httpClient
-      .get<FilterRequest>(`${API_URL}/types`, withCache())
+      .get<FilterRequest>(`${API_URL}/types`, { context: withCache() })
       .pipe(catchError(() => of('Error, could not load cards :-(')));
   }
 
   getSubtypes(): Observable<string | FilterRequest> {
     return this.httpClient
-      .get<FilterRequest>(`${API_URL}/subtypes`, withCache())
+      .get<FilterRequest>(`${API_URL}/subtypes`, { context: withCache() })
       .pipe(catchError(() => of('Error, could not load cards :-(')));
   }
 
   getSupetypes(): Observable<string | FilterRequest> {
     return this.httpClient
-      .get<FilterRequest>(`${API_URL}/supertypes`, withCache())
+      .get<FilterRequest>(`${API_URL}/supertypes`, { context: withCache() })
       .pipe(catchError(() => of('Error, could not load cards :-(')));
   }
 
