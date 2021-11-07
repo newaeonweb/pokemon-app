@@ -21,5 +21,10 @@ module.exports = {
     },
   },
   // Do not ignore librairies such as ionic, ionic-native or bootstrap to transform them during unit testing.
-  transformIgnorePatterns: ['node_modules/(?!(jest-test))'],
+  // transformIgnorePatterns: ['node_modules/(?!(jest-test))'],
+  resolver: 'jest-preset-angular/build/resolvers/ng-jest-resolver.js',
+  transformIgnorePatterns: ['node_modules/(?!@angular)'],
+  transform: {
+    '^.+\\.(ts|js|mjs|html|svg)$': 'jest-preset-angular',
+  },
 };
