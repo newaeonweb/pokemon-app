@@ -18,6 +18,7 @@
     "lib": ["es2018", "dom"],
     "baseUrl": "./",
     "paths": {
+      "@app/": ["src/app"],
       "@app/*": ["src/app/*"],
       "@core": ["src/app/@core"],
       "@core/*": ["src/app/@core/*"],
