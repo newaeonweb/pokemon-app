@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import {
   HttpApiResponse,
   PokemonService,
-  QueryParams,
+  ApiQueryParams,
   FilterRequest,
 } from '@app/@pages/card/_services/pokemon.service';
 import { forkJoin, Observable } from 'rxjs';
@@ -34,7 +34,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
   supertypesList: Observable<string[]>;
 
   activatedRoute: ActivatedRoute;
-  request: QueryParams = {
+  request: ApiQueryParams = {
     page: 1,
     pageSize: 10,
     orderBy: 'name',
@@ -75,7 +75,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
     });
   }
 
-  updateUrlParams(request: QueryParams) {
+  updateUrlParams(request: ApiQueryParams) {
     return this.router.navigate([], {
       relativeTo: this.activatedRoute,
       queryParams: request,
@@ -83,7 +83,7 @@ export class CardListComponent implements OnInit, AfterViewInit {
     });
   }
 
-  loadData(request?: QueryParams) {
+  loadData(request?: ApiQueryParams) {
     this.isLoading = true;
 
     this.cards$ = this.pokemonService.getCards(request).pipe(
@@ -96,11 +96,13 @@ export class CardListComponent implements OnInit, AfterViewInit {
           this.isRecordsFound = true;
           return;
         }
+        this.isRecordsFound = false;
+        this.isError = false;
         this.page = response.page;
         this.pageSize = response.pageSize;
         this.totalCount = response.totalCount;
       }),
-      map((response: HttpApiResponse) => response.data)
+      map((response: HttpApiResponse) => response?.data)
     );
   }
 
@@ -113,11 +115,24 @@ export class CardListComponent implements OnInit, AfterViewInit {
   }
 
   applyAllFilters() {
-    const { supertypes, types, subtypes } = this.filters;
+    let { supertypes, types, subtypes } = this.filters;
+    let query: string;
+
     if (!supertypes && !types && !subtypes) return;
-    const query = `supertype:${supertypes} types:${types} subtypes:${subtypes}`;
+
+    if (supertypes) {
+      query = `supertype:${supertypes}`;
+    }
+    if (supertypes && types) {
+      query = `supertype:${supertypes} types:${types}`;
+    }
+    if (supertypes && types && subtypes) {
+      query = `supertype:${supertypes} types:${types} subtypes:${subtypes}`;
+    }
+
     this.request = Object.assign(this.request, { query: query, page: 1 });
     this.loadData(this.request);
+    // this.updateUrlParams(this.request);
   }
 
   clearFilters() {

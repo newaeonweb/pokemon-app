@@ -15,7 +15,12 @@
       <mat-icon>info</mat-icon>
       <span translate>About</span>
     </button>
-    <button mat-button routerLink="/card" routerLinkActive="active">
+    <button
+      mat-button
+      [routerLink]="['/card']"
+      [queryParams]="{ page: 1, pageSize: 10, orderBy: 'name' }"
+      routerLinkActive="active"
+    >
       <mat-icon>find_in_page</mat-icon>
       <span translate>Card</span>
     </button>

@@ -7,7 +7,7 @@ import { environment } from '@env/environment';
 
 const API_URL = environment.serverUrl;
 
-export interface QueryParams {
+export interface ApiQueryParams {
   query?: any;
   page: number;
   pageSize: number;
@@ -21,12 +21,12 @@ export interface FilterParams {
 }
 
 export interface HttpApiResponse {
-  length: number;
-  count: number;
-  page: number;
-  pageSize: number;
-  totalCount: number;
-  data: any;
+  length?: number;
+  count?: number;
+  page?: number;
+  pageSize?: number;
+  totalCount?: number;
+  data?: any;
 }
 
 export interface FilterRequest {
@@ -39,7 +39,7 @@ export interface FilterRequest {
 export class PokemonService {
   constructor(private httpClient: HttpClient) {}
 
-  getCards(req: QueryParams): Observable<HttpApiResponse> {
+  getCards(req: ApiQueryParams): Observable<HttpApiResponse> {
     // let params = new HttpParams();
     // const queryIsEmpty = req?.query;
 
@@ -63,7 +63,12 @@ export class PokemonService {
 
     return this.httpClient
       .get<HttpApiResponse>(`${API_URL}/cards`, { params })
-      .pipe(catchError((err) => this.handleError(err)));
+      .pipe(
+        catchError((err) => {
+          return this.handleError(err);
+          // return of({ data: [] })
+        })
+      );
   }
 
   getTypes(): Observable<string | FilterRequest> {
