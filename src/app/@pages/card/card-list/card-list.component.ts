@@ -114,10 +114,23 @@ export class CardListComponent implements OnInit, AfterViewInit {
 
   applyAllFilters() {
     const { supertypes, types, subtypes } = this.filters;
+    let query: string;
+
     if (!supertypes && !types && !subtypes) return;
-    const query = `supertype:${supertypes} types:${types} subtypes:${subtypes}`;
+
+    if (supertypes) {
+      query = `supertype:${supertypes}`;
+    }
+    if (supertypes && types) {
+      query = `supertype:${supertypes} types:${types}`;
+    }
+    if (supertypes && types && subtypes) {
+      query = `supertype:${supertypes} types:${types} subtypes:${subtypes}`;
+    }
+
     this.request = Object.assign(this.request, { query, page: 1 });
     this.loadData(this.request);
+    this.updateUrlParams(this.request);
   }
 
   clearFilters() {
