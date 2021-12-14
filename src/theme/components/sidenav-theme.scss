@@ -1,5 +1,5 @@
-@use 'sass:map';
-@use '@angular/material' as mat;
+@use "sass:map";
+@use "@angular/material" as mat;
 
 @mixin sidenav-component-theme($theme) {
   // retrieve variables from theme
@@ -28,7 +28,7 @@
         // @include mat.toolbar-color($val);
         .mat-list-base {
           .mat-list-item {
-            color:#fff
+            color: #fff;
           }
         }
       }

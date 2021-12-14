@@ -1,15 +1,14 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { environment } from '@env/environment';
 import { FilterRequest, HttpApiResponse, PokemonService } from '../_services/pokemon.service';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 const API_URL = environment.serverUrl;
 
@@ -30,6 +29,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   filterFormGroup: FormGroup;
   searchField = new FormControl('');
+  queryParams: Params;
 
   supertypeValueFormControl = new FormControl('');
   typesValueFormControl = new FormControl('');
@@ -56,23 +56,16 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router
   ) {
     this.filterFormGroup = this.fb.group({});
+
     this.characters$ = this.route.queryParams.pipe(
       switchMap((params) => {
-        const filters = {
+        this.queryParams = {
           page: params.page || 1,
-          pageSize: params.pageSize || 10,
+          pageSize: params.pageSize || 20,
           orderBy: params.orderBy || 'name',
           q: params.q || '',
         };
-        return this.characterDatabase.getCharactersList(filters).pipe(
-          map((result) => {
-            console.log(result);
-            this.resultsLength = result.totalCount;
-            this.characterDataSource = new MatTableDataSource(result.data as any[]);
-            this.characters$ = this.characterDataSource.connect();
-            return result.data;
-          })
-        );
+        return this.loadData();
       })
     );
   }
@@ -80,22 +73,14 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.paginator.page.subscribe(() => {
       console.log(this.paginator.pageIndex);
-      this.characterDatabase.getCharacters(this.paginator.pageIndex).subscribe((response: HttpApiResponse) => {
-        this.characterDataSource = new MatTableDataSource(response.data as any[]);
-        this.resultsLength = response.totalCount;
-        // this.characterDataSource.paginator = this.paginator;
-        this.characters$ = this.characterDataSource.connect();
-        this.router.navigate([], {
-          relativeTo: this.activatedRoute,
-          queryParamsHandling: 'merge',
-        });
-      });
+      this.queryParams.page = this.paginator.pageIndex + 1;
+      console.log('query', this.queryParams);
+      this.characters$ = this.loadData();
     });
   }
 
   ngOnInit() {
     this.filterFormGroup = this.fb.group({});
-    // this.loadData();
     this.searchListening();
     this.loadFilters()
       .pipe(
@@ -112,6 +97,14 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.characterDataSource) {
       this.characterDataSource.disconnect();
     }
+  }
+
+  updateUrlQueryParams() {
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: this.queryParams,
+      queryParamsHandling: 'merge',
+    });
   }
 
   loadFilters(): Observable<{}> {
@@ -140,32 +133,17 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadData() {
-    this.characterDatabase.search(this.searchTerm$).subscribe((response: HttpApiResponse) => {
-      if (!response.data) {
-        this.resultsEmpty$.next(true);
-        return;
-      }
-      this.resultsEmpty$.next(false);
-      this.resultsLength = response.totalCount;
-      this.characterDataSource = new MatTableDataSource(response.data as any[]);
-      // this.characterDataSource.paginator = this.paginator;
-      // this.characterDataSource.filterPredicate = this.applyFilters();
-      this.characters$ = this.characterDataSource.connect();
-    });
-  }
+    return this.characterDatabase.getCharactersList(this.queryParams).pipe(
+      map((result) => {
+        console.log(result);
+        this.resultsLength = result.totalCount;
+        this.characterDataSource = new MatTableDataSource(result.data as any[]);
+        // this.characters$ = this.characterDataSource.connect();
 
-  applyFilters(): (data: any, filter: string) => boolean {
-    const filterFunction = (data: any, filter: string): boolean => {
-      const searchTerms = JSON.parse(filter);
-
-      return (
-        data.supertype.toLowerCase().indexOf(searchTerms.supertype.toLowerCase()) !== -1 &&
-        data.types.indexOf(searchTerms.types) !== -1 &&
-        data.subtypes.toString().toLowerCase().indexOf(searchTerms.subtypes.toString().toLowerCase()) !== -1
-      );
-    };
-
-    return filterFunction;
+        this.updateUrlQueryParams();
+        return result.data;
+      })
+    );
   }
 
   applyFilter() {
@@ -195,14 +173,14 @@ export class HttpDatabase {
     );
   }
 
-  getCharactersList(filters: any): Observable<HttpApiResponse> {
+  getCharactersList(params: Params): Observable<HttpApiResponse> {
     const apiUrl = `${API_URL}/cards`;
     return this._httpClient.get<HttpApiResponse>(apiUrl, {
       params: new HttpParams()
-        .set('page', +filters.page)
-        .set('pageSize', filters.pageSize)
-        .set('orderBy', filters.orderBy)
-        .set('q', filters.q),
+        .set('page', +params.page)
+        .set('pageSize', params.pageSize)
+        .set('orderBy', params.orderBy)
+        .set('q', params.q),
     });
   }
 

@@ -41,24 +41,24 @@
     </div>
   </div>
 
-  <br />
-
-  <div fxLayout="row" fxLayoutAlign="center start">
-    <app-loader [isLoading]="isLoading"></app-loader>
-  </div> -->
+  <br /> -->
 
   <div class="flex-container">
     <mat-form-field>
       <mat-label>Search characters by name</mat-label>
-      <input matInput #search (keyup)="searchTerm$.next(search.value)" [formControl]="searchField">
-      <button mat-button *ngIf="search.value !== ''" matSuffix mat-icon-button aria-label="Clear"
-        (click)="search.value='';searchTerm$.next(search.value); status=''">
+      <input matInput #search (keyup)="searchTerm$.next(search.value)" [formControl]="searchField" />
+      <button
+        mat-button
+        *ngIf="search.value !== ''"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="search.value = ''; searchTerm$.next(search.value); status = ''"
+      >
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
-    <small class="no-character-found" *ngIf="resultsEmpty$ | async">
-      No character found for this search
-    </small>
+    <small class="no-character-found" *ngIf="resultsEmpty$ | async"> No character found for this search </small>
   </div>
 
   <div class="flex-container">
@@ -66,8 +66,7 @@
       <mat-label>Filter</mat-label>
       <mat-select (selectionChange)="applyFilter()" [(ngModel)]="status">
         <mat-option [value]="''">Todos</mat-option>
-        <mat-option *ngFor="let status of supertypesList" [value]="status">
-          {{status}}</mat-option>
+        <mat-option *ngFor="let status of supertypesList" [value]="status"> {{ status }}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -102,47 +101,56 @@
     </div>
   </div>
 
-  <div class="card-content" *ngIf="characters$ | async as cardsList">
-    <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayout.lt-sm="column" fxLayoutAlign="start center"
-      fxLayoutAlign.lt-sm="start center">
-      <ng-container *ngFor="let card of cardsList">
-        <div fxFlex="25%" fxFlex.lt-md="50%" fxFlex.lt-sm="100%">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>
-                <div fxLayout="row" fxLayoutAlign="space-between center">
-                  <span fxFlex> {{ card.name }}</span>
-                  <small [hidden]="!card.hp">HP: {{ card.hp }}</small>
+  <div *ngIf="characters$ | async as cardsList; else loading">
+    <div class="card-content">
+      <div
+        fxLayout="row wrap"
+        fxLayoutGap="16px grid"
+        fxLayout.lt-sm="column"
+        fxLayoutAlign="start center"
+        fxLayoutAlign.lt-sm="start center"
+      >
+        <ng-container *ngFor="let card of cardsList">
+          <div fxFlex="25%" fxFlex.lt-md="50%" fxFlex.lt-sm="100%">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>
+                  <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <span fxFlex> {{ card.name }}</span>
+                    <small [hidden]="!card.hp">HP: {{ card.hp }}</small>
+                  </div>
+                </mat-card-title>
+                <mat-card-subtitle>
+                  <p>
+                    <strong> Supertype:</strong> {{ card.supertype }} <br />
+                    <strong> Subtypes:</strong>
+                    <span *ngFor="let item of card.subtypes">{{ item }}</span> <br />
+
+                    <span *ngFor="let item of card.types">
+                      <strong>Types:</strong>
+                      {{ item }}
+                    </span>
+                  </p>
+                </mat-card-subtitle>
+              </mat-card-header>
+
+              <mat-card-content>
+                <div class="img-placeholder">
+                  <img src="{{ card.images.small }}" alt="{{ card.name }}" loading="lazy" />
                 </div>
-              </mat-card-title>
-              <mat-card-subtitle>
-                <p>
-                  <strong> Supertype:</strong> {{ card.supertype }} <br />
-                  <strong> Subtypes:</strong>
-                  <span *ngFor="let item of card.subtypes">{{ item }}</span> <br />
-
-                  <span *ngFor="let item of card.types">
-                    <strong>Types:</strong>
-                    {{ item }}
-                  </span>
-                </p>
-              </mat-card-subtitle>
-            </mat-card-header>
-
-            <mat-card-content>
-              <div class="img-placeholder">
-                <img src="{{ card.images.small }}" alt="{{ card.name }}" loading="lazy" />
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </ng-container>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </ng-container>
+      </div>
     </div>
   </div>
-
-  <br>
+  <ng-template #loading>
+    <div fxLayout="row" fxLayoutAlign="center start">
+      <app-loader isLoading="true"></app-loader>
+    </div>
+  </ng-template>
+  <br />
   <mat-paginator [length]="resultsLength" [pageSize]="20" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
   </mat-paginator>
-
-
 </div>
