@@ -8,9 +8,12 @@
   "Filter by subtypes": "Filter by subtypes",
   "Filter by supertypes": "Filter by supertypes",
   "Filter by types": "Filter by types",
-  "Hello Pokemon !": "Hello Pokemon !",
+  "Filter by set": "Filter by set",
+  "Hello Pokemon !": "Hello Pokémon!",
+  "Clear Filters": "Clear Filters",
+  "Search card by Pokémon name": "Search card by Pokémon name",
   "Home": "Home",
-  "Pokemon Cards": "Pokemon Cards",
+  "Pokemon Cards": "Pokémon Cards",
   "Version": "Version",
   "WELCOME_MSG": "Welcome to the Pokémon world, You can use this app to access Pokémon TCG API, which can get information on cards and sets about pokémons."
 }

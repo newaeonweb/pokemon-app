@@ -105,11 +105,12 @@ export class CardListComponent implements OnInit, AfterViewInit {
   }
 
   loadFilters(): Observable<{}> {
-    const typesList = this.pokemonService.getTypes();
-    const subtypesList = this.pokemonService.getSubtypes();
-    const supertypesList = this.pokemonService.getSupetypes();
+    const typesList = this.pokemonService.getListFilters('types');
+    const subtypesList = this.pokemonService.getListFilters('subtypes');
+    const supertypesList = this.pokemonService.getListFilters('supertypes');
+    const setList = this.pokemonService.getListFilters('sets');
 
-    return forkJoin([typesList, subtypesList, supertypesList]);
+    return forkJoin([typesList, subtypesList, supertypesList, setList]);
   }
 
   applyAllFilters() {

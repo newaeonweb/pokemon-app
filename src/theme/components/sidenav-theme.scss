@@ -1,0 +1,37 @@
+@use "sass:map";
+@use "@angular/material" as mat;
+
+@mixin sidenav-component-theme($theme) {
+  // retrieve variables from theme
+  // (all possible variables, use only what you really need)
+  $config: mat.get-color-config($theme);
+  $primary: map.get($config, primary);
+  $accent: map.get($config, accent);
+  $warn: map.get($config, warn);
+  $foreground: map.get($config, foreground);
+  $background: map.get($config, background);
+
+  .mat-drawer {
+    // let's take mat-toolbar's default theme
+    background-color: map.get($background, app-bar);
+    color: map.get($foreground, text);
+
+    $color-list: (
+      "primary": $primary,
+      "accent": $accent,
+      "warn": $warn,
+    );
+
+    // now, mat-toolbar's colored themes
+    @each $key, $val in $color-list {
+      &[color="#{$key}"] {
+        // @include mat.toolbar-color($val);
+        .mat-list-base {
+          .mat-list-item {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
