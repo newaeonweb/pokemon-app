@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
 import { CardListComponent } from './card-list/card-list.component';
 import { CardComponent } from './card.component';
+import { ListComponent } from './list/list.component';
 
 const routes: Routes = [
   // Module is lazy loaded, see app-routing.module.ts
@@ -10,7 +11,10 @@ const routes: Routes = [
     path: '',
     component: CardComponent,
     data: { title: marker('Card') },
-    children: [{ path: '', component: CardListComponent }],
+    children: [
+      { path: '', component: CardListComponent },
+      { path: 'list', component: ListComponent },
+    ],
   },
 ];
 

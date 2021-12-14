@@ -9,6 +9,7 @@
 
 // Theme customization
 @import "theme/theme";
+@import "theme/custom-component-themes.scss";
 
 // 3rd party libraries
 @import "~material-design-icons-iconfont/src/material-design-icons";
@@ -32,6 +33,7 @@ $custom-typography: mat.define-typography-config(
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($app-theme);
+@include custom-components-theme($app-theme);
 
 .dark-theme {
   @include mat.all-component-themes($app-dark-theme);
@@ -46,4 +48,46 @@ $custom-typography: mat.define-typography-config(
 .mat-card-header-text {
   margin: 0 16px;
   width: 100%;
+}
+
+
+.page-container {
+  margin: 0 auto;
+  padding: 16px;
+  background-color: rgb(202, 255, 230);
+}
+
+.header {
+  margin: 0 auto;
+  text-align: center;
+  border-bottom: 1px solid rgb(0, 160, 152);
+  margin-bottom: 10px;
+}
+
+.header h1 {
+  margin-bottom: -10px;
+}
+header p {
+  color: rgb(0, 128, 121);
+}
+
+html,
+body {
+  font-family: Roboto, Arial, sans-serif;
+  margin: 0;
+  height: 100%;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: center;
+  align-items: flex-start;
+}
+
+.flex-item {
+  flex: 0 0 auto;
+  align-self: flex-start;
 }

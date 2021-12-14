@@ -1,0 +1,26 @@
+:host .mat-card-header-text {
+  margin: 0;
+  width: 100%;
+}
+
+.img-placeholder {
+  background-color: aliceblue;
+  max-width: 245px;
+  margin: 0 auto;
+  padding: 0;
+  height: auto;
+  min-height: 285px;
+  border-radius: 10px;
+
+  img {
+    width: 100%;
+  }
+}
+
+.mat-flat-button {
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 100%;
+}

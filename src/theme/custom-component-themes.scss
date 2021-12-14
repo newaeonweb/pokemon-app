@@ -1,0 +1,6 @@
+// you only have to add additional components here (instead of in every theme class)
+@import "./components/sidenav-theme";
+
+@mixin custom-components-theme($theme) {
+  @include sidenav-component-theme($theme);
+}
