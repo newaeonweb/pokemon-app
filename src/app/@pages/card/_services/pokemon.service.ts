@@ -21,8 +21,6 @@ export interface FilterParams {
 }
 
 export interface HttpApiResponse {
-  length: number;
-  count: number;
   page: number;
   pageSize: number;
   totalCount: number;

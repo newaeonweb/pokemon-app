@@ -46,8 +46,9 @@
   <div class="flex-container">
     <mat-form-field>
       <mat-label>Search characters by name</mat-label>
-      <input matInput #search (keyup)="searchTerm$.next(search.value)" [formControl]="searchField" />
+      <input matInput #search (keyup)="dispatchSearch(search.value)" [formControl]="searchField" />
       <button
+        type="text"
         mat-button
         *ngIf="search.value !== ''"
         matSuffix
