@@ -54,7 +54,7 @@
         matSuffix
         mat-icon-button
         aria-label="Clear"
-        (click)="search.value = ''; searchTerm$.next(search.value); status = ''"
+        (click)="clearSearch()"
       >
         <mat-icon>close</mat-icon>
       </button>
@@ -62,22 +62,12 @@
     <small class="no-character-found" *ngIf="resultsEmpty$ | async"> No character found for this search </small>
   </div>
 
-  <div class="flex-container">
-    <mat-form-field>
-      <mat-label>Filter</mat-label>
-      <mat-select (selectionChange)="applyFilter()" [(ngModel)]="status">
-        <mat-option [value]="''">Todos</mat-option>
-        <mat-option *ngFor="let status of supertypesList" [value]="status"> {{ status }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
   <div fxLayout="row wrap" fxLayoutGap="6px" fxLayoutAlign="center center">
     <div fxFlex="20">
       <mat-form-field appearance="fill">
         <mat-label><span translate>Filter by supertypes</span></mat-label>
         <mat-select [formControl]="supertypeValueFormControl">
-          <mat-option><span translate>All</span></mat-option>
+          <mat-option [value]="''"><span translate>All</span></mat-option>
           <mat-option *ngFor="let supertypes of supertypesList" [value]="supertypes"> {{ supertypes }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -86,7 +76,7 @@
       <mat-form-field appearance="fill">
         <mat-label><span translate>Filter by types</span></mat-label>
         <mat-select [formControl]="typesValueFormControl">
-          <mat-option><span translate>All</span></mat-option>
+          <mat-option [value]="''"><span translate>All</span></mat-option>
           <mat-option *ngFor="let types of typesList" [value]="types"> {{ types }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -95,7 +85,7 @@
       <mat-form-field appearance="fill">
         <mat-label><span translate>Filter by subtypes</span></mat-label>
         <mat-select [formControl]="subtypesIdValueFormControl">
-          <mat-option><span translate>All</span></mat-option>
+          <mat-option [value]="''"><span translate>All</span></mat-option>
           <mat-option *ngFor="let subtypes of subtypesList" [value]="subtypes"> {{ subtypes }}</mat-option>
         </mat-select>
       </mat-form-field>

@@ -24,7 +24,6 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
   characterDatabase = new HttpDatabase(this.httpClient);
   searchTerm$ = new BehaviorSubject<any>('');
   resultsEmpty$ = new BehaviorSubject<boolean>(false);
-  status = '';
   resultsLength = 0;
 
   filterFormGroup: FormGroup;
@@ -91,6 +90,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log('query', this.queryParams);
       // this.characters$ = this.loadData();
 
+      this.characters$ = of(null);
       this.characterDatabase.getList(this.queryParams).subscribe((response: HttpApiResponse) => {
         this.characterDataSource = new MatTableDataSource(response.data as any[]);
         this.resultsLength = response.totalCount;
@@ -155,8 +155,12 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   searchListening() {
     this.supertypeValueFormControl.valueChanges.subscribe((supertype) => {
+      console.log(supertype);
       this.filterValues.supertype = supertype;
       this.characterDataSource.filter = JSON.stringify(this.filterValues);
+      if (this.characterDataSource.paginator) {
+        this.characterDataSource.paginator.firstPage();
+      }
     });
 
     this.typesValueFormControl.valueChanges.subscribe((types) => {
@@ -185,8 +189,16 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   dispatchSearch(value: any) {
     this.queryParams.q = value;
+    this.characters$ = of(null);
     this.updateUrlQueryParams();
     this.searchTerm$.next(this.queryParams);
+  }
+
+  clearSearch() {
+    this.searchField.setValue('');
+    this.characters$ = of(null);
+    this.searchTerm$.next('');
+    this.queryParams.q = '';
   }
 
   loadData() {
@@ -201,16 +213,6 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         return result.data;
       })
     );
-  }
-
-  applyFilter() {
-    const filterValue = this.status;
-    this.characterDataSource.filter = filterValue.trim().toLowerCase();
-    this.characterDataSource.paginator = this.paginator;
-    console.log(this.characterDataSource.data);
-    if (this.characterDataSource.paginator) {
-      this.characterDataSource.paginator.firstPage();
-    }
   }
 }
 
@@ -249,7 +251,7 @@ export class HttpDatabase {
         .set('page', +params.page || 1)
         .set('pageSize', params.pageSize || 20)
         .set('orderBy', params.orderBy || 'name')
-        .set('q', params.q || ''),
+        .set('q', params.q ? `name:${params.q}` : ''),
     });
   }
 
