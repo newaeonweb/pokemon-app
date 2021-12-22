@@ -56,48 +56,31 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     this.filterFormGroup = this.fb.group({});
 
-    // this.characters$ = this.route.queryParams.pipe(
-    //   switchMap((params) => {
-    //     this.queryParams = {
-    //       page: params.page || 1,
-    //       pageSize: params.pageSize || 20,
-    //       orderBy: params.orderBy || 'name',
-    //       q: params.q || '',
-    //     };
-    //     return this.loadData();
-    //   })
-    // );
+    this.characters$ = this.route.queryParams.pipe(
+      switchMap((params) => {
+        this.queryParams = {
+          page: params.page || 1,
+          pageSize: params.pageSize || 4,
+          orderBy: params.orderBy || 'name',
+          q: params.q || '',
+        };
+        console.log('switchMap', this.queryParams);
 
-    this.route.queryParams
-      .pipe(
-        tap((params) => {
-          this.queryParams = {
-            page: params.page || 1,
-            pageSize: params.pageSize || 20,
-            orderBy: params.orderBy || 'name',
-            q: params.q || '',
-          };
-          console.log('query params', this.queryParams);
-        })
-      )
-      .subscribe();
+        return this.loadData();
+      })
+    );
   }
 
   ngAfterViewInit(): void {
     this.paginator.page.subscribe(() => {
-      console.log(this.paginator.pageIndex);
+      console.log(this.paginator);
       this.queryParams.page = this.paginator.pageIndex + 1;
-      console.log('query', this.queryParams);
-      // this.characters$ = this.loadData();
+      this.queryParams.pageSize = this.paginator.pageSize;
 
-      this.characters$ = of(null);
-      this.characterDatabase.getList(this.queryParams).subscribe((response: HttpApiResponse) => {
-        this.characterDataSource = new MatTableDataSource(response.data as any[]);
-        this.resultsLength = response.totalCount;
-        // this.characterDataSource.paginator = this.paginator;
-        this.characters$ = this.characterDataSource.connect();
-        this.updateUrlQueryParams();
-      });
+      console.log('query', this.queryParams);
+
+      this.characters$ = this.loadData();
+      this.updateUrlQueryParams();
     });
   }
 
@@ -113,21 +96,6 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       )
       .subscribe();
-
-    // this.characterDatabase
-    //   .search(this.searchTerm$)
-    //   .subscribe((response: HttpApiResponse) => {
-    //
-    //     this.resultsEmpty$.next(false);
-    //     this.resultsLength = response.totalCount;
-    //     this.characterDataSource = new MatTableDataSource(
-    //       response.data as any[]
-    //     );
-    //     this.characterDataSource.paginator = this.paginator;
-    //     this.characters$ = this.characterDataSource.connect();
-    //   });
-
-    this.getData();
   }
 
   ngOnDestroy() {
@@ -142,7 +110,6 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
       queryParams: this.queryParams,
       queryParamsHandling: 'merge',
     });
-    this.searchField.setValue(this.queryParams.q);
   }
 
   loadFilters(): Observable<{}> {
@@ -154,18 +121,36 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   searchListening() {
-    this.supertypeValueFormControl.valueChanges.subscribe((supertype) => {
-      console.log(supertype);
-      this.filterValues.supertype = supertype;
-      this.characterDataSource.filter = JSON.stringify(this.filterValues);
-      if (this.characterDataSource.paginator) {
-        this.characterDataSource.paginator.firstPage();
-      }
-    });
+    this.supertypeValueFormControl.valueChanges
+      .pipe(
+        // debounceTime(400),
+        distinctUntilChanged(),
+        map((supertype) => {
+          if (supertype === '') {
+            this.queryParams.q = '';
+            return;
+          }
+          this.queryParams.q = `supertype:${supertype}`;
+        }),
+        switchMap(() => {
+          return this.characterDatabase.getCharactersList(this.queryParams).pipe(
+            map((result) => {
+              this.resultsLength = result.totalCount;
+              this.queryParams.pageSize = result.pageSize;
+              this.characters$ = of(result.data);
+            }),
+            catchError(() => {
+              return of({ data: null });
+            })
+          );
+        })
+      )
+      .subscribe();
 
     this.typesValueFormControl.valueChanges.subscribe((types) => {
-      this.filterValues.types = types;
+      this.filterValues.subtypes = types;
       this.characterDataSource.filter = JSON.stringify(this.filterValues);
+      console.log(this.characterDataSource.filter);
     });
 
     this.subtypesIdValueFormControl.valueChanges.subscribe((subtypes) => {
@@ -174,31 +159,27 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  getData() {
-    this.characterDatabase.search(this.searchTerm$).subscribe((response: HttpApiResponse) => {
-      console.log(response);
-      this.resultsEmpty$.next(false);
-      this.resultsLength = response.totalCount;
-      this.characterDataSource = new MatTableDataSource(response.data as any[]);
-      this.characterDataSource.paginator = this.paginator;
-      this.characters$ = this.characterDataSource.connect();
-
-      this.updateUrlQueryParams();
-    });
-  }
-
   dispatchSearch(value: any) {
-    this.queryParams.q = value;
-    this.characters$ = of(null);
+    this.queryParams.page = 1;
+    this.queryParams.q = `name:${value}`;
+    // this.characters$ = of(null);
     this.updateUrlQueryParams();
+    console.log('params on search', this.queryParams);
+
     this.searchTerm$.next(this.queryParams);
   }
 
   clearSearch() {
     this.searchField.setValue('');
-    this.characters$ = of(null);
-    this.searchTerm$.next('');
+    // this.characters$ = of(null);
+    // this.searchTerm$.next('');
     this.queryParams.q = '';
+    this.updateUrlQueryParams();
+  }
+
+  resetPagination() {
+    this.queryParams.page = 1;
+    this.updateUrlQueryParams();
   }
 
   loadData() {
@@ -207,9 +188,10 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(result);
         this.resultsLength = result.totalCount;
         this.characterDataSource = new MatTableDataSource(result.data as any[]);
+        console.log(this.characterDataSource.data);
+        // this.characterDataSource.paginator = this.paginator;
         // this.characters$ = this.characterDataSource.connect();
-
-        this.updateUrlQueryParams();
+        // this.updateUrlQueryParams();
         return result.data;
       })
     );
@@ -233,15 +215,6 @@ export class HttpDatabase {
     );
   }
 
-  buildParams(params: any) {
-    console.log(params);
-    if (params !== '') {
-      return `${params.q}`;
-    } else {
-      return `${params}`;
-    }
-  }
-
   getList(params: any): Observable<HttpApiResponse> {
     console.log(params);
 
@@ -263,22 +236,6 @@ export class HttpDatabase {
         .set('pageSize', params.pageSize)
         .set('orderBy', params.orderBy)
         .set('q', params.q),
-    });
-  }
-
-  getCharacters(
-    page: number = 0,
-    pageSize: number = 10,
-    orderBy: string = 'name',
-    q: string = ''
-  ): Observable<HttpApiResponse> {
-    const apiUrl = `${API_URL}/cards`;
-    return this._httpClient.get<HttpApiResponse>(apiUrl, {
-      params: new HttpParams()
-        .set('page', (page + 1).toString())
-        .set('pageSize', pageSize)
-        .set('orderBy', orderBy)
-        .set('q', q),
     });
   }
 }
