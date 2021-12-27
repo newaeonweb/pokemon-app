@@ -5,7 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class SelectSearchPipe implements PipeTransform {
   transform(items: any[], searchTxt: string): any[] {
-    console.log(items);
     if (!items || !items.length) return items;
     if (!searchTxt || !searchTxt.length) return items;
     return items.filter((item) => {
