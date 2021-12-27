@@ -4,6 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { withCache } from '@ngneat/cashew';
 import { environment } from '@env/environment';
+import { Params } from '@angular/router';
 
 const API_URL = environment.serverUrl;
 
@@ -64,28 +65,37 @@ export class PokemonService {
       .pipe(catchError((err) => this.handleError(err)));
   }
 
-  getTypes(): Observable<string | FilterRequest> {
+  getListFilters(type: string): Observable<string | FilterRequest> {
     return this.httpClient
-      .get<FilterRequest>(`${API_URL}/types`, { context: withCache() })
-      .pipe(catchError(() => of('Error, could not load cards :-(')));
+      .get<FilterRequest>(`${API_URL}/${type}`, { context: withCache() })
+      .pipe(catchError(() => of(`Error, could not load filter :-( ${type}`)));
   }
 
-  getSubtypes(): Observable<string | FilterRequest> {
-    return this.httpClient
-      .get<FilterRequest>(`${API_URL}/subtypes`, { context: withCache() })
-      .pipe(catchError(() => of('Error, could not load cards :-(')));
+  getCardsList(params: Params): Observable<HttpApiResponse> {
+    const apiUrl = `${API_URL}/cards`;
+    return this.httpClient.get<HttpApiResponse>(apiUrl, {
+      params: new HttpParams()
+        .set('page', +params.page)
+        .set('pageSize', params.pageSize)
+        .set('orderBy', params.orderBy)
+        .set('q', params.q),
+    });
   }
 
-  getSupetypes(): Observable<string | FilterRequest> {
-    return this.httpClient
-      .get<FilterRequest>(`${API_URL}/supertypes`, { context: withCache() })
-      .pipe(catchError(() => of('Error, could not load cards :-(')));
-  }
+  getAll(param?: any): Observable<any[]> {
+    let params = new HttpParams();
 
-  getSets(): Observable<string | FilterRequest> {
-    return this.httpClient
-      .get<FilterRequest>(`${API_URL}/sets`, { context: withCache() })
-      .pipe(catchError(() => of('Error, could not load cards :-(')));
+    Object.keys(param).forEach((item) => {
+      params = params.set(item, param[item]);
+    });
+
+    const apiUrl = `${API_URL}/cards`;
+    return this.httpClient.get(apiUrl, { params }).pipe(
+      map((res: any) => res),
+      catchError((err: HttpErrorResponse) => {
+        return of(null);
+      })
+    );
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -94,8 +104,8 @@ export class PokemonService {
     } else {
       // console.error('An HttpErrorResponse error occurred:', error.message);
       // backend error 404...
-      return throwError(error);
+      return throwError(() => error);
     }
-    return throwError('Ohps something wrong happen here; please try again later.');
+    return throwError(() => 'Ohps something wrong happen here; please try again later.');
   }
 }
