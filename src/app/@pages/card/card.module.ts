@@ -9,6 +9,7 @@ import { MaterialModule } from '@app/material.module';
 import { SharedModule } from '@shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from './list/list.component';
+import { SelectSearchPipe } from './list/select-search.pipe';
 
 @NgModule({
   imports: [
@@ -21,6 +22,6 @@ import { ListComponent } from './list/list.component';
     MaterialModule,
     CardRoutingModule,
   ],
-  declarations: [CardComponent, CardListComponent, ListComponent],
+  declarations: [CardComponent, CardListComponent, ListComponent, SelectSearchPipe],
 })
 export class CardModule {}

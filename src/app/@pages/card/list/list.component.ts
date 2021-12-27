@@ -35,6 +35,8 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
   subtypesIdValueFormControl = new FormControl('');
   setIdValueFormControl = new FormControl('');
 
+  searchLisText: string;
+
   public filterValues = {
     supertype: '',
     types: '',
@@ -44,7 +46,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
   typesList: Observable<string[]>;
   subtypesList: Observable<string[]>;
   supertypesList: Observable<string[]>;
-  setList: Observable<string[]>;
+  setList: string[];
 
   activatedRoute: ActivatedRoute;
 
@@ -212,10 +214,8 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
   loadData() {
     return this.characterDatabase.getCharactersList(this.queryParams).pipe(
       map((result) => {
-        console.log(result);
         this.resultsLength = result.totalCount;
         this.characterDataSource = new MatTableDataSource(result.data as any[]);
-        console.log(this.characterDataSource.data);
         // this.characterDataSource.paginator = this.paginator;
         // this.characters$ = this.characterDataSource.connect();
         // this.updateUrlQueryParams();
