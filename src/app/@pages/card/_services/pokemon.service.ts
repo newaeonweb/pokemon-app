@@ -82,6 +82,12 @@ export class PokemonService {
       .pipe(catchError(() => of('Error, could not load cards :-(')));
   }
 
+  getSets(): Observable<string | FilterRequest> {
+    return this.httpClient
+      .get<FilterRequest>(`${API_URL}/sets`, { context: withCache() })
+      .pipe(catchError(() => of('Error, could not load cards :-(')));
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // console.error('An ErrorEvent error occurred:', error.error.message);

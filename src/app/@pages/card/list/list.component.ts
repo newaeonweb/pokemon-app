@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
@@ -33,6 +33,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
   supertypeValueFormControl = new FormControl('');
   typesValueFormControl = new FormControl('');
   subtypesIdValueFormControl = new FormControl('');
+  setIdValueFormControl = new FormControl('');
 
   public filterValues = {
     supertype: '',
@@ -43,6 +44,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
   typesList: Observable<string[]>;
   subtypesList: Observable<string[]>;
   supertypesList: Observable<string[]>;
+  setList: Observable<string[]>;
 
   activatedRoute: ActivatedRoute;
 
@@ -93,6 +95,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
           this.typesList = result[0].data;
           this.subtypesList = result[1].data;
           this.supertypesList = result[2].data;
+          this.setList = result[3].data;
         })
       )
       .subscribe();
@@ -116,36 +119,60 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
     const typesList = this.pokemonService.getTypes();
     const subtypesList = this.pokemonService.getSubtypes();
     const supertypesList = this.pokemonService.getSupetypes();
+    const setList = this.pokemonService.getSets();
 
-    return forkJoin([typesList, subtypesList, supertypesList]);
+    return forkJoin([typesList, subtypesList, supertypesList, setList]);
   }
 
   searchListening() {
     this.supertypeValueFormControl.valueChanges
       .pipe(
-        // debounceTime(400),
         distinctUntilChanged(),
-        map((supertype) => {
-          if (supertype === '') {
-            this.queryParams.q = '';
-            return;
-          }
-          this.queryParams.q = `supertype:${supertype}`;
-        }),
         switchMap(() => {
-          return this.characterDatabase.getCharactersList(this.queryParams).pipe(
-            map((result) => {
-              this.resultsLength = result.totalCount;
-              this.queryParams.pageSize = result.pageSize;
-              this.characters$ = of(result.data);
-            }),
-            catchError(() => {
-              return of({ data: null });
+          this.characters$ = of(null);
+          return this.characterDatabase
+            .getAll({
+              page: 1,
+              pageSize: 20,
+              orderBy: 'name',
+              q: this.supertypeValueFormControl.value !== '' ? `supertype:${this.supertypeValueFormControl.value}` : '',
             })
-          );
+            .pipe(
+              map((res: any) => {
+                this.resultsLength = res.totalCount;
+                this.queryParams.pageSize = res.pageSize;
+                this.characters$ = of(res.data);
+              })
+            );
         })
       )
       .subscribe();
+
+    // this.supertypeValueFormControl.valueChanges
+    //   .pipe(
+    //     // debounceTime(400),
+    //     distinctUntilChanged(),
+    //     map((supertype) => {
+    //       if (supertype === '') {
+    //         this.queryParams.q = '';
+    //         return;
+    //       }
+    //       this.queryParams.q = `supertype:${supertype}`;
+    //     }),
+    //     switchMap(() => {
+    //       return this.characterDatabase.getCharactersList(this.queryParams).pipe(
+    //         map((result) => {
+    //           this.resultsLength = result.totalCount;
+    //           this.queryParams.pageSize = result.pageSize;
+    //           this.characters$ = of(result.data);
+    //         }),
+    //         catchError(() => {
+    //           return of({ data: null });
+    //         })
+    //       );
+    //     })
+    //   )
+    //   .subscribe();
 
     this.typesValueFormControl.valueChanges.subscribe((types) => {
       this.filterValues.subtypes = types;
@@ -237,5 +264,21 @@ export class HttpDatabase {
         .set('orderBy', params.orderBy)
         .set('q', params.q),
     });
+  }
+
+  getAll(param?: any): Observable<any[]> {
+    let params = new HttpParams();
+
+    Object.keys(param).forEach((item) => {
+      params = params.set(item, param[item]);
+    });
+
+    const apiUrl = `${API_URL}/cards`;
+    return this._httpClient.get(apiUrl, { params }).pipe(
+      map((res: any) => res),
+      catchError((err: HttpErrorResponse) => {
+        return of(null);
+      })
+    );
   }
 }
