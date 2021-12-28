@@ -39,21 +39,6 @@ export class PokemonService {
   constructor(private httpClient: HttpClient) {}
 
   getCards(req: QueryParams): Observable<HttpApiResponse> {
-    // let params = new HttpParams();
-    // const queryIsEmpty = req?.query;
-
-    // if (queryIsEmpty === undefined) {
-    //   params = params.append('page', req.page?.toString());
-    //   params = params.append('pageSize', req.pageSize?.toString());
-    //   params = params.append('orderBy', req.orderBy);
-    // } else {
-    //   params = params.append('q', req.query);
-    //   params = params.append('page', req.page?.toString());
-    //   params = params.append('pageSize', req.pageSize?.toString());
-    //   params = params.append('orderBy', req.orderBy);
-    // }
-
-    // Simplify request
     const params = new HttpParams({
       fromString: `${req.query ? 'q=' + req.query : ''}&page=${req.page}&pageSize=${req.pageSize}&orderBy=${
         req.orderBy
@@ -68,18 +53,20 @@ export class PokemonService {
   getListFilters(type: string): Observable<string | FilterRequest> {
     return this.httpClient
       .get<FilterRequest>(`${API_URL}/${type}`, { context: withCache() })
-      .pipe(catchError(() => of(`Error, could not load filter :-( ${type}`)));
+      .pipe(catchError((err) => this.handleError(err)));
   }
 
   getCardsList(params: Params): Observable<HttpApiResponse> {
     const apiUrl = `${API_URL}/cards`;
-    return this.httpClient.get<HttpApiResponse>(apiUrl, {
-      params: new HttpParams()
-        .set('page', +params.page)
-        .set('pageSize', params.pageSize)
-        .set('orderBy', params.orderBy)
-        .set('q', params.q),
-    });
+    return this.httpClient
+      .get<HttpApiResponse>(apiUrl, {
+        params: new HttpParams()
+          .set('page', +params.page)
+          .set('pageSize', params.pageSize)
+          .set('orderBy', params.orderBy)
+          .set('q', params.q),
+      })
+      .pipe(catchError((err) => this.handleError(err)));
   }
 
   getAll(param?: any): Observable<any[]> {
@@ -92,9 +79,7 @@ export class PokemonService {
     const apiUrl = `${API_URL}/cards`;
     return this.httpClient.get(apiUrl, { params }).pipe(
       map((res: any) => res),
-      catchError((err: HttpErrorResponse) => {
-        return of(null);
-      })
+      catchError((err) => this.handleError(err))
     );
   }
 

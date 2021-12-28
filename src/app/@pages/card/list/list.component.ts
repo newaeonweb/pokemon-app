@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
+import { HttpErrorResponse } from '@angular/common/http';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { environment } from '@env/environment';
-import { FilterRequest, HttpApiResponse, PokemonService } from '../_services/pokemon.service';
+import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { environment } from '@env/environment';
+import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { FilterRequest, PokemonService } from '../_services/pokemon.service';
 
 const API_URL = environment.serverUrl;
 
@@ -22,16 +22,9 @@ export class ListComponent implements OnInit, AfterViewInit {
   searchTerm$ = new BehaviorSubject<any>('');
   resultsEmpty$ = new BehaviorSubject<boolean>(false);
   resultsLength = 0;
-
-  searchField = new FormControl('');
   queryParams: Params;
-
-  supertypeValueFormControl = new FormControl('');
-  typesValueFormControl = new FormControl('');
-  subtypesIdValueFormControl = new FormControl('');
-  setIdValueFormControl = new FormControl('');
-
-  searchListText: string;
+  formFilter: FormGroup;
+  searchListText = '';
 
   typesList: Observable<string[]>;
   subtypesList: Observable<string[]>;
@@ -48,6 +41,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     private router: Router
   ) {
     this.characters$ = this.route.queryParams.pipe(
+      debounceTime(300),
       switchMap((params) => {
         this.queryParams = {
           page: params.page || 1,
@@ -76,6 +70,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.createForm();
     this.searchListening();
     this.loadFilters()
       .pipe(
@@ -87,6 +82,16 @@ export class ListComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe();
+  }
+
+  createForm() {
+    this.formFilter = this.fb.group({
+      searchField: [''],
+      supertype: [''],
+      types: [''],
+      subtypes: [''],
+      set: [''],
+    });
   }
 
   updateUrlQueryParams() {
@@ -107,14 +112,39 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   searchListening() {
-    this.supertypeValueFormControl.valueChanges
+    this.formFilter.valueChanges
       .pipe(
         distinctUntilChanged(),
-        switchMap(() => {
+        switchMap((filter) => {
+          let query = '';
+
+          if (filter.searchField) {
+            query = query.concat('', `name:${filter.searchField}`);
+          }
+
+          if (filter.supertype) {
+            query = query.concat(' ', `supertype:${filter.supertype}`);
+          }
+
+          if (filter.types) {
+            query = query.concat(' ', `types:${filter.types}`);
+          }
+
+          if (filter.subtypes) {
+            query = query.concat(' ', `subtypes:${filter.subtypes}`);
+          }
+
+          if (filter.set) {
+            query = query.concat(' ', `set.name:${filter.set}`);
+          }
+
+          console.log('🚀 - : searchListening -> filter', filter);
           this.characters$ = of(null);
-          this.queryParams.q =
-            this.supertypeValueFormControl.value !== '' ? `supertype:${this.supertypeValueFormControl.value}` : '';
+
+          this.queryParams.q = query;
+
           this.updateUrlQueryParams();
+
           return this.pokemonService
             .getAll({
               page: 1,
@@ -127,6 +157,16 @@ export class ListComponent implements OnInit, AfterViewInit {
                 this.resultsLength = res.totalCount;
                 this.queryParams.pageSize = res.pageSize;
                 this.characters$ = of(res.data);
+              }),
+              catchError((err: HttpErrorResponse) => {
+                console.log('🚀 - : List', err);
+                if (err.status === 400) {
+                  alert('Algo estranho aconteceu');
+                }
+                if (err.status === 404) {
+                  alert('Nenhum resultado encontrado');
+                }
+                return (this.characters$ = of([]));
               })
             );
         })
@@ -159,15 +199,25 @@ export class ListComponent implements OnInit, AfterViewInit {
     //   )
     //   .subscribe();
 
-    this.typesValueFormControl.valueChanges.subscribe((types) => {
-      // this.filterValues.subtypes = types;
-      // this.characterDataSource.filter = JSON.stringify(this.filterValues);
-      // console.log(this.characterDataSource.filter);
-    });
+    // this.typesValueFormControl.valueChanges.subscribe((types) => {
+    //   // this.filterValues.subtypes = types;
+    //   // this.characterDataSource.filter = JSON.stringify(this.filterValues);
+    //   // console.log(this.characterDataSource.filter);
+    // });
 
-    this.subtypesIdValueFormControl.valueChanges.subscribe((subtypes) => {
-      // this.filterValues.subtypes = subtypes;
-      // this.characterDataSource.filter = JSON.stringify(this.filterValues);
+    // this.subtypesIdValueFormControl.valueChanges.subscribe((subtypes) => {
+    //   // this.filterValues.subtypes = subtypes;
+    //   // this.characterDataSource.filter = JSON.stringify(this.filterValues);
+    // });
+  }
+
+  clearFilters() {
+    this.formFilter.patchValue({
+      searchField: '',
+      supertype: '',
+      types: '',
+      subtypes: '',
+      set: '',
     });
   }
 
@@ -181,7 +231,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   clearSearch() {
-    this.searchField.setValue('');
+    this.formFilter.get('searchField').setValue('');
     this.queryParams.q = '';
     this.updateUrlQueryParams();
   }
@@ -196,6 +246,16 @@ export class ListComponent implements OnInit, AfterViewInit {
       map((result) => {
         this.resultsLength = result.totalCount;
         return result.data;
+      }),
+      catchError((err: HttpErrorResponse) => {
+        console.log('🚀 - : List', err);
+        if (err.status === 400) {
+          alert('Algo estranho aconteceu');
+        }
+        if (err.status === 404) {
+          alert('Nenhum resultado encontrado');
+        }
+        return (this.characters$ = of([]));
       })
     );
   }
