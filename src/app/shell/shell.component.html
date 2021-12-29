@@ -22,9 +22,7 @@
       </nav>
     </mat-sidenav>
     <mat-sidenav-content>
-      <!-- <div *ngIf="loaderService.isLoading$ | async" class="loader-container">
-        <mat-progress-bar color="primary" mode="indeterminate"></mat-progress-bar>
-      </div> -->
+      <app-loader></app-loader>
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>

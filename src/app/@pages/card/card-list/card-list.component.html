@@ -43,10 +43,6 @@
 
   <br />
 
-  <div fxLayout="row" fxLayoutAlign="center start">
-    <app-loader [isLoading]="isLoading"></app-loader>
-  </div>
-
   <div *ngIf="isRecordsFound" fxLayout="row" fxLayoutAlign="center start">No records found</div>
   <div *ngIf="isError" fxLayout="row" fxLayoutAlign="center start">{{ isError }}</div>
 

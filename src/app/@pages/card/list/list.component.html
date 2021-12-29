@@ -85,7 +85,7 @@
       </div>
     </div>
   </form>
-  <div *ngIf="characters$ | async as cardsList; else loading">
+  <div *ngIf="characters$ | async as cardsList">
     <div class="card-content">
       <div
         fxLayout="row wrap"
@@ -135,11 +135,6 @@
       </div>
     </div>
   </div>
-  <ng-template #loading>
-    <div fxLayout="row" fxLayoutAlign="center start">
-      <app-loader isLoading="true"></app-loader>
-    </div>
-  </ng-template>
   <br />
   <mat-paginator
     #paginator
