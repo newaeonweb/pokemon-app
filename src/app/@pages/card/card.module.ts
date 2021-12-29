@@ -10,6 +10,7 @@ import { SharedModule } from '@shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from './list/list.component';
 import { SelectSearchPipe } from './list/select-search.pipe';
+import { PokeCardComponent } from './list/components/poke-card/poke-card.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,6 @@ import { SelectSearchPipe } from './list/select-search.pipe';
     MaterialModule,
     CardRoutingModule,
   ],
-  declarations: [CardComponent, CardListComponent, ListComponent, SelectSearchPipe],
+  declarations: [CardComponent, CardListComponent, ListComponent, SelectSearchPipe, PokeCardComponent],
 })
 export class CardModule {}

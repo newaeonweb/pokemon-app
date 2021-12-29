@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { FilterRequest, PokemonService } from '../_services/pokemon.service';
 
 const API_URL = environment.serverUrl;
@@ -52,7 +52,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         console.log('switchMap', this.queryParams);
 
         return this.loadData();
-      })
+      }),
+      shareReplay(1)
     );
   }
 
