@@ -5,7 +5,7 @@
   <form [formGroup]="formFilter">
     <div class="flex-container">
       <mat-form-field>
-        <mat-label>Search characters by name</mat-label>
+        <mat-label><span translate>Search card by Pokémon name</span></mat-label>
         <input matInput #search (keyup)="dispatchSearch(search.value)" formControlName="searchField" />
         <button
           type="text"
@@ -80,7 +80,7 @@
         </mat-form-field>
       </div>
       <div fxFlex="10">
-        <button mat-stroked-button color="accent" (click)="clearFilters()">Clear Filters</button>
+        <button mat-stroked-button color="accent" (click)="clearFilters()"><span translate>Clear Filters</span></button>
       </div>
     </div>
   </form>
