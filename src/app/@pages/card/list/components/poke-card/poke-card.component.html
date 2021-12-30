@@ -16,13 +16,9 @@
     <mat-card-subtitle>
       <p>
         <strong> Supertype:</strong> {{ card.supertype }} <br />
-        <strong> Subtypes:</strong>
-        <span *ngFor="let item of card.subtypes">{{ item }}</span> <br />
-
-        <span *ngFor="let item of card.types">
-          <strong>Types:</strong>
-          {{ item }}
-        </span>
+        <strong> Subtypes:</strong> {{ card.subtypes }}
+        <br />
+        <strong>Types:</strong> {{ card.types }}
       </p>
     </mat-card-subtitle>
   </mat-card-header>
