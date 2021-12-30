@@ -9,6 +9,10 @@ import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { FilterRequest, PokemonService } from '../_services/pokemon.service';
 
+import { Logger } from '@core/logger.service';
+
+const log = new Logger('card list');
+
 const API_URL = environment.serverUrl;
 
 @Component({
@@ -20,7 +24,6 @@ export class ListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   characters$: Observable<any>;
   searchTerm$ = new BehaviorSubject<any>('');
-  resultsEmpty$ = new BehaviorSubject<boolean>(false);
   resultsLength = 0;
   queryParams: Params;
   formFilter: FormGroup;
@@ -49,9 +52,20 @@ export class ListComponent implements OnInit, AfterViewInit {
           orderBy: params.orderBy || 'name',
           q: params.q || '',
         };
-        console.log('switchMap', this.queryParams);
 
-        return this.loadData();
+        if (params.q) {
+          const query = this.convertQueryStringToObject();
+
+          this.formFilter.patchValue({
+            searchField: query.name || '',
+            supertype: query.supertype || '',
+            types: query.types || '',
+            subtypes: query.subtypes || '',
+            set: query.set || '',
+          });
+        }
+
+        return this.getCards();
       }),
       shareReplay(1)
     );
@@ -62,10 +76,7 @@ export class ListComponent implements OnInit, AfterViewInit {
       console.log(this.paginator);
       this.queryParams.page = this.paginator.pageIndex + 1;
       this.queryParams.pageSize = this.paginator.pageSize;
-
-      console.log('query', this.queryParams);
-
-      this.characters$ = this.loadData();
+      this.characters$ = this.getCards();
       this.updateUrlQueryParams();
     });
   }
@@ -95,6 +106,20 @@ export class ListComponent implements OnInit, AfterViewInit {
     });
   }
 
+  convertQueryStringToObject() {
+    let queryStringToObj = this.queryParams.q
+      .split(' ')
+      .map((value: string) => value.split(':').map((text) => text.trim()))
+      .reduce((obj: { [value: string]: any }, value: any[]) => {
+        obj[value[0]] = value[1];
+        return obj;
+      }, {});
+    // remove empty properties from object
+    let query = Object.fromEntries(Object.entries(queryStringToObj).filter(([_, value]) => value != null));
+
+    return query;
+  }
+
   updateUrlQueryParams() {
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
@@ -104,6 +129,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   loadFilters(): Observable<{}> {
+    // Load all filter list from API as an Observable
     const typesList = this.pokemonService.getListFilters('types');
     const subtypesList = this.pokemonService.getListFilters('subtypes');
     const supertypesList = this.pokemonService.getListFilters('supertypes');
@@ -139,77 +165,16 @@ export class ListComponent implements OnInit, AfterViewInit {
             query = query.concat(' ', `set.name:${filter.set}`);
           }
 
-          console.log('🚀 - : searchListening -> filter', filter);
           this.characters$ = of(null);
 
           this.queryParams.q = query;
 
           this.updateUrlQueryParams();
 
-          return this.pokemonService
-            .getAll({
-              page: 1,
-              pageSize: 20,
-              orderBy: 'name',
-              q: this.queryParams.q,
-            })
-            .pipe(
-              map((res: any) => {
-                this.resultsLength = res.totalCount;
-                this.queryParams.pageSize = res.pageSize;
-                this.characters$ = of(res.data);
-              }),
-              catchError((err: HttpErrorResponse) => {
-                console.log('🚀 - : List', err);
-                if (err.status === 400) {
-                  alert('Algo estranho aconteceu');
-                }
-                if (err.status === 404) {
-                  alert('Nenhum resultado encontrado');
-                }
-                return (this.characters$ = of([]));
-              })
-            );
+          return this.getCards();
         })
       )
       .subscribe();
-
-    // this.supertypeValueFormControl.valueChanges
-    //   .pipe(
-    //     // debounceTime(400),
-    //     distinctUntilChanged(),
-    //     map((supertype) => {
-    //       if (supertype === '') {
-    //         this.queryParams.q = '';
-    //         return;
-    //       }
-    //       this.queryParams.q = `supertype:${supertype}`;
-    //     }),
-    //     switchMap(() => {
-    //       return this.characterDatabase.getCharactersList(this.queryParams).pipe(
-    //         map((result) => {
-    //           this.resultsLength = result.totalCount;
-    //           this.queryParams.pageSize = result.pageSize;
-    //           this.characters$ = of(result.data);
-    //         }),
-    //         catchError(() => {
-    //           return of({ data: null });
-    //         })
-    //       );
-    //     })
-    //   )
-    //   .subscribe();
-
-    // this.typesValueFormControl.valueChanges.subscribe((types) => {
-    //   // this.filterValues.subtypes = types;
-    //   // this.characterDataSource.filter = JSON.stringify(this.filterValues);
-    //   // console.log(this.characterDataSource.filter);
-    // });
-
-    // this.subtypesIdValueFormControl.valueChanges.subscribe((subtypes) => {
-    //   // this.filterValues.subtypes = subtypes;
-    //   // this.characterDataSource.filter = JSON.stringify(this.filterValues);
-    // });
   }
 
   clearFilters() {
@@ -226,9 +191,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     this.queryParams.page = 1;
     this.queryParams.q = `name:${value}`;
     this.updateUrlQueryParams();
-    console.log('params on search', this.queryParams);
-
-    this.searchTerm$.next(this.queryParams);
+    log.info('dispatchSearch', this.queryParams);
   }
 
   clearSearch() {
@@ -237,19 +200,15 @@ export class ListComponent implements OnInit, AfterViewInit {
     this.updateUrlQueryParams();
   }
 
-  resetPagination() {
-    this.queryParams.page = 1;
-    this.updateUrlQueryParams();
-  }
-
-  loadData() {
-    return this.pokemonService.getCardsList(this.queryParams).pipe(
-      map((result) => {
-        this.resultsLength = result.totalCount;
-        return result.data;
+  getCards(): Observable<any> {
+    return this.pokemonService.getAll(this.queryParams).pipe(
+      map((res: any) => {
+        this.resultsLength = res.totalCount;
+        this.queryParams.pageSize = res.pageSize;
+        this.characters$ = of(res.data);
       }),
       catchError((err: HttpErrorResponse) => {
-        console.log('🚀 - : List', err);
+        log.debug('getCards error', err);
         if (err.status === 400) {
           alert('Algo estranho aconteceu');
         }
@@ -257,7 +216,8 @@ export class ListComponent implements OnInit, AfterViewInit {
           alert('Nenhum resultado encontrado');
         }
         return (this.characters$ = of([]));
-      })
+      }),
+      shareReplay(1)
     );
   }
 }
