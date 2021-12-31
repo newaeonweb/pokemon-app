@@ -61,7 +61,7 @@ export class ListComponent implements OnInit, AfterViewInit {
             supertype: query.supertype || '',
             types: query.types || '',
             subtypes: query.subtypes || '',
-            set: query.set || '',
+            set: query['set.name'] || '',
           });
         }
 
@@ -107,7 +107,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   convertQueryStringToObject() {
-    let queryStringToObj = this.queryParams.q
+    const queryStringToObj = this.queryParams.q
       .split(' ')
       .map((value: string) => value.split(':').map((text) => text.trim()))
       .reduce((obj: { [value: string]: any }, value: any[]) => {
@@ -115,7 +115,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         return obj;
       }, {});
     // remove empty properties from object
-    let query = Object.fromEntries(Object.entries(queryStringToObj).filter(([_, value]) => value != null));
+    const query = Object.fromEntries(Object.entries(queryStringToObj).filter(([_, value]) => value != null));
+    console.log('🚀 ~ file: list.component.ts ~ line 119 ~ ListComponent ~ convertQueryStringToObject ~ query', query);
 
     return query;
   }
