@@ -11,10 +11,7 @@ const routes: Routes = [
     path: '',
     component: CardComponent,
     data: { title: marker('Card') },
-    children: [
-      { path: '', component: CardListComponent },
-      { path: 'list', component: ListComponent },
-    ],
+    children: [{ path: '', component: ListComponent }],
   },
 ];
 
