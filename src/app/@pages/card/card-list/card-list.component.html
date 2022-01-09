@@ -32,7 +32,7 @@
     </div>
 
     <div fxLayout="row wrap" fxLayoutAlign="space-between center">
-      <button fxFlex mat-flat-button color="primary" (click)="applyAllFilters()">
+      <button class="my-custom-button" fxFlex mat-flat-button color="primary" (click)="applyAllFilters()">
         <span translate>Apply Filters</span>
       </button>
       <button fxFlex mat-button color="primary" (click)="clearFilters()">
@@ -42,10 +42,6 @@
   </div>
 
   <br />
-
-  <div fxLayout="row" fxLayoutAlign="center start">
-    <app-loader [isLoading]="isLoading"></app-loader>
-  </div>
 
   <div *ngIf="isRecordsFound" fxLayout="row" fxLayoutAlign="center start">No records found</div>
   <div *ngIf="isError" fxLayout="row" fxLayoutAlign="center start">{{ isError }}</div>

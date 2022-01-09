@@ -16,7 +16,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
   constructor(public loaderService: LoaderService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.loaderService.isLoading$.next(true);
+    this.loaderService.show();
 
     if (!/^(http|https):/i.test(request.url)) {
       request = request.clone({
@@ -29,7 +29,7 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
     }
     return next.handle(request).pipe(
       finalize(() => {
-        this.loaderService.isLoading$.next(false);
+        this.loaderService.hide();
       })
     );
   }
