@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListComponent } from './list/list.component';
 import { SelectSearchPipe } from './list/select-search.pipe';
 import { PokeCardComponent } from './list/components/poke-card/poke-card.component';
+import { PokeCardDetailComponent } from './list/components/poke-card-detail/poke-card-detail.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,13 @@ import { PokeCardComponent } from './list/components/poke-card/poke-card.compone
     MaterialModule,
     CardRoutingModule,
   ],
-  declarations: [CardComponent, CardListComponent, ListComponent, SelectSearchPipe, PokeCardComponent],
+  declarations: [
+    CardComponent,
+    CardListComponent,
+    ListComponent,
+    SelectSearchPipe,
+    PokeCardComponent,
+    PokeCardDetailComponent,
+  ],
 })
 export class CardModule {}

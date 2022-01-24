@@ -1,0 +1,14 @@
+<div fxlayout="row" fxLayoutAlign="center center">
+  <img src="{{ card?.images.small }}" alt="" />
+</div>
+<mat-list>
+  <mat-list-item> Name: {{ card?.name }}</mat-list-item>
+  <mat-list-item> Supertype: {{ card?.supertype }} </mat-list-item>
+  <mat-list-item> Evolves From: {{ card?.evolvesFrom }} </mat-list-item>
+  <mat-list-item> Attacks: array </mat-list-item>
+  <mat-list-item> Set: {{ card?.set.name }} </mat-list-item>
+  <mat-list-item> Series: {{ card?.set.series }} </mat-list-item>
+  <mat-list-item> Release date: {{ card?.set.releaseDate | date: 'short' }} </mat-list-item>
+  <mat-list-item> Symbol: <img width="40" src="{{ card?.set.images.symbol }}" alt="" /> </mat-list-item>
+  <mat-list-item> Rarity: {{ card?.rarity }} </mat-list-item>
+</mat-list>

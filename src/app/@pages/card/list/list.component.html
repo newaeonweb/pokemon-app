@@ -1,114 +1,143 @@
-<div class="container">
-  <div fxLayout="row" fxLayoutAlign="center start">
-    <h1 translate>Pokemon Cards</h1>
-  </div>
-  <form [formGroup]="formFilter">
-    <div class="flex-container">
-      <mat-form-field>
-        <mat-label><span translate>Search card by Pokémon name</span></mat-label>
-        <input matInput #search (keyup)="dispatchSearch(search.value)" formControlName="searchField" />
-        <button
-          type="text"
-          mat-button
-          *ngIf="search.value !== ''"
-          matSuffix
-          mat-icon-button
-          aria-label="Clear"
-          (click)="clearSearch()"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
+<mat-sidenav-container [class.drawer-opened]="drawer.opened" [hasBackdrop]="true">
+  <mat-sidenav
+    #drawer
+    class="drawer"
+    mode="over"
+    opened="false"
+    position="end"
+    fixedInViewport="true"
+    fixedTopGap="64"
+    fixedBottomGap="0"
+  >
+    <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+      <div>{{ card?.name }}</div>
+      <button mat-icon-button (click)="drawer.close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar>
+    <div class="contents">
+      <app-poke-card-detail [card]="card"></app-poke-card-detail>
     </div>
+  </mat-sidenav>
 
-    <div fxLayout="row wrap" fxLayoutGap="6px" fxLayoutAlign="center center">
-      <div fxFlex="20">
-        <mat-form-field appearance="fill">
-          <mat-label><span translate>Filter by supertypes</span></mat-label>
-          <mat-select formControlName="supertype">
-            <mat-option [value]="''"><span translate>All</span></mat-option>
-            <mat-option *ngFor="let supertypes of supertypesList" [value]="supertypes"> {{ supertypes }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+  <mat-sidenav-content class="main contents">
+    <div class="container">
+      <div fxLayout="row" fxLayoutAlign="center start">
+        <h1 translate>Pokemon Cards</h1>
       </div>
-      <div fxFlex>
-        <mat-form-field appearance="fill">
-          <mat-label><span translate>Filter by types</span></mat-label>
-          <mat-select formControlName="types">
-            <mat-option [value]="''"><span translate>All</span></mat-option>
-            <mat-option *ngFor="let types of typesList" [value]="types"> {{ types }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div fxFlex>
-        <mat-form-field appearance="fill">
-          <mat-label><span translate>Filter by subtypes</span></mat-label>
-          <mat-select formControlName="subtypes">
-            <mat-option [value]="''"><span translate>All</span></mat-option>
-            <mat-option *ngFor="let subtypes of subtypesList" [value]="subtypes"> {{ subtypes }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div fxFlex>
-        <mat-form-field appearance="fill">
-          <mat-label><span translate>Filter by set</span></mat-label>
-          <mat-select formControlName="set">
-            <input
-              class="select-search"
-              matInput
-              [(ngModel)]="searchListText"
-              [ngModelOptions]="{ standalone: true }"
-              matInput
-              placeholder="Type set name"
-            />
+      <form [formGroup]="formFilter">
+        <div class="flex-container">
+          <mat-form-field>
+            <mat-label><span translate>Search card by Pokémon name</span></mat-label>
+            <input matInput #search (keyup)="dispatchSearch(search.value)" formControlName="searchField" />
             <button
-              class="select-search-button"
+              type="text"
               mat-button
-              *ngIf="searchListText !== ''"
+              *ngIf="search.value !== ''"
               matSuffix
               mat-icon-button
               aria-label="Clear"
-              (click)="searchListText = ''"
+              (click)="clearSearch()"
             >
               <mat-icon>close</mat-icon>
             </button>
-            <mat-option [value]="''"><span translate>All</span></mat-option>
-            <mat-option *ngFor="let set of setList | selectSearch: searchListText" [value]="set.name">
-              <span class="set-symbol"> <img [src]="set.images.symbol" alt="symbol" /> </span> {{ set.name }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div fxFlex="10">
-        <button mat-stroked-button color="accent" (click)="clearFilters()"><span translate>Clear Filters</span></button>
-      </div>
-    </div>
-  </form>
-  <br />
-  <div class="card-content">
-    <div *ngIf="characters$ | async as cardsList">
-      <div
-        fxLayout="row wrap"
-        fxLayoutGap="16px grid"
-        fxLayout.lt-sm="column"
-        fxLayoutAlign="start center"
-        fxLayoutAlign.lt-sm="start center"
-      >
-        <ng-container *ngFor="let card of cardsList">
-          <div fxFlex="25%" fxFlex.lt-md="50%" fxFlex.lt-sm="100%">
-            <app-poke-card [card]="card"></app-poke-card>
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="row wrap" fxLayoutGap="6px" fxLayoutAlign="center center">
+          <div fxFlex="20">
+            <mat-form-field appearance="fill">
+              <mat-label><span translate>Filter by supertypes</span></mat-label>
+              <mat-select formControlName="supertype">
+                <mat-option [value]="''"><span translate>All</span></mat-option>
+                <mat-option *ngFor="let supertypes of supertypesList" [value]="supertypes">
+                  {{ supertypes }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
           </div>
-        </ng-container>
+          <div fxFlex>
+            <mat-form-field appearance="fill">
+              <mat-label><span translate>Filter by types</span></mat-label>
+              <mat-select formControlName="types">
+                <mat-option [value]="''"><span translate>All</span></mat-option>
+                <mat-option *ngFor="let types of typesList" [value]="types"> {{ types }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div fxFlex>
+            <mat-form-field appearance="fill">
+              <mat-label><span translate>Filter by subtypes</span></mat-label>
+              <mat-select formControlName="subtypes">
+                <mat-option [value]="''"><span translate>All</span></mat-option>
+                <mat-option *ngFor="let subtypes of subtypesList" [value]="subtypes"> {{ subtypes }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div fxFlex>
+            <mat-form-field appearance="fill">
+              <mat-label><span translate>Filter by set</span></mat-label>
+              <mat-select formControlName="set">
+                <input
+                  class="select-search"
+                  matInput
+                  [(ngModel)]="searchListText"
+                  [ngModelOptions]="{ standalone: true }"
+                  matInput
+                  placeholder="Type set name"
+                />
+                <button
+                  class="select-search-button"
+                  mat-button
+                  *ngIf="searchListText !== ''"
+                  matSuffix
+                  mat-icon-button
+                  aria-label="Clear"
+                  (click)="searchListText = ''"
+                >
+                  <mat-icon>close</mat-icon>
+                </button>
+                <mat-option [value]="''"><span translate>All</span></mat-option>
+                <mat-option *ngFor="let set of setList | selectSearch: searchListText" [value]="set.name">
+                  <span class="set-symbol"> <img [src]="set.images.symbol" alt="symbol" /> </span> {{ set.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div fxFlex="10">
+            <button mat-stroked-button color="accent" (click)="clearFilters()">
+              <span translate>Clear Filters</span>
+            </button>
+          </div>
+        </div>
+      </form>
+      <br />
+      <div class="card-content">
+        <div *ngIf="characters$ | async as cardsList">
+          <div
+            fxLayout="row wrap"
+            fxLayoutGap="16px grid"
+            fxLayout.lt-sm="column"
+            fxLayoutAlign="start center"
+            fxLayoutAlign.lt-sm="start center"
+          >
+            <ng-container *ngFor="let card of cardsList">
+              <div fxFlex="25%" fxFlex.lt-md="50%" fxFlex.lt-sm="100%">
+                <app-poke-card [card]="card" (openDetail)="showDetails($event)"></app-poke-card>
+              </div>
+            </ng-container>
+          </div>
+        </div>
       </div>
+      <br />
+      <mat-paginator
+        #paginator
+        [length]="resultsLength"
+        [pageSize]="queryParams?.pageSize"
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      >
+      </mat-paginator>
     </div>
-  </div>
-  <br />
-  <mat-paginator
-    #paginator
-    [length]="resultsLength"
-    [pageSize]="queryParams?.pageSize"
-    [pageSizeOptions]="[5, 10, 20]"
-    showFirstLastButtons
-  >
-  </mat-paginator>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

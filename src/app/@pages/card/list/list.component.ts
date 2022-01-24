@@ -10,6 +10,7 @@ import { catchError, debounceTime, distinctUntilChanged, map, shareReplay, switc
 import { FilterRequest, PokemonService } from '../_services/pokemon.service';
 
 import { Logger } from '@core/logger.service';
+import { MatDrawer } from '@angular/material/sidenav';
 
 const log = new Logger('card list');
 
@@ -22,6 +23,7 @@ const API_URL = environment.serverUrl;
 })
 export class ListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('drawer') drawer: MatDrawer;
   characters$: Observable<any>;
   searchTerm$ = new BehaviorSubject<any>('');
   resultsLength = 0;
@@ -35,6 +37,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   setList: string[];
 
   activatedRoute: ActivatedRoute;
+  card: any;
 
   constructor(
     public dialog: MatDialog,
@@ -220,5 +223,11 @@ export class ListComponent implements OnInit, AfterViewInit {
       }),
       shareReplay(1)
     );
+  }
+
+  showDetails(card: any) {
+    this.card = card;
+    this.drawer.open();
+    document.querySelector('.mat-sidenav-content').scrollTop = 0;
   }
 }

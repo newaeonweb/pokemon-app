@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-poke-card',
@@ -7,4 +7,9 @@ import { Component, Input } from '@angular/core';
 })
 export class PokeCardComponent {
   @Input() card: any;
+  @Output() openDetail = new EventEmitter();
+
+  showCardDetails(card: any) {
+    this.openDetail.emit(card);
+  }
 }

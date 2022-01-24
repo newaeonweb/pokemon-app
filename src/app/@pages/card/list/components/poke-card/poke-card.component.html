@@ -1,4 +1,4 @@
-<mat-card class="mat-elevation-z3">
+<mat-card class="mat-elevation-z3" appMaterialElevation>
   <mat-card-header>
     <mat-card-title>
       <div fxLayout="row" fxLayoutAlign="space-between center">
@@ -27,4 +27,8 @@
       <img src="{{ card.images.small }}" alt="{{ card.name }}" loading="lazy" />
     </div>
   </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-button>Add to my desk</button>
+    <button mat-stroked-button (click)="showCardDetails(card)">More details</button>
+  </mat-card-actions>
 </mat-card>
