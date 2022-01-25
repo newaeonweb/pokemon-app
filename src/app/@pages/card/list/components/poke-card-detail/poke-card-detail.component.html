@@ -1,14 +1,17 @@
 <div fxlayout="row" fxLayoutAlign="center center">
   <img src="{{ card?.images.small }}" alt="" />
 </div>
-<mat-list>
-  <mat-list-item> Name: {{ card?.name }}</mat-list-item>
-  <mat-list-item> Supertype: {{ card?.supertype }} </mat-list-item>
-  <mat-list-item> Evolves From: {{ card?.evolvesFrom }} </mat-list-item>
-  <mat-list-item> Attacks: array </mat-list-item>
-  <mat-list-item> Set: {{ card?.set.name }} </mat-list-item>
-  <mat-list-item> Series: {{ card?.set.series }} </mat-list-item>
-  <mat-list-item> Release date: {{ card?.set.releaseDate | date: 'short' }} </mat-list-item>
-  <mat-list-item> Symbol: <img width="40" src="{{ card?.set.images.symbol }}" alt="" /> </mat-list-item>
-  <mat-list-item> Rarity: {{ card?.rarity }} </mat-list-item>
-</mat-list>
+<ul>
+  <li><span class="label">Name: </span>{{ card?.name }}</li>
+  <li><span class="label">Supertype: </span> {{ card?.supertype }}</li>
+  <li><span class="label">Evolves From: </span>{{ card?.evolvesFrom }}</li>
+  <li><span class="label">Attacks: </span> array</li>
+  <li><span class="label">Release date:</span> {{ card?.set.releaseDate | date: 'short' }}</li>
+  <li><span class="label">Rarity: </span>{{ card?.rarity }}</li>
+  <li><span class="label">Set: </span> {{ card?.set.name }}</li>
+  <li><span class="label">Series: </span>{{ card?.set.series }}</li>
+  <li><span class="label">Symbol: </span></li>
+</ul>
+<div fxlayout="row" fxLayoutAlign="center center">
+  <img width="40" src="{{ card?.set.images.symbol }}" alt="" />
+</div>
