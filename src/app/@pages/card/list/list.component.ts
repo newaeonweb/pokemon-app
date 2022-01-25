@@ -11,6 +11,7 @@ import { FilterRequest, PokemonService } from '../_services/pokemon.service';
 
 import { Logger } from '@core/logger.service';
 import { MatDrawer } from '@angular/material/sidenav';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 const log = new Logger('card list');
 
@@ -229,5 +230,19 @@ export class ListComponent implements OnInit, AfterViewInit {
     this.card = card;
     this.drawer.open();
     document.querySelector('.mat-sidenav-content').scrollTop = 0;
+  }
+
+  confirmAddToDesk(card: any) {
+    const confirmDialog = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Confirm add card',
+        message: `Are you sure, you want to inlude this card: ${card?.name} to your poke-desk?`,
+      },
+    });
+    confirmDialog.afterClosed().subscribe((result) => {
+      if (result === true) {
+        console.log(result);
+      }
+    });
   }
 }

@@ -11,9 +11,14 @@
   >
     <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
       <div>{{ card?.name }}</div>
-      <button mat-icon-button (click)="drawer.close()">
-        <mat-icon>close</mat-icon>
-      </button>
+      <div>
+        <button mat-icon-button (click)="confirmAddToDesk(card)">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button mat-icon-button (click)="drawer.close()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
     </mat-toolbar>
     <div class="contents">
       <app-poke-card-detail [card]="card"></app-poke-card-detail>

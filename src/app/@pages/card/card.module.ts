@@ -12,6 +12,7 @@ import { ListComponent } from './list/list.component';
 import { SelectSearchPipe } from './list/select-search.pipe';
 import { PokeCardComponent } from './list/components/poke-card/poke-card.component';
 import { PokeCardDetailComponent } from './list/components/poke-card-detail/poke-card-detail.component';
+import { ConfirmDialogComponent } from './list/components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { PokeCardDetailComponent } from './list/components/poke-card-detail/poke
     SelectSearchPipe,
     PokeCardComponent,
     PokeCardDetailComponent,
+    ConfirmDialogComponent,
   ],
 })
 export class CardModule {}

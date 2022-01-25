@@ -4,7 +4,8 @@
 <ul>
   <li><span class="label">Name: </span>{{ card?.name }}</li>
   <li><span class="label">Supertype: </span> {{ card?.supertype }}</li>
-  <li><span class="label">Evolves From: </span>{{ card?.evolvesFrom }}</li>
+  <li *ngIf="card?.evolvesFrom"><span class="label">Evolves From: </span>{{ card?.evolvesFrom }}</li>
+  <li *ngIf="card?.evolvesTo"><span class="label">Evolves To: </span>{{ card?.evolvesTo }}</li>
   <li><span class="label">Attacks: </span> array</li>
   <li><span class="label">Release date:</span> {{ card?.set.releaseDate | date: 'short' }}</li>
   <li><span class="label">Rarity: </span>{{ card?.rarity }}</li>
