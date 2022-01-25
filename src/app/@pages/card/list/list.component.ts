@@ -232,6 +232,10 @@ export class ListComponent implements OnInit, AfterViewInit {
     document.querySelector('.mat-sidenav-content').scrollTop = 0;
   }
 
+  addToDesk(card: any) {
+    this.confirmAddToDesk(card);
+  }
+
   confirmAddToDesk(card: any) {
     const confirmDialog = this.dialog.open(ConfirmDialogComponent, {
       data: {

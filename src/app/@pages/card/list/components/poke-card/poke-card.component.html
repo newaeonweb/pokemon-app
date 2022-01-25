@@ -28,7 +28,7 @@
     </div>
   </mat-card-content>
   <mat-card-actions align="center">
-    <button mat-button>Add to my desk</button>
+    <button mat-button (click)="addToMyDesk(card)">Add to my desk</button>
     <button mat-stroked-button (click)="showCardDetails(card)">More details</button>
   </mat-card-actions>
 </mat-card>

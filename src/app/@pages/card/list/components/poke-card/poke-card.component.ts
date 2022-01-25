@@ -8,8 +8,13 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 export class PokeCardComponent {
   @Input() card: any;
   @Output() openDetail = new EventEmitter();
+  @Output() addToDesk = new EventEmitter();
 
   showCardDetails(card: any) {
     this.openDetail.emit(card);
+  }
+
+  addToMyDesk(card: any) {
+    this.addToDesk.next(card);
   }
 }

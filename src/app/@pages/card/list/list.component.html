@@ -128,7 +128,11 @@
           >
             <ng-container *ngFor="let card of cardsList">
               <div fxFlex="25%" fxFlex.lt-md="50%" fxFlex.lt-sm="100%">
-                <app-poke-card [card]="card" (openDetail)="showDetails($event)"></app-poke-card>
+                <app-poke-card
+                  [card]="card"
+                  (openDetail)="showDetails($event)"
+                  (addToDesk)="addToDesk($event)"
+                ></app-poke-card>
               </div>
             </ng-container>
           </div>
