@@ -3,6 +3,7 @@ import { Component, OnInit, Input, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
+import { DeskService } from '@app/@pages/card/_services/desk.service';
 
 @Component({
   selector: 'app-header',
@@ -11,8 +12,9 @@ import { MatSidenav } from '@angular/material/sidenav';
 })
 export class HeaderComponent implements OnInit {
   @Input() sidenav!: MatSidenav;
+  cartItems$ = this.deskService.items$;
 
-  constructor(@Inject(DOCUMENT) private document: any, private titleService: Title) {}
+  constructor(@Inject(DOCUMENT) private document: any, private titleService: Title, private deskService: DeskService) {}
 
   ngOnInit() {
     this.currentTheme();

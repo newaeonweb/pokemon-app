@@ -12,6 +12,7 @@ import { FilterRequest, PokemonService } from '../_services/pokemon.service';
 import { Logger } from '@core/logger.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { DeskService } from '../_services/desk.service';
 
 const log = new Logger('card list');
 
@@ -45,7 +46,8 @@ export class ListComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private pokemonService: PokemonService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private deskService: DeskService
   ) {
     this.characters$ = this.route.queryParams.pipe(
       debounceTime(300),
@@ -246,6 +248,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     confirmDialog.afterClosed().subscribe((result) => {
       if (result === true) {
         console.log(result);
+        this.deskService.addToCart({ name: 'test' });
       }
     });
   }
