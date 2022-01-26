@@ -36,6 +36,6 @@
   </mat-menu>
   <app-language-selector icon="true"></app-language-selector>
   <button mat-icon-button *ngIf="cartItems$ | async as items">
-    <mat-icon [fxLayout]="items.length" matBadgeColor="accent">shopping_bag</mat-icon>
+    <mat-icon [matBadge]="items.length" matBadgeColor="accent">shopping_bag</mat-icon>
   </button>
 </mat-toolbar>

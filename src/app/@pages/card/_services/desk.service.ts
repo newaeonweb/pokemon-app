@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, take } from 'rxjs';
+import { Card } from '../_interfaces/card.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeskService {
-  private itemsSubject = new BehaviorSubject<any[]>([]);
+  private itemsSubject = new BehaviorSubject<Card[]>([]);
   items$ = this.itemsSubject.asObservable();
 
   constructor() {
-    let existingCartItems = JSON.parse(localStorage.getItem('products'));
+    let existingCartItems = JSON.parse(localStorage.getItem('card'));
     if (!existingCartItems) {
       existingCartItems = [];
     }
     this.itemsSubject.next(existingCartItems);
   }
 
-  addToCart(card: any) {
+  addToCart(card: Card) {
     this.items$
       .pipe(
         take(1),

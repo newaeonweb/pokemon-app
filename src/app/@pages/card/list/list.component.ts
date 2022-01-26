@@ -13,6 +13,7 @@ import { Logger } from '@core/logger.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { DeskService } from '../_services/desk.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const log = new Logger('card list');
 
@@ -47,7 +48,8 @@ export class ListComponent implements OnInit, AfterViewInit {
     private pokemonService: PokemonService,
     private route: ActivatedRoute,
     private router: Router,
-    private deskService: DeskService
+    private deskService: DeskService,
+    private snackBar: MatSnackBar
   ) {
     this.characters$ = this.route.queryParams.pipe(
       debounceTime(300),
@@ -122,7 +124,6 @@ export class ListComponent implements OnInit, AfterViewInit {
       }, {});
     // remove empty properties from object
     const query = Object.fromEntries(Object.entries(queryStringToObj).filter(([_, value]) => value != null));
-    console.log('🚀 ~ file: list.component.ts ~ line 119 ~ ListComponent ~ convertQueryStringToObject ~ query', query);
 
     return query;
   }
@@ -242,14 +243,20 @@ export class ListComponent implements OnInit, AfterViewInit {
     const confirmDialog = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Confirm add card',
-        message: `Are you sure, you want to inlude this card: ${card?.name} to your poke-desk?`,
+        message: `Are you sure, you want to inlude this card: ${card?.name},
+         to your poke-desk?`,
+        card,
       },
     });
     confirmDialog.afterClosed().subscribe((result) => {
-      if (result === true) {
-        console.log(result);
-        this.deskService.addToCart({ name: 'test' });
+      if (result === false) {
+        return;
       }
+      this.deskService.addToCart(result);
+      this.snackBar.open('Card added to your desk', 'Close', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      });
     });
   }
 }
