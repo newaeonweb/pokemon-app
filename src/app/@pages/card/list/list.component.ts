@@ -14,6 +14,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { DeskService } from '../_services/desk.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Card } from '../_interfaces/card.interface';
 
 const log = new Logger('card list');
 
@@ -27,7 +28,7 @@ const API_URL = environment.serverUrl;
 export class ListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('drawer') drawer: MatDrawer;
-  characters$: Observable<any>;
+  characters$: Observable<any[]>;
   searchTerm$ = new BehaviorSubject<any>('');
   resultsLength = 0;
   queryParams: Params;
@@ -40,7 +41,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   setList: string[];
 
   activatedRoute: ActivatedRoute;
-  card: any;
+  card: Card;
 
   constructor(
     public dialog: MatDialog,
@@ -81,7 +82,6 @@ export class ListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.paginator.page.subscribe(() => {
-      console.log(this.paginator);
       this.queryParams.page = this.paginator.pageIndex + 1;
       this.queryParams.pageSize = this.paginator.pageSize;
       this.characters$ = this.getCards();

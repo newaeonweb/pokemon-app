@@ -1,14 +1,11 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import {
-  HttpApiResponse,
-  PokemonService,
-  QueryParams,
-  FilterRequest,
-} from '@app/@pages/card/_services/pokemon.service';
+import { PokemonService, FilterRequest } from '@app/@pages/card/_services/pokemon.service';
 import { forkJoin, Observable } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { HttpApiResponse } from '../_interfaces/http-api-response.interface';
+import { QueryParams } from '../_interfaces/query-params.interface';
 
 @Component({
   selector: 'app-card-list',
