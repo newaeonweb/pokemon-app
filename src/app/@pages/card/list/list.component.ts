@@ -253,9 +253,10 @@ export class ListComponent implements OnInit, AfterViewInit {
         return;
       }
       this.deskService.addToCart(result);
-      this.snackBar.open('Card added to your desk', 'Close', {
+      this.snackBar.open(`Card ${result.name} added to your desk`, 'Close', {
         horizontalPosition: 'center',
         verticalPosition: 'top',
+        panelClass: ['snackbar'],
       });
     });
   }

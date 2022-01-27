@@ -41,4 +41,8 @@ export class HeaderComponent implements OnInit {
     this.document.body.classList.add('dark-theme');
     localStorage.setItem('dark-theme', 'true');
   }
+
+  clearDesk() {
+    this.deskService.cleanCart();
+  }
 }

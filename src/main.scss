@@ -41,6 +41,9 @@ $custom-typography: mat.define-typography-config(
   // @include mat-toolbar-theme($app-theme);
 }
 
+$p: mat.define-palette(mat.$grey-palette);
+$primary-palette: mat.get-color-from-palette($p, 600);
+
 html,
 body {
   font-family: Roboto, Arial, sans-serif;
@@ -60,4 +63,14 @@ body {
 .flex-item {
   flex: 0 0 auto;
   align-self: flex-start;
+}
+
+.snackbar {
+  background: $primary-palette;
+  color: white;
+  width: 500px;
+}
+
+.mat-snack-bar-container {
+  max-width: 100% !important;
 }

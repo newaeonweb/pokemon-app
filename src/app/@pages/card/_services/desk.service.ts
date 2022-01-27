@@ -28,4 +28,12 @@ export class DeskService {
       )
       .subscribe();
   }
+
+  cleanCart() {
+    let existingCartItems = JSON.parse(localStorage.getItem('card'));
+    if (existingCartItems) {
+      localStorage.removeItem('card');
+      this.itemsSubject.next([]);
+    }
+  }
 }
