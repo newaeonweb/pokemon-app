@@ -15,6 +15,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { DeskService } from '../_services/desk.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Card } from '../_interfaces/card.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 const log = new Logger('card list');
 
@@ -50,7 +51,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private deskService: DeskService,
-    private snackBar: MatSnackBar
+    private translate: TranslateService
   ) {
     this.characters$ = this.route.queryParams.pipe(
       debounceTime(300),
@@ -242,9 +243,9 @@ export class ListComponent implements OnInit, AfterViewInit {
   confirmAddToDesk(card: any) {
     const confirmDialog = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: 'Confirm add card',
-        message: `Are you sure, you want to inlude this card: ${card?.name},
-         to your poke-desk?`,
+        title: this.translate.instant('Confirm add card'),
+        message: `${this.translate.instant('Are you sure, you want to inlude this card')}: ${card?.name},
+         ${this.translate.instant('to your poke-desk')}?`,
         card,
       },
     });

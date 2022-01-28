@@ -12,10 +12,10 @@
     <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
       <div>{{ card?.name }}</div>
       <div>
-        <button mat-icon-button (click)="confirmAddToDesk(card)">
+        <button mat-icon-button (click)="confirmAddToDesk(card)" matTooltip="{{ 'Add to my desk' | translate }}">
           <mat-icon>add</mat-icon>
         </button>
-        <button mat-icon-button (click)="drawer.close()">
+        <button mat-icon-button (click)="drawer.close()" matTooltip="{{ 'Close details' | translate }}">
           <mat-icon>close</mat-icon>
         </button>
       </div>
