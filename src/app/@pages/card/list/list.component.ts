@@ -248,16 +248,11 @@ export class ListComponent implements OnInit, AfterViewInit {
         card,
       },
     });
-    confirmDialog.afterClosed().subscribe((result) => {
-      if (result === false) {
+    confirmDialog.afterClosed().subscribe((card) => {
+      if (card === false) {
         return;
       }
-      this.deskService.addToCart(result);
-      this.snackBar.open(`Card ${result.name} added to your desk`, 'Close', {
-        horizontalPosition: 'center',
-        verticalPosition: 'top',
-        panelClass: ['snackbar'],
-      });
+      this.deskService.addToCart(card);
     });
   }
 }
