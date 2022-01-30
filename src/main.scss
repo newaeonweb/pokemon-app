@@ -38,37 +38,25 @@ $custom-typography: mat.define-typography-config(
 .dark-theme {
   @include mat.all-component-themes($app-dark-theme);
 
+  .snackbar-fail {
+    background: #ff0800;
+    color: white;
+    width: 500px;
+    button {
+      background-color: #f44336;
+      color: rgb(255, 255, 255) !important;
+      border: none;
+    }
+  }
+
   // @include mat-toolbar-theme($app-theme);
 }
 
-.container {
-  padding: 1rem;
-}
+$p: mat.define-palette(mat.$grey-palette);
+$primary-palette: mat.get-color-from-palette($p, 600);
 
-.mat-card-header-text {
-  margin: 0 16px;
-  width: 100%;
-}
-
-.page-container {
-  margin: 0 auto;
-  padding: 16px;
-  background-color: rgb(202, 255, 230);
-}
-
-.header {
-  margin: 0 auto;
-  text-align: center;
-  border-bottom: 1px solid rgb(0, 160, 152);
-  margin-bottom: 10px;
-}
-
-.header h1 {
-  margin-bottom: -10px;
-}
-header p {
-  color: rgb(0, 128, 121);
-}
+$w: mat.define-palette(mat.$red-palette);
+$warn-palette: mat.get-color-from-palette($w, A400);
 
 html,
 body {
@@ -89,4 +77,24 @@ body {
 .flex-item {
   flex: 0 0 auto;
   align-self: flex-start;
+}
+
+.snackbar {
+  background: $primary-palette;
+  color: #ffffff;
+  width: 500px;
+}
+
+.snackbar-fail {
+  background: $warn-palette;
+  color: white;
+  width: 500px;
+  button {
+    color: rgb(255, 255, 255) !important;
+    border: none;
+  }
+}
+
+.mat-snack-bar-container {
+  max-width: 100% !important;
 }

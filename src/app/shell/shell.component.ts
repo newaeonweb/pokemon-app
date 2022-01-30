@@ -27,6 +27,6 @@ export class ShellComponent implements OnInit {
         ),
         untilDestroyed(this)
       )
-      .subscribe(() => this.sidenav.close());
+      .subscribe(() => this.sidenav?.close());
   }
 }

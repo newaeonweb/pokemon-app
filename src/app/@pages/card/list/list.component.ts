@@ -10,6 +10,12 @@ import { catchError, debounceTime, distinctUntilChanged, map, shareReplay, switc
 import { FilterRequest, PokemonService } from '../_services/pokemon.service';
 
 import { Logger } from '@core/logger.service';
+import { MatDrawer } from '@angular/material/sidenav';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { DeskService } from '../_services/desk.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Card } from '../_interfaces/card.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 const log = new Logger('card list');
 
@@ -22,7 +28,8 @@ const API_URL = environment.serverUrl;
 })
 export class ListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  characters$: Observable<any>;
+  @ViewChild('drawer') drawer: MatDrawer;
+  characters$: Observable<any[]>;
   searchTerm$ = new BehaviorSubject<any>('');
   resultsLength = 0;
   queryParams: Params;
@@ -35,13 +42,16 @@ export class ListComponent implements OnInit, AfterViewInit {
   setList: string[];
 
   activatedRoute: ActivatedRoute;
+  card: Card;
 
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
     private pokemonService: PokemonService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private deskService: DeskService,
+    private translate: TranslateService
   ) {
     this.characters$ = this.route.queryParams.pipe(
       debounceTime(300),
@@ -73,7 +83,6 @@ export class ListComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.paginator.page.subscribe(() => {
-      console.log(this.paginator);
       this.queryParams.page = this.paginator.pageIndex + 1;
       this.queryParams.pageSize = this.paginator.pageSize;
       this.characters$ = this.getCards();
@@ -116,7 +125,6 @@ export class ListComponent implements OnInit, AfterViewInit {
       }, {});
     // remove empty properties from object
     const query = Object.fromEntries(Object.entries(queryStringToObj).filter(([_, value]) => value != null));
-    console.log('🚀 ~ file: list.component.ts ~ line 119 ~ ListComponent ~ convertQueryStringToObject ~ query', query);
 
     return query;
   }
@@ -220,5 +228,32 @@ export class ListComponent implements OnInit, AfterViewInit {
       }),
       shareReplay(1)
     );
+  }
+
+  showDetails(card: any) {
+    this.card = card;
+    this.drawer.open();
+    document.querySelector('.mat-sidenav-content').scrollTop = 0;
+  }
+
+  addToDesk(card: any) {
+    this.confirmAddToDesk(card);
+  }
+
+  confirmAddToDesk(card: any) {
+    const confirmDialog = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: this.translate.instant('Confirm add card'),
+        message: `${this.translate.instant('Are you sure, you want to inlude this card')}: ${card?.name},
+         ${this.translate.instant('to your poke-desk')}?`,
+        card,
+      },
+    });
+    confirmDialog.afterClosed().subscribe((card) => {
+      if (card === false) {
+        return;
+      }
+      this.deskService.addToCart(card);
+    });
   }
 }

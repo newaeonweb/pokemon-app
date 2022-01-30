@@ -5,28 +5,10 @@ import { map, catchError } from 'rxjs/operators';
 import { withCache } from '@ngneat/cashew';
 import { environment } from '@env/environment';
 import { Params } from '@angular/router';
+import { HttpApiResponse } from '../_interfaces/http-api-response.interface';
+import { QueryParams } from '../_interfaces/query-params.interface';
 
 const API_URL = environment.serverUrl;
-
-export interface QueryParams {
-  query?: any;
-  page: number;
-  pageSize: number;
-  orderBy: string;
-}
-
-export interface FilterParams {
-  types?: string;
-  subtypes?: string;
-  supertypes?: string;
-}
-
-export interface HttpApiResponse {
-  page: number;
-  pageSize: number;
-  totalCount: number;
-  data: any;
-}
 
 export interface FilterRequest {
   data: string[];

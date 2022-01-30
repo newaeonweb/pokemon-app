@@ -1,0 +1,17 @@
+@use "sass:map";
+@use "@angular/material" as mat;
+@import "../../../../../../theme/theme-variables";
+
+$color-config: mat.get-color-config($app-theme);
+$primary-palette: mat.get-color-from-palette($app-primary, 600);
+
+.label {
+  padding-right: 10px;
+  color: $primary-palette;
+}
+
+ul {
+  li {
+    list-style: square;
+  }
+}

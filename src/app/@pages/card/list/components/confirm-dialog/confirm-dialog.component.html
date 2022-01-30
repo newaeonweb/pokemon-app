@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>{{ data.title }}</h1>
+<div mat-dialog-content>
+  {{ data.message }}
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-stroked-button type="button" [mat-dialog-close]="data.card"><span translate>Sim</span></button>
+  <button mat-button type="button" [mat-dialog-close]="false"><span translate></span>Não</button>
+</div>
