@@ -1,0 +1,21 @@
+<ng-template>
+  <div class="dropdown-content">
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+      <div fxFlex="80%">
+        <p translate>Pokemon Cards in your desk</p>
+      </div>
+      <div>
+        <button mat-icon-button (click)="closed.emit()" matTooltip="{{ 'Close' | translate }}">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+    <ng-content></ng-content>
+    <br />
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+      <button mat-stroked-button (click)="clearDesk()">
+        <mat-icon>delete_forever</mat-icon><span translate>Clear Desk</span>
+      </button>
+    </div>
+  </div>
+</ng-template>
