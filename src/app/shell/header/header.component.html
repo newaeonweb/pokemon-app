@@ -35,23 +35,31 @@
     </button>
   </mat-menu>
   <app-language-selector icon="true"></app-language-selector>
-  <button mat-icon-button *ngIf="cartItems$ | async as items" [matMenuTriggerFor]="menuDesk">
+
+  <button mat-icon-button [appDropdownTrigger]="dropdown" *ngIf="cartItems$ | async as items">
     <mat-icon [matBadge]="items.length" matBadgeColor="accent">shopping_bag</mat-icon>
-    <mat-menu #menuDesk="matMenu">
-      <mat-list>
-        <mat-list-item *ngIf="items.length <= 0"><span translate>Your cart is empty</span></mat-list-item>
-        <mat-list-item *ngFor="let card of items">
-          <img width="50px" src="{{ card.images.small }}" alt="{{ card.name }}" />
-          <h3 matLine>{{ card.name }}</h3>
-          <p matLine>{{ card.supertype }}</p>
-          <p matLine>{{ card.set.name }} -- {{ card.set.series }}</p>
-        </mat-list-item>
-        <mat-list-item *ngIf="items.length > 0">
-          <button mat-flat-button (click)="clearDesk()">
-            <mat-icon>delete_forever</mat-icon><span translate>Clear Desk</span>
-          </button>
-        </mat-list-item>
-      </mat-list>
-    </mat-menu>
   </button>
+
+  <app-dropdown #dropdown>
+    <table *ngIf="cartItems$ | async as items">
+      <span translate *ngIf="items.length <= 0; else showHeader">Your cart is empty</span>
+      <ng-template #showHeader>
+        <tr>
+          <th class="align-center" translate>Cover</th>
+          <th translate>Name</th>
+          <th translate>Series</th>
+          <th class="align-center" translate>Remove</th>
+        </tr>
+      </ng-template>
+
+      <tr *ngFor="let card of items">
+        <td class="align-center"><img width="50px" src="{{ card.images.small }}" alt="{{ card.name }}" /></td>
+        <td>{{ card.name }}</td>
+        <td>{{ card.set.series }}</td>
+        <td class="align-center">
+          <button mat-button><mat-icon>delete_outline</mat-icon></button>
+        </td>
+      </tr>
+    </table>
+  </app-dropdown>
 </mat-toolbar>

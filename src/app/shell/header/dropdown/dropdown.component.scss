@@ -1,0 +1,12 @@
+.dropdown-content {
+  width: 500px;
+  padding: 20px;
+  display: flexbox;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 10px 20px rgba(64, 64, 64, 0.15);
+
+  p {
+    margin: 0;
+  }
+}

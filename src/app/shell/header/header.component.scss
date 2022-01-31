@@ -28,3 +28,29 @@
     padding: 10px;
   }
 }
+
+table {
+  margin-top: 20px;
+  width: 100%;
+}
+td,
+th {
+  border: 1px solid #ddd;
+  padding: 4px;
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+tr:hover {
+  background-color: #ddd;
+}
+th {
+  text-align: left;
+  background-color: #d8d8d8;
+  font-weight: 400;
+  color: #000000;
+}
+
+.align-center {
+  text-align: center;
+}
