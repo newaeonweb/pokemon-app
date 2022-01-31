@@ -12,7 +12,7 @@
     </div>
     <ng-content></ng-content>
     <br />
-    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px" *ngIf="(cartItems$ | async).length">
       <button mat-stroked-button (click)="clearDesk()">
         <mat-icon>delete_forever</mat-icon><span translate>Clear Desk</span>
       </button>
