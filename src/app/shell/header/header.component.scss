@@ -32,22 +32,21 @@
 table {
   margin-top: 20px;
   width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 td,
 th {
-  border: 1px solid #ddd;
   padding: 4px;
 }
 tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: #f1f1f1;
 }
-tr:hover {
-  background-color: #ddd;
-}
+
 th {
   text-align: left;
-  background-color: #d8d8d8;
-  font-weight: 400;
+  background-color: #f7f7f7;
+  font-weight: 300;
   color: #000000;
 }
 
