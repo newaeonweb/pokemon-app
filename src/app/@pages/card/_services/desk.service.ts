@@ -54,4 +54,10 @@ export class DeskService {
       this.snackbar.open(this.translate.instant('Your desk is clean'), this.translate.instant('Close'));
     }
   }
+
+  removeItem(id: string) {
+    const index = this.existingCartItems.findIndex((item) => item.id === id);
+    this.existingCartItems.splice(index, 1);
+    localStorage.setItem('card', JSON.stringify(this.existingCartItems));
+  }
 }

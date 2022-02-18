@@ -57,7 +57,7 @@
         <td>{{ card.name }}</td>
         <td>{{ card.set.series }}</td>
         <td class="align-center">
-          <button mat-button><mat-icon>delete_outline</mat-icon></button>
+          <button mat-button (click)="removeItem(card.id)"><mat-icon>delete_outline</mat-icon></button>
         </td>
       </tr>
     </table>

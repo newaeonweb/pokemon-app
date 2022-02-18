@@ -45,4 +45,8 @@ export class HeaderComponent implements OnInit {
   clearDesk() {
     this.deskService.cleanCart();
   }
+
+  removeItem(id: string) {
+    this.deskService.removeItem(id);
+  }
 }
