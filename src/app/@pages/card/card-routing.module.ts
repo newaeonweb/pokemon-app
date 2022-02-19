@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { marker } from '@biesbjerg/ngx-translate-extract-marker';
-import { CardListComponent } from './card-list/card-list.component';
 import { CardComponent } from './card.component';
 import { ListComponent } from './list/list.component';
 

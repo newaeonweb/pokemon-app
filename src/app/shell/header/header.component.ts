@@ -1,7 +1,6 @@
 import { Title } from '@angular/platform-browser';
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Router } from '@angular/router';
 import { MatSidenav } from '@angular/material/sidenav';
 import { DeskService } from '@app/@pages/card/_services/desk.service';
 

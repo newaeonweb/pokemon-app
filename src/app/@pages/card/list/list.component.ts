@@ -13,7 +13,6 @@ import { Logger } from '@core/logger.service';
 import { MatDrawer } from '@angular/material/sidenav';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { DeskService } from '../_services/desk.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Card } from '../_interfaces/card.interface';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -124,9 +123,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         return obj;
       }, {});
     // remove empty properties from object
-    const query = Object.fromEntries(Object.entries(queryStringToObj).filter(([_, value]) => value != null));
-
-    return query;
+    return Object.fromEntries(Object.entries(queryStringToObj).filter(([_, value]) => value != null));
   }
 
   updateUrlQueryParams() {
@@ -210,6 +207,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   getCards(): Observable<any> {
+    log.info('getCards');
     return this.pokemonService.getAll(this.queryParams).pipe(
       map((res: any) => {
         this.resultsLength = res.totalCount;
@@ -224,7 +222,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         if (err.status === 404) {
           alert('Nenhum resultado encontrado');
         }
-        return (this.characters$ = of([]));
+        return of([]);
       }),
       shareReplay(1)
     );
@@ -249,11 +247,11 @@ export class ListComponent implements OnInit, AfterViewInit {
         card,
       },
     });
-    confirmDialog.afterClosed().subscribe((card) => {
-      if (card === false) {
+    confirmDialog.afterClosed().subscribe((item) => {
+      if (item === false) {
         return;
       }
-      this.deskService.addToCart(card);
+      this.deskService.addToCart(item);
     });
   }
 }

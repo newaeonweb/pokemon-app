@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, OnInit } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -16,8 +16,6 @@ import { HomeModule } from './@pages/home/home.module';
 import { ShellModule } from './shell/shell.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
-import { Logger } from '@core/logger.service';
 
 @NgModule({
   imports: [
@@ -40,10 +38,4 @@ import { Logger } from '@core/logger.service';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule implements OnInit {
-  ngOnInit(): void {
-    if (environment.production) {
-      Logger.enableProductionMode();
-    }
-  }
-}
+export class AppModule {}

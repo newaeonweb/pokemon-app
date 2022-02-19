@@ -7,6 +7,8 @@ import { BehaviorSubject, Observable, share } from 'rxjs';
 export class LoaderService {
   private isLoading$ = new BehaviorSubject<boolean>(false);
 
+  constructor() {}
+
   show() {
     this.isLoading$.next(true);
   }
@@ -18,6 +20,4 @@ export class LoaderService {
   isVisible(): Observable<boolean> {
     return this.isLoading$.asObservable().pipe(share());
   }
-
-  constructor() {}
 }

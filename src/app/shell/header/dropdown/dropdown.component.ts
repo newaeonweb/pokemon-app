@@ -1,4 +1,3 @@
-import { ViewEncapsulation } from '@angular/compiler';
 import { Component, EventEmitter, Output, TemplateRef, ViewChild } from '@angular/core';
 import { DeskService } from '@app/@pages/card/_services/desk.service';
 import { DropdownPanel } from './dropdown-panel';
