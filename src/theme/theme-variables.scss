@@ -12,7 +12,7 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
 // stylelint-disable-next-line value-keyword-case
-$app-primary: mat.define-palette(mat.$amber-palette, A400, A600, A900);
+$app-primary: mat.define-palette(mat.$amber-palette, A400, A700);
 // stylelint-disable-next-line value-keyword-case
 $app-accent: mat.define-palette(mat.$deep-orange-palette, A200, A100, A400);
 
