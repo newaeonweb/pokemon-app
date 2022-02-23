@@ -9,7 +9,7 @@
 
 // Theme customization
 @import "theme/theme";
-@import "theme/custom-component-themes.scss";
+@import "theme/custom-component-themes";
 
 // 3rd party libraries
 @import "~material-design-icons-iconfont/src/material-design-icons";
@@ -35,6 +35,22 @@ $custom-typography: mat.define-typography-config(
 @include mat.all-component-themes($app-theme);
 @include custom-components-theme($app-theme);
 
+$p: mat.define-palette(mat.$grey-palette);
+$primary-palette: mat.get-color-from-palette($p, 600);
+$w: mat.define-palette(mat.$red-palette);
+$warn-palette: mat.get-color-from-palette($w, a400);
+
+.snackbar-fail {
+  background: $warn-palette;
+  color: white;
+  width: 500px;
+
+  button {
+    color: rgb(255 255 255);
+    border: none;
+  }
+}
+
 .dark-theme {
   @include mat.all-component-themes($app-dark-theme);
 
@@ -42,21 +58,16 @@ $custom-typography: mat.define-typography-config(
     background: #ff0800;
     color: white;
     width: 500px;
+
     button {
       background-color: #f44336;
-      color: rgb(255, 255, 255) !important;
+      color: rgb(255 255 255);
       border: none;
     }
   }
 
   // @include mat-toolbar-theme($app-theme);
 }
-
-$p: mat.define-palette(mat.$grey-palette);
-$primary-palette: mat.get-color-from-palette($p, 600);
-
-$w: mat.define-palette(mat.$red-palette);
-$warn-palette: mat.get-color-from-palette($w, A400);
 
 html,
 body {
@@ -68,7 +79,6 @@ body {
 .flex-container {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
   justify-content: space-around;
   align-content: center;
   align-items: flex-start;
@@ -81,20 +91,10 @@ body {
 
 .snackbar {
   background: $primary-palette;
-  color: #ffffff;
+  color: #fff;
   width: 500px;
-}
-
-.snackbar-fail {
-  background: $warn-palette;
-  color: white;
-  width: 500px;
-  button {
-    color: rgb(255, 255, 255) !important;
-    border: none;
-  }
 }
 
 .mat-snack-bar-container {
-  max-width: 100% !important;
+  max-width: 100%;
 }
