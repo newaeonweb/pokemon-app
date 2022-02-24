@@ -27,6 +27,7 @@
       &[color="#{$key}"] {
         // @include mat.toolbar-color($val);
         .mat-list-base {
+          /* stylelint-disable-next-line max-nesting-depth */
           .mat-list-item {
             color: #fff;
           }
