@@ -28,12 +28,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - shell: bash
-        run: |
-          git config user.name "newaeonweb"
-          git config user.email "fsilvasmonteiro@gmail.com"
-          git config push.default "current"
-          ./run
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -91,6 +85,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB_ACTION }}
-          BRANCH: gh-pages
-          FOLDER: dist
+          branch: gh-pages
+          folder: dist
