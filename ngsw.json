@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1645913580494,
+  "timestamp": 1645914064183,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -15,7 +15,7 @@
         "/805.8758037ab2ab3e5b.js",
         "/favicon.ico",
         "/index.html",
-        "/main.3ddc391725c95b70.js",
+        "/main.5fa559fb4cc1f0fb.js",
         "/manifest.webmanifest",
         "/polyfills.ca94550bcd70118a.js",
         "/runtime.e0a8e010a2d3741a.js",
@@ -56,8 +56,8 @@
     "/assets/ngx-rocket-logo@192.png": "461b730f9c6dc818f8af9acbe62dfde24dc02d7a",
     "/assets/pokemon.jpeg": "378128e63e294a70765e56801279e608fc6636b1",
     "/favicon.ico": "b65083d46bbf63692d5d2cdd69622e6d7ecae317",
-    "/index.html": "1d01c2319bf759abf056f8ec93e27500206de730",
-    "/main.3ddc391725c95b70.js": "8158a470c8bbccef5b7cc15b065cf442f39a7e86",
+    "/index.html": "e104a3b8b8bce571b0730c9994727c2340f577bf",
+    "/main.5fa559fb4cc1f0fb.js": "2dd9f3b885f9a8e50c3e728f6c8e3629ce3141dc",
     "/manifest.webmanifest": "27d8a91784041d23ff0078bfcbf2a4bcd2b0c807",
     "/polyfills.ca94550bcd70118a.js": "9f912cc9907768d2fa8c5fd411d226cc2a16f6a1",
     "/runtime.e0a8e010a2d3741a.js": "cffa5aeca379a57e2b0c29028eec7bafea125a97",
