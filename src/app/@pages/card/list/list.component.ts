@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -28,6 +28,8 @@ const API_URL = environment.serverUrl;
 export class ListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('drawer') drawer: MatDrawer;
+  @ViewChild('toTop') toTop: ElementRef;
+
   characters$: Observable<any[]>;
   searchTerm$ = new BehaviorSubject<any>('');
   resultsLength = 0;
@@ -86,6 +88,9 @@ export class ListComponent implements OnInit, AfterViewInit {
       this.queryParams.pageSize = this.paginator.pageSize;
       this.characters$ = this.getCards();
       this.updateUrlQueryParams();
+      this.toTop.nativeElement.scrollIntoView({
+        behavior: 'smooth',
+      });
     });
   }
 
