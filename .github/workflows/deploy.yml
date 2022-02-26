@@ -78,6 +78,9 @@ jobs:
           release_name: ${{ steps.changelog.outputs.tag }}
           body: ${{ steps.changelog.outputs.clean_changelog }}
 
-      - name: Deploy GH Pages
-        run: |
-          npm run deploy
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB_ACTION }}
+          BRANCH: gh-pages
+          FOLDER: dist
