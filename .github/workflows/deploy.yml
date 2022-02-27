@@ -85,8 +85,8 @@ jobs:
       #     release_name: ${{ steps.changelog.outputs.tag }}
       #     body: ${{ steps.changelog.outputs.clean_changelog }}
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/v3
-        with:
-          branch: gh-pages
-          folder: dist
+      # - name: Deploy to GitHub Pages
+      #   uses: JamesIves/github-pages-deploy-action@releases/v3
+      #   with:
+      #     branch: gh-pages
+      #     folder: dist
