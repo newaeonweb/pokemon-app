@@ -3,6 +3,10 @@ import { Component, OnInit, Input, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { MatSidenav } from '@angular/material/sidenav';
 import { DeskService } from '@app/@pages/card/_services/desk.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '@app/@pages/card/list/components/confirm-dialog/confirm-dialog.component';
+import { TranslateService } from '@ngx-translate/core';
+import { Card } from '@app/@pages/card/_interfaces/card.interface';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +17,13 @@ export class HeaderComponent implements OnInit {
   @Input() sidenav!: MatSidenav;
   cartItems$ = this.deskService.items$;
 
-  constructor(@Inject(DOCUMENT) private document: any, private titleService: Title, private deskService: DeskService) {}
+  constructor(
+    @Inject(DOCUMENT) private document: any,
+    public dialog: MatDialog,
+    private titleService: Title,
+    private translate: TranslateService,
+    private deskService: DeskService
+  ) {}
 
   ngOnInit() {
     this.currentTheme();
@@ -45,7 +55,26 @@ export class HeaderComponent implements OnInit {
     this.deskService.cleanCart();
   }
 
-  removeItem(id: string) {
-    this.deskService.removeItem(id);
+  removeItem(card: Card) {
+    this.confirmDialog(card);
+  }
+
+  confirmDialog(card?: Card) {
+    const confirmDialog = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: this.translate.instant('Confirm action'),
+        message: `${this.translate.instant(
+          'Are you sure, you want to exclude this card'
+        )}: ${card?.name},
+         ${this.translate.instant('from your poke-desk')}?`,
+        card,
+      },
+    });
+    confirmDialog.afterClosed().subscribe((item) => {
+      if (item === false) {
+        return;
+      }
+      this.deskService.removeItem(item.id);
+    });
   }
 }

@@ -262,7 +262,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   confirmAddToDesk(card: any) {
     const confirmDialog = this.dialog.open(ConfirmDialogComponent, {
       data: {
-        title: this.translate.instant('Confirm add card'),
+        title: this.translate.instant('Confirm action'),
         message: `${this.translate.instant(
           'Are you sure, you want to inlude this card'
         )}: ${card?.name},
