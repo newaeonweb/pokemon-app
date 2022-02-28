@@ -34,15 +34,23 @@
       <span translate>Change Theme</span>
     </button>
   </mat-menu>
-  <app-language-selector icon="true"></app-language-selector>
+  <app-language-selector [icon]="true"></app-language-selector>
 
-  <button mat-icon-button [appDropdownTrigger]="dropdown" *ngIf="cartItems$ | async as items">
-    <mat-icon [matBadge]="items.length" matBadgeColor="accent">shopping_bag</mat-icon>
+  <button
+    mat-icon-button
+    [appDropdownTrigger]="dropdown"
+    *ngIf="cartItems$ | async as items"
+  >
+    <mat-icon [matBadge]="items.length" matBadgeColor="accent"
+      >shopping_bag</mat-icon
+    >
   </button>
 
   <app-dropdown #dropdown>
     <table *ngIf="cartItems$ | async as items">
-      <span translate *ngIf="items.length <= 0; else showHeader">Your cart is empty</span>
+      <span translate *ngIf="items.length <= 0; else showHeader"
+        >Your cart is empty</span
+      >
       <ng-template #showHeader>
         <tr>
           <th class="align-center" translate>Cover</th>
@@ -53,11 +61,19 @@
       </ng-template>
 
       <tr *ngFor="let card of items">
-        <td class="align-center"><img width="50px" src="{{ card.images.small }}" alt="{{ card.name }}" /></td>
+        <td class="align-center">
+          <img
+            width="50px"
+            src="{{ card.images.small }}"
+            alt="{{ card.name }}"
+          />
+        </td>
         <td>{{ card.name }}</td>
         <td>{{ card.set.series }}</td>
         <td class="align-center">
-          <button mat-button (click)="removeItem(card.id)"><mat-icon>delete_outline</mat-icon></button>
+          <button mat-button (click)="removeItem(card.id)">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
         </td>
       </tr>
     </table>

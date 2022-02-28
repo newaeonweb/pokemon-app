@@ -1,12 +1,26 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { FilterRequest, PokemonService } from '../_services/pokemon.service';
 
 import { Logger } from '@core/logger.service';
@@ -37,9 +51,9 @@ export class ListComponent implements OnInit, AfterViewInit {
   formFilter: FormGroup;
   searchListText = '';
 
-  typesList: Observable<string[]>;
-  subtypesList: Observable<string[]>;
-  supertypesList: Observable<string[]>;
+  typesList: string[];
+  subtypesList: string[];
+  supertypesList: string[];
   setList: string[];
 
   activatedRoute: ActivatedRoute;
@@ -128,7 +142,9 @@ export class ListComponent implements OnInit, AfterViewInit {
         return obj;
       }, {});
     // remove empty properties from object
-    return Object.fromEntries(Object.entries(queryStringToObj).filter(([_, value]) => value != null));
+    return Object.fromEntries(
+      Object.entries(queryStringToObj).filter(([_, value]) => value != null)
+    );
   }
 
   updateUrlQueryParams() {
@@ -247,7 +263,9 @@ export class ListComponent implements OnInit, AfterViewInit {
     const confirmDialog = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: this.translate.instant('Confirm add card'),
-        message: `${this.translate.instant('Are you sure, you want to inlude this card')}: ${card?.name},
+        message: `${this.translate.instant(
+          'Are you sure, you want to inlude this card'
+        )}: ${card?.name},
          ${this.translate.instant('to your poke-desk')}?`,
         card,
       },

@@ -21,9 +21,12 @@
     "statusBarItem.remoteBackground": "#e0c8ee",
     "statusBarItem.remoteForeground": "#15202b"
   },
-  "peacock.color": "#e0c8ee",
   "editor.formatOnSave": false,
-  "[javascript, typescript]": {
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },

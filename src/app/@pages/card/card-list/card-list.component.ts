@@ -1,6 +1,9 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { PokemonService, FilterRequest } from '@app/@pages/card/_services/pokemon.service';
+import {
+  PokemonService,
+  FilterRequest,
+} from '@app/@pages/card/_services/pokemon.service';
 import { forkJoin, Observable } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -14,7 +17,7 @@ import { QueryParams } from '../_interfaces/query-params.interface';
 })
 export class CardListComponent implements OnInit, AfterViewInit {
   @ViewChild('paginator') paginator: MatPaginator;
-  cards$: Observable<HttpApiResponse>;
+  cards$: Observable<any>;
   isLoading = false;
   isRecordsFound = false;
   isError: boolean;
@@ -26,9 +29,9 @@ export class CardListComponent implements OnInit, AfterViewInit {
     subtypes: '',
     supertypes: '',
   };
-  typesList: Observable<string[]>;
-  subtypesList: Observable<string[]>;
-  supertypesList: Observable<string[]>;
+  typesList: string[];
+  subtypesList: string[];
+  supertypesList: string[];
 
   activatedRoute: ActivatedRoute;
   request: QueryParams = {
@@ -37,7 +40,11 @@ export class CardListComponent implements OnInit, AfterViewInit {
     orderBy: 'name',
   };
 
-  constructor(private pokemonService: PokemonService, private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private pokemonService: PokemonService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   // Declare lifecycle methods first
   ngOnInit() {
@@ -88,16 +95,17 @@ export class CardListComponent implements OnInit, AfterViewInit {
         this.isError = err.message;
       }),
       finalize(() => (this.isLoading = false)),
-      tap((response: HttpApiResponse) => {
-        if (response?.data.length === 0 || response?.data === undefined) {
+      map((response: HttpApiResponse) => {
+        const { page, pageSize, totalCount, data } = response;
+
+        if (data.length === 0 || data === undefined) {
           this.isRecordsFound = true;
           return;
         }
-        this.page = response.page;
-        this.pageSize = response.pageSize;
-        this.totalCount = response.totalCount;
-      }),
-      map((response: HttpApiResponse) => response.data)
+        this.page = page;
+        this.pageSize = pageSize;
+        this.totalCount = totalCount;
+      })
     );
   }
 
