@@ -1,3 +1,12 @@
+## [1.2.5](https://github.com/newaeonweb/pokemon-app/compare/v1.2.4...v1.2.5) (2022-02-28)
+
+
+### Bug Fixes
+
+* translations and css ([c90aa0b](https://github.com/newaeonweb/pokemon-app/commit/c90aa0bdbed35f06bf9956f62c4b89bd557dc4cb))
+
+
+
 ## [1.2.4](https://github.com/newaeonweb/pokemon-app/compare/v1.2.3...v1.2.4) (2022-02-28)
 
 
@@ -16,15 +25,6 @@
 
 
 ## [1.2.1](https://github.com/newaeonweb/pokemon-app/compare/v1.2.0...v1.2.1) (2022-02-27)
-
-
-
-# [1.2.0](https://github.com/newaeonweb/pokemon-app/compare/v1.1.0...v1.2.0) (2022-02-26)
-
-
-### Features
-
-* add loader and scroll top when page change ([#10](https://github.com/newaeonweb/pokemon-app/issues/10)) ([0e70b09](https://github.com/newaeonweb/pokemon-app/commit/0e70b0992e19a731cbc8226412b9a66d6d58dd8f))
 
 
 

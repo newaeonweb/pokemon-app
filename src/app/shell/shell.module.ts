@@ -14,7 +14,21 @@ import { DropdownTriggerDirective } from './header/dropdown/dropdown-trigger.dir
 import { DropdownComponent } from './header/dropdown/dropdown.component';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, TranslateModule, FlexLayoutModule, MaterialModule, I18nModule, RouterModule],
-  declarations: [HeaderComponent, ShellComponent, LoaderComponent, DropdownTriggerDirective, DropdownComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TranslateModule,
+    FlexLayoutModule,
+    MaterialModule,
+    I18nModule,
+    RouterModule,
+  ],
+  declarations: [
+    HeaderComponent,
+    ShellComponent,
+    LoaderComponent,
+    DropdownTriggerDirective,
+    DropdownComponent,
+  ],
 })
 export class ShellModule {}

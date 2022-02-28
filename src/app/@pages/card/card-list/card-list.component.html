@@ -2,13 +2,23 @@
   <div fxLayout="row" fxLayoutAlign="center start">
     <h1 translate>Pokemon Cards</h1>
   </div>
-  <div fxLayout="row wrap" fxLayoutGap="16px grid" fxLayout.lt-sm="column" fxLayoutAlign="space-between center">
+  <div
+    fxLayout="row wrap"
+    fxLayoutGap="16px grid"
+    fxLayout.lt-sm="column"
+    fxLayoutAlign="space-between center"
+  >
     <div fxFlex="25%" fxFlex.lt-md="50%" fxFlex.lt-sm="100%">
       <mat-form-field>
         <mat-label><span translate>Filter by supertypes</span></mat-label>
         <mat-select [(ngModel)]="filters.supertypes">
           <mat-option><span translate>All</span></mat-option>
-          <mat-option *ngFor="let supertypes of supertypesList" [value]="supertypes"> {{ supertypes }}</mat-option>
+          <mat-option
+            *ngFor="let supertypes of supertypesList"
+            [value]="supertypes"
+          >
+            {{ supertypes }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
     </div>
@@ -17,7 +27,9 @@
         <mat-label><span translate>Filter by types</span></mat-label>
         <mat-select [(ngModel)]="filters.types">
           <mat-option><span translate>All</span></mat-option>
-          <mat-option *ngFor="let types of typesList" [value]="types"> {{ types }}</mat-option>
+          <mat-option *ngFor="let types of typesList" [value]="types">
+            {{ types }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
     </div>
@@ -26,13 +38,21 @@
         <mat-label><span translate>Filter by subtypes</span></mat-label>
         <mat-select [(ngModel)]="filters.subtypes">
           <mat-option><span translate>All</span></mat-option>
-          <mat-option *ngFor="let subtypes of subtypesList" [value]="subtypes"> {{ subtypes }}</mat-option>
+          <mat-option *ngFor="let subtypes of subtypesList" [value]="subtypes">
+            {{ subtypes }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
     </div>
 
     <div fxLayout="row wrap" fxLayoutAlign="space-between center">
-      <button class="my-custom-button" fxFlex mat-flat-button color="primary" (click)="applyAllFilters()">
+      <button
+        class="my-custom-button"
+        fxFlex
+        mat-flat-button
+        color="primary"
+        (click)="applyAllFilters()"
+      >
         <span translate>Apply Filters</span>
       </button>
       <button fxFlex mat-button color="primary" (click)="clearFilters()">
@@ -43,8 +63,12 @@
 
   <br />
 
-  <div *ngIf="isRecordsFound" fxLayout="row" fxLayoutAlign="center start">No records found</div>
-  <div *ngIf="isError" fxLayout="row" fxLayoutAlign="center start">{{ isError }}</div>
+  <div *ngIf="isRecordsFound" fxLayout="row" fxLayoutAlign="center start">
+    No records found
+  </div>
+  <div *ngIf="isError" fxLayout="row" fxLayoutAlign="center start">
+    {{ isError }}
+  </div>
 
   <div class="card-content" *ngIf="cards$ | async as cardsList">
     <div
@@ -68,7 +92,8 @@
                 <p>
                   <strong> Supertype:</strong> {{ card.supertype }} <br />
                   <strong> Subtypes:</strong>
-                  <span *ngFor="let item of card.subtypes">{{ item }}</span> <br />
+                  <span *ngFor="let item of card.subtypes">{{ item }}</span>
+                  <br />
 
                   <span *ngFor="let item of card.types">
                     <strong>Types:</strong>
@@ -80,7 +105,11 @@
 
             <mat-card-content>
               <div class="img-placeholder">
-                <img src="{{ card.images.small }}" alt="{{ card.name }}" loading="lazy" />
+                <img
+                  src="{{ card.images.small }}"
+                  alt="{{ card.name }}"
+                  loading="lazy"
+                />
               </div>
             </mat-card-content>
           </mat-card>

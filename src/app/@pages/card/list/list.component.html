@@ -1,4 +1,7 @@
-<mat-sidenav-container [class.drawer-opened]="drawer.opened" [hasBackdrop]="true">
+<mat-sidenav-container
+  [class.drawer-opened]="drawer.opened"
+  [hasBackdrop]="true"
+>
   <mat-sidenav
     #drawer
     class="drawer"
@@ -12,10 +15,18 @@
     <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
       <div>{{ card?.name }}</div>
       <div>
-        <button mat-icon-button (click)="confirmAddToDesk(card)" matTooltip="{{ 'Add to my desk' | translate }}">
+        <button
+          mat-icon-button
+          (click)="confirmAddToDesk(card)"
+          matTooltip="{{ 'Add to my desk' | translate }}"
+        >
           <mat-icon>add</mat-icon>
         </button>
-        <button mat-icon-button (click)="drawer.close()" matTooltip="{{ 'Close details' | translate }}">
+        <button
+          mat-icon-button
+          (click)="drawer.close()"
+          matTooltip="{{ 'Close details' | translate }}"
+        >
           <mat-icon>close</mat-icon>
         </button>
       </div>
@@ -33,8 +44,15 @@
       <form [formGroup]="formFilter" #toTop>
         <div class="flex-container">
           <mat-form-field>
-            <mat-label><span translate>Search card by Pokémon name</span></mat-label>
-            <input matInput #search (keyup)="dispatchSearch(search.value)" formControlName="searchField" />
+            <mat-label
+              ><span translate>Search card by Pokémon name</span></mat-label
+            >
+            <input
+              matInput
+              #search
+              (keyup)="dispatchSearch(search.value)"
+              formControlName="searchField"
+            />
             <button
               type="text"
               mat-button
@@ -49,13 +67,20 @@
           </mat-form-field>
         </div>
 
-        <div fxLayout="row wrap" fxLayoutGap="6px" fxLayoutAlign="center center">
+        <div
+          fxLayout="row wrap"
+          fxLayoutGap="6px"
+          fxLayoutAlign="center center"
+        >
           <div fxFlex="20">
             <mat-form-field appearance="fill">
               <mat-label><span translate>Filter by supertypes</span></mat-label>
               <mat-select formControlName="supertype">
                 <mat-option [value]="''"><span translate>All</span></mat-option>
-                <mat-option *ngFor="let supertypes of supertypesList" [value]="supertypes">
+                <mat-option
+                  *ngFor="let supertypes of supertypesList"
+                  [value]="supertypes"
+                >
                   {{ supertypes }}</mat-option
                 >
               </mat-select>
@@ -66,7 +91,9 @@
               <mat-label><span translate>Filter by types</span></mat-label>
               <mat-select formControlName="types">
                 <mat-option [value]="''"><span translate>All</span></mat-option>
-                <mat-option *ngFor="let types of typesList" [value]="types"> {{ types }}</mat-option>
+                <mat-option *ngFor="let types of typesList" [value]="types">
+                  {{ types }}</mat-option
+                >
               </mat-select>
             </mat-form-field>
           </div>
@@ -75,7 +102,12 @@
               <mat-label><span translate>Filter by subtypes</span></mat-label>
               <mat-select formControlName="subtypes">
                 <mat-option [value]="''"><span translate>All</span></mat-option>
-                <mat-option *ngFor="let subtypes of subtypesList" [value]="subtypes"> {{ subtypes }}</mat-option>
+                <mat-option
+                  *ngFor="let subtypes of subtypesList"
+                  [value]="subtypes"
+                >
+                  {{ subtypes }}</mat-option
+                >
               </mat-select>
             </mat-form-field>
           </div>
@@ -102,8 +134,14 @@
                   <mat-icon>close</mat-icon>
                 </button>
                 <mat-option [value]="''"><span translate>All</span></mat-option>
-                <mat-option *ngFor="let set of setList | selectSearch: searchListText" [value]="set.name">
-                  <span class="set-symbol"> <img [src]="set.images.symbol" alt="symbol" /> </span> {{ set.name }}
+                <mat-option
+                  *ngFor="let set of setList | selectSearch: searchListText"
+                  [value]="set.name"
+                >
+                  <span class="set-symbol">
+                    <img [src]="set.images.symbol" alt="symbol" />
+                  </span>
+                  {{ set.name }}
                 </mat-option>
               </mat-select>
             </mat-form-field>

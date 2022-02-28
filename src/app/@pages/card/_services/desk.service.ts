@@ -12,7 +12,10 @@ export class DeskService {
   items$ = this.itemsSubject.asObservable();
   existingCartItems: Card[] = [];
 
-  constructor(private snackbar: MatSnackBar, private translate: TranslateService) {
+  constructor(
+    private snackbar: MatSnackBar,
+    private translate: TranslateService
+  ) {
     this.existingCartItems = JSON.parse(localStorage.getItem('card'));
     if (!this.existingCartItems) {
       this.existingCartItems = [];
@@ -23,7 +26,9 @@ export class DeskService {
   addToCart(card: Card) {
     if (this.existingCartItems.find((c) => c.id === card.id)) {
       this.snackbar.open(
-        `${this.translate.instant('Card')}: ${card.name} ${this.translate.instant('already in your desk')}`,
+        `${this.translate.instant('Card')}: ${
+          card.name
+        } ${this.translate.instant('already in your desk')}`,
         this.translate.instant('Close'),
         {
           panelClass: ['snackbar-fail'],
@@ -38,7 +43,9 @@ export class DeskService {
           cards.push(card);
           localStorage.setItem('card', JSON.stringify(cards));
           this.snackbar.open(
-            `${this.translate.instant('Card')}: ${card.name} ${this.translate.instant('added to your desk')}`,
+            `${this.translate.instant('Card')}: ${
+              card.name
+            } ${this.translate.instant('added to your desk')}`,
             this.translate.instant('Close')
           );
         })
@@ -51,7 +58,10 @@ export class DeskService {
     if (existingCartItems) {
       localStorage.removeItem('card');
       this.itemsSubject.next([]);
-      this.snackbar.open(this.translate.instant('Your desk is clean'), this.translate.instant('Close'));
+      this.snackbar.open(
+        this.translate.instant('Your desk is clean'),
+        this.translate.instant('Close')
+      );
     }
   }
 

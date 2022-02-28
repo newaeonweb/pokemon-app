@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpInterceptor,
+  HttpHandler,
+  HttpRequest,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '@env/environment';
@@ -15,7 +21,10 @@ import { finalize } from 'rxjs/operators';
 export class ApiPrefixInterceptor implements HttpInterceptor {
   constructor(public loaderService: LoaderService) {}
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     this.loaderService.show();
 
     if (!/^(http|https):/i.test(request.url)) {

@@ -1,4 +1,11 @@
-import { Directive, ElementRef, HostListener, Input, OnDestroy, ViewContainerRef } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  Input,
+  OnDestroy,
+  ViewContainerRef,
+} from '@angular/core';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { merge, Observable, Subscription } from 'rxjs';
 import { TemplatePortal } from '@angular/cdk/portal';
@@ -43,10 +50,15 @@ export class DropdownTriggerDirective implements OnDestroy {
         ]),
     });
 
-    const templatePortal = new TemplatePortal(this.dropdownPanel.templateRef, this.viewContainerRef);
+    const templatePortal = new TemplatePortal(
+      this.dropdownPanel.templateRef,
+      this.viewContainerRef
+    );
     this.overlayRef.attach(templatePortal);
 
-    this.dropdownClosingActionsSub = this.dropdownClosingActions().subscribe(() => this.destroyDropdown());
+    this.dropdownClosingActionsSub = this.dropdownClosingActions().subscribe(
+      () => this.destroyDropdown()
+    );
   }
 
   private dropdownClosingActions(): Observable<MouseEvent | void> {

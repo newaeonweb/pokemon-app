@@ -10,7 +10,12 @@ describe('AppComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [Angulartics2Module.forRoot(), RouterTestingModule, TranslateModule.forRoot(), CoreModule],
+        imports: [
+          Angulartics2Module.forRoot(),
+          RouterTestingModule,
+          TranslateModule.forRoot(),
+          CoreModule,
+        ],
         declarations: [AppComponent],
         providers: [],
       }).compileComponents();

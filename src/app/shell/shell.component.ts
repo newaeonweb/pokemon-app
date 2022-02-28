@@ -15,7 +15,10 @@ import { LoaderService } from '@app/@shared/loader/loader.service';
 export class ShellComponent implements OnInit {
   @ViewChild('sidenav', { static: false }) sidenav!: MatSidenav;
 
-  constructor(private media: MediaObserver, public loaderService: LoaderService) {}
+  constructor(
+    private media: MediaObserver,
+    public loaderService: LoaderService
+  ) {}
 
   ngOnInit() {
     // Automatically close side menu on screens > sm breakpoint
@@ -23,7 +26,9 @@ export class ShellComponent implements OnInit {
       .asObservable()
       .pipe(
         filter((changes: MediaChange[]) =>
-          changes.some((change) => change.mqAlias !== 'xs' && change.mqAlias !== 'sm')
+          changes.some(
+            (change) => change.mqAlias !== 'xs' && change.mqAlias !== 'sm'
+          )
         ),
         untilDestroyed(this)
       )

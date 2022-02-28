@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { withCache } from '@ngneat/cashew';
@@ -22,9 +26,9 @@ export class PokemonService {
 
   getCards(req: QueryParams): Observable<HttpApiResponse> {
     const params = new HttpParams({
-      fromString: `${req.query ? 'q=' + req.query : ''}&page=${req.page}&pageSize=${req.pageSize}&orderBy=${
-        req.orderBy
-      }`,
+      fromString: `${req.query ? 'q=' + req.query : ''}&page=${
+        req.page
+      }&pageSize=${req.pageSize}&orderBy=${req.orderBy}`,
     });
 
     return this.httpClient
@@ -73,6 +77,8 @@ export class PokemonService {
       // backend error 404...
       return throwError(() => error);
     }
-    return throwError(() => 'Ohps something wrong happen here; please try again later.');
+    return throwError(
+      () => 'Ohps something wrong happen here; please try again later.'
+    );
   }
 }

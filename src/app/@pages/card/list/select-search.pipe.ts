@@ -9,7 +9,9 @@ export class SelectSearchPipe implements PipeTransform {
     if (!searchTxt || !searchTxt.length) return items;
     return items.filter((item) => {
       console.log(item.name);
-      return item.name.toString().toLowerCase().indexOf(searchTxt.toLowerCase()) > -1;
+      return (
+        item.name.toString().toLowerCase().indexOf(searchTxt.toLowerCase()) > -1
+      );
     });
   }
 }

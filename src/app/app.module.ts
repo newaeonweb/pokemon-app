@@ -21,7 +21,9 @@ import { LoadingInterceptor } from './@shared/interceptors/loading.interceptor';
 @NgModule({
   imports: [
     BrowserModule,
-    ServiceWorkerModule.register('./ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('./ngsw-worker.js', {
+      enabled: environment.production,
+    }),
     FormsModule,
     HttpClientModule,
     HttpCacheInterceptorModule.forRoot(),
@@ -36,7 +38,9 @@ import { LoadingInterceptor } from './@shared/interceptors/loading.interceptor';
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
