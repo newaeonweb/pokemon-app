@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@app/@pages/card/list/components/confirm-dialog/confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Card } from '@app/@pages/card/_interfaces/card.interface';
+import { Subscription } from 'rxjs';
+import { Theme, ThemeService } from '@app/@core/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -16,17 +18,24 @@ import { Card } from '@app/@pages/card/_interfaces/card.interface';
 export class HeaderComponent implements OnInit {
   @Input() sidenav!: MatSidenav;
   cartItems$ = this.deskService.items$;
+  themeSub: Subscription;
+  themeClass = '';
 
   constructor(
     @Inject(DOCUMENT) private document: any,
     public dialog: MatDialog,
     private titleService: Title,
     private translate: TranslateService,
-    private deskService: DeskService
+    private deskService: DeskService,
+    public theme: ThemeService
   ) {}
 
   ngOnInit() {
     this.currentTheme();
+    this.themeSub = this.theme.theme$.subscribe((t: Theme) => {
+      console.log(t);
+      this.themeClass = t.name;
+    });
   }
 
   get title(): string {
