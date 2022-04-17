@@ -31,33 +31,26 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.currentTheme();
-    this.themeSub = this.theme.theme$.subscribe((t: Theme) => {
-      console.log(t);
-      this.themeClass = t.name;
-    });
+    if (this.checkThemeIsSelected()) {
+      this.themeClass = this.checkThemeIsSelected() as string;
+    } else {
+      this.themeSub = this.theme.theme$.subscribe((t: Theme) => {
+        this.themeClass = t.name;
+      });
+    }
   }
 
   get title(): string {
     return this.titleService.getTitle();
   }
 
-  currentTheme() {
-    const darkTheme = localStorage.getItem('dark-theme');
-    if (darkTheme) {
-      return this.document.body.classList.add('dark-theme');
+  checkThemeIsSelected() {
+    const isThemeSelected = localStorage.getItem('theme');
+    if (isThemeSelected) {
+      return isThemeSelected;
+    } else {
+      return false;
     }
-  }
-
-  changeTheme() {
-    const darkTheme = localStorage.getItem('dark-theme');
-    if (darkTheme) {
-      this.document.body.classList.remove('dark-theme');
-      localStorage.removeItem('dark-theme');
-      return;
-    }
-    this.document.body.classList.add('dark-theme');
-    localStorage.setItem('dark-theme', 'true');
   }
 
   clearDesk() {

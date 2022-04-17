@@ -33,7 +33,7 @@ export class ThemeService {
     { name: 'dark-teal', display: 'Dark Teal' },
   ]);
 
-  theme = new BehaviorSubject<Theme>(this.themes.value[2]);
+  theme = new BehaviorSubject<Theme>(this.themes.value[6]);
   themes$ = this.themes.asObservable();
   theme$ = this.theme.asObservable();
 
@@ -45,22 +45,17 @@ export class ThemeService {
   }
 
   setTheme = (t: Theme) => {
-    console.log('🚀 ~ file: theme.service.ts ~ line 45 ~ ThemeService ~ t', t);
-
     this.setOverlayContainerTheme(t.name, this.theme.value.name);
-
     this.theme.next(t);
   };
 
   setOverlayContainerTheme = (newTheme: string, oldTheme?: string) => {
     if (oldTheme) {
       this.document.body.classList.remove(oldTheme);
-
       this.overlay.getContainerElement().classList.remove(oldTheme);
     }
 
     this.document.body.classList.add(newTheme);
-
     this.overlay.getContainerElement().classList.add(newTheme);
   };
 }

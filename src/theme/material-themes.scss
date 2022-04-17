@@ -1,6 +1,6 @@
 @use "@angular/material" as mat;
 
-@import "./material-styles.scss";
+// @import "./material-styles.scss";
 
 $light-blue: mat.define-palette(mat.$light-blue-palette, A400);
 $red: mat.define-palette(mat.$red-palette);
@@ -24,7 +24,7 @@ $teal-light: mat.define-palette(mat.$teal-palette, A700);
 
 /*-- Default Theme --*/
 $default-theme: mat.define-dark-theme($amber-light, $light-blue);
-@include style-theme($default-theme);
+// @include style-theme($default-theme);
 @include mat.all-component-themes($default-theme);
 
 /*-- Dark Themes --*/
