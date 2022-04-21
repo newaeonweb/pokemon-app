@@ -1,14 +1,14 @@
+/* stylelint-disable selector-no-qualifying-type */
 @use "sass:map";
 @use "@angular/material" as mat;
-
 @import "~@angular/material/theming";
+
 $material-design-icons-font-directory-path: "~material-design-icons-iconfont/dist/fonts/";
 
-@include mat.core();
+@include mat.core;
 
 @mixin style-theme($theme) {
   $color-config: mat.get-color-config($theme);
-
   $primary: map.get($color-config, "primary");
   $accent: map.get($color-config, "accent");
   $warn: map.get($color-config, "warn");
@@ -60,14 +60,14 @@ $material-design-icons-font-directory-path: "~material-design-icons-iconfont/dis
     color: $primary;
   }
 
-  code.snippet.alt,
-  a.link:visited {
-    color: $accent;
-  }
-
   a.link,
   a.link:visited {
     text-decoration: none;
+  }
+
+  code.snippet.alt,
+  a.link:visited {
+    color: $accent;
   }
 
   mat-paginator.mat-paginator {
@@ -122,6 +122,7 @@ mat-toolbar.mat-toolbar {
     margin-right: 4px;
     margin-left: 4px;
   }
+
   button.mat-button {
     margin-left: 4px;
     margin-right: 4px;
