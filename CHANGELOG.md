@@ -1,3 +1,12 @@
+## [1.2.7](https://github.com/newaeonweb/pokemon-app/compare/v1.2.6...v1.2.7) (2022-04-21)
+
+
+### Bug Fixes
+
+* adjust ci issues ([c829768](https://github.com/newaeonweb/pokemon-app/commit/c829768b3edde5ea8663d91024ef238a3d19f7a7))
+
+
+
 ## [1.2.6](https://github.com/newaeonweb/pokemon-app/compare/v1.2.5...v1.2.6) (2022-03-01)
 
 
@@ -16,15 +25,6 @@
 
 
 ## [1.2.3](https://github.com/newaeonweb/pokemon-app/compare/v1.2.2...v1.2.3) (2022-02-27)
-
-
-
-## [1.2.2](https://github.com/newaeonweb/pokemon-app/compare/v1.2.1...v1.2.2) (2022-02-27)
-
-
-### Bug Fixes
-
-* css align on firefox ([f7e4113](https://github.com/newaeonweb/pokemon-app/commit/f7e4113121939db6ac1f884ecd85b01601da069f))
 
 
 
