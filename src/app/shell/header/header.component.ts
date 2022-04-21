@@ -7,6 +7,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@app/@pages/card/list/components/confirm-dialog/confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Card } from '@app/@pages/card/_interfaces/card.interface';
+import { Subscription } from 'rxjs';
+import { Theme, ThemeService } from '@app/@core/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -16,39 +18,39 @@ import { Card } from '@app/@pages/card/_interfaces/card.interface';
 export class HeaderComponent implements OnInit {
   @Input() sidenav!: MatSidenav;
   cartItems$ = this.deskService.items$;
+  themeSub: Subscription;
+  themeClass = '';
 
   constructor(
     @Inject(DOCUMENT) private document: any,
     public dialog: MatDialog,
     private titleService: Title,
     private translate: TranslateService,
-    private deskService: DeskService
+    private deskService: DeskService,
+    public theme: ThemeService
   ) {}
 
   ngOnInit() {
-    this.currentTheme();
+    if (this.checkThemeIsSelected()) {
+      this.themeClass = this.checkThemeIsSelected() as string;
+    } else {
+      this.themeSub = this.theme.theme$.subscribe((t: Theme) => {
+        this.themeClass = t.name;
+      });
+    }
   }
 
   get title(): string {
     return this.titleService.getTitle();
   }
 
-  currentTheme() {
-    const darkTheme = localStorage.getItem('dark-theme');
-    if (darkTheme) {
-      return this.document.body.classList.add('dark-theme');
+  checkThemeIsSelected() {
+    const isThemeSelected = localStorage.getItem('theme');
+    if (isThemeSelected) {
+      return isThemeSelected;
+    } else {
+      return false;
     }
-  }
-
-  changeTheme() {
-    const darkTheme = localStorage.getItem('dark-theme');
-    if (darkTheme) {
-      this.document.body.classList.remove('dark-theme');
-      localStorage.removeItem('dark-theme');
-      return;
-    }
-    this.document.body.classList.add('dark-theme');
-    localStorage.setItem('dark-theme', 'true');
   }
 
   clearDesk() {

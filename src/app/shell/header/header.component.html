@@ -29,13 +29,21 @@
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>format_color_fill</mat-icon>
   </button>
-  <mat-menu #menu="matMenu">
+  <!-- <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="changeTheme()">
       <span translate>Change Theme</span>
     </button>
-  </mat-menu>
+  </mat-menu> -->
   <app-language-selector [icon]="true"></app-language-selector>
-
+  <mat-menu #menu="matMenu">
+    <button
+      mat-menu-item
+      *ngFor="let t of theme.themes$ | async"
+      (click)="theme.setTheme(t)"
+    >
+      {{ t.display }}
+    </button>
+  </mat-menu>
   <button
     mat-icon-button
     [appDropdownTrigger]="dropdown"
