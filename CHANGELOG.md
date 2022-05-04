@@ -1,3 +1,7 @@
+## [1.2.8](https://github.com/newaeonweb/pokemon-app/compare/v1.2.7...v1.2.8) (2022-05-04)
+
+
+
 ## [1.2.7](https://github.com/newaeonweb/pokemon-app/compare/v1.2.6...v1.2.7) (2022-04-21)
 
 
@@ -21,10 +25,6 @@
 
 
 ## [1.2.4](https://github.com/newaeonweb/pokemon-app/compare/v1.2.3...v1.2.4) (2022-02-28)
-
-
-
-## [1.2.3](https://github.com/newaeonweb/pokemon-app/compare/v1.2.2...v1.2.3) (2022-02-27)
 
 
 
