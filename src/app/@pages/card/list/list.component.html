@@ -151,13 +151,19 @@
             </mat-form-field>
           </div>
           <div fxFlex="10">
-            <button mat-stroked-button color="accent" (click)="clearFilters()">
+            <button
+              type="button"
+              mat-stroked-button
+              color="accent"
+              (click)="clearFilters()"
+            >
               <span translate>Clear Filters</span>
             </button>
           </div>
         </div>
       </form>
       <br />
+
       <div class="card-content">
         <div *ngIf="characters$ | async as cardsList">
           <div
@@ -176,6 +182,20 @@
                 ></app-poke-card>
               </div>
             </ng-container>
+          </div>
+        </div>
+
+        <div *ngIf="emptyResult">
+          <div
+            fxLayout="column"
+            fxLayoutAlign="center center"
+            fxLayoutGap="20px"
+          >
+            <h2>Ops: No results found for this search filters</h2>
+            <img src="../../../../assets/images/notfound.gif" alt="" />
+            <button mat-raised-button color="primary" (click)="clearFilters()">
+              Reset Search
+            </button>
           </div>
         </div>
       </div>

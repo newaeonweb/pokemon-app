@@ -17,6 +17,7 @@ import { ShellModule } from './shell/shell.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoadingInterceptor } from './@shared/interceptors/loading.interceptor';
+import { ErrorInterceptor } from './@shared/interceptors/error.interceptor';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { LoadingInterceptor } from './@shared/interceptors/loading.interceptor';
   declarations: [AppComponent],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
