@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
@@ -19,6 +19,7 @@ import {
   map,
   shareReplay,
   switchMap,
+  take,
   tap,
 } from 'rxjs/operators';
 import { FilterRequest, PokemonService } from '../_services/pokemon.service';
@@ -29,10 +30,9 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { DeskService } from '../_services/desk.service';
 import { Card } from '../_interfaces/card.interface';
 import { TranslateService } from '@ngx-translate/core';
+import { NotifyService } from '@app/@shared/services/snack-bar.service';
 
 const log = new Logger('card list');
-
-const API_URL = environment.serverUrl;
 
 @Component({
   selector: 'app-list',
@@ -50,6 +50,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   queryParams: Params;
   formFilter: FormGroup;
   searchListText = '';
+  emptyResult = false;
 
   typesList: string[];
   subtypesList: string[];
@@ -81,7 +82,7 @@ export class ListComponent implements OnInit, AfterViewInit {
         if (params.q) {
           const query = this.convertQueryStringToObject();
 
-          this.formFilter.patchValue({
+          this.formFilter.setValue({
             searchField: query.name || '',
             supertype: query.supertype || '',
             types: query.types || '',
@@ -92,6 +93,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
         return this.getCards();
       }),
+      take(1),
       shareReplay(1)
     );
   }
@@ -117,7 +119,10 @@ export class ListComponent implements OnInit, AfterViewInit {
           this.typesList = result[0].data;
           this.subtypesList = result[1].data;
           this.supertypesList = result[2].data;
-          this.setList = result[3].data;
+          this.setList = result[3].data.sort(
+            (a: { name: number }, b: { name: number }) =>
+              (a.name > b.name && 1) || -1
+          );
         })
       )
       .subscribe();
@@ -192,14 +197,15 @@ export class ListComponent implements OnInit, AfterViewInit {
             query = query.concat(' ', `set.name:${filter.set}`);
           }
 
-          this.characters$ = of(null);
+          this.characters$ = of([]);
 
           this.queryParams.q = query;
 
           this.updateUrlQueryParams();
 
           return this.getCards();
-        })
+        }),
+        shareReplay(1)
       )
       .subscribe();
   }
@@ -212,6 +218,9 @@ export class ListComponent implements OnInit, AfterViewInit {
       subtypes: '',
       set: '',
     });
+    this.emptyResult = false;
+    this.queryParams.q = '';
+    this.updateUrlQueryParams();
   }
 
   dispatchSearch(value: any) {
@@ -231,20 +240,17 @@ export class ListComponent implements OnInit, AfterViewInit {
     log.info('getCards');
     return this.pokemonService.getAll(this.queryParams).pipe(
       map((res: any) => {
+        if (res.data.length === 0) {
+          this.emptyResult = true;
+          this.characters$ = of(null);
+          return;
+        }
+        this.emptyResult = false;
         this.resultsLength = res.totalCount;
         this.queryParams.pageSize = res.pageSize;
         this.characters$ = of(res.data);
       }),
-      catchError((err: HttpErrorResponse) => {
-        log.debug('getCards error', err);
-        if (err.status === 400) {
-          alert('Algo estranho aconteceu');
-        }
-        if (err.status === 404) {
-          alert('Nenhum resultado encontrado');
-        }
-        return of([]);
-      }),
+      catchError(() => (this.characters$ = of([]))),
       shareReplay(1)
     );
   }
@@ -252,7 +258,6 @@ export class ListComponent implements OnInit, AfterViewInit {
   showDetails(card: any) {
     this.card = card;
     this.drawer.open();
-    document.querySelector('.mat-sidenav-content').scrollTop = 0;
   }
 
   addToDesk(card: any) {
