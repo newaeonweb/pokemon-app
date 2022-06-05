@@ -1,3 +1,12 @@
+## [1.3.1](https://github.com/newaeonweb/pokemon-app/compare/v1.3.0...v1.3.1) (2022-06-05)
+
+
+### Bug Fixes
+
+* image patch ([04bf16d](https://github.com/newaeonweb/pokemon-app/commit/04bf16d05c9d6e962a248828d1f9ec2735cddf93))
+
+
+
 # [1.3.0](https://github.com/newaeonweb/pokemon-app/compare/v1.2.12...v1.3.0) (2022-06-05)
 
 
@@ -16,10 +25,6 @@
 
 
 ## [1.2.10](https://github.com/newaeonweb/pokemon-app/compare/v1.2.9...v1.2.10) (2022-05-04)
-
-
-
-## [1.2.9](https://github.com/newaeonweb/pokemon-app/compare/v1.2.8...v1.2.9) (2022-05-04)
 
 
 
