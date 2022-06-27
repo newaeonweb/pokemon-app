@@ -33,7 +33,7 @@ $custom-typography: mat.define-typography-config(
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat.all-component-themes($app-theme);
+@include mat.all-component-colors($app-theme);
 @include custom-components-theme($app-theme);
 
 $p: mat.define-palette(mat.$grey-palette);
@@ -50,24 +50,6 @@ $warn-palette: mat.get-color-from-palette($w, a400);
     color: rgb(255 255 255);
     border: none;
   }
-}
-
-.dark-theme {
-  @include mat.all-component-themes($app-dark-theme);
-
-  .snackbar-fail {
-    background: #ff0800;
-    color: white;
-    width: 500px;
-
-    button {
-      background-color: #f44336;
-      color: rgb(255 255 255);
-      border: none;
-    }
-  }
-
-  // @include mat-toolbar-theme($app-theme);
 }
 
 html,
