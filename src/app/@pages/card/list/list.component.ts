@@ -1,8 +1,8 @@
-import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -10,8 +10,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { environment } from '@env/environment';
-import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, of, Subscription } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -30,7 +29,6 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { DeskService } from '../_services/desk.service';
 import { Card } from '../_interfaces/card.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { NotifyService } from '@app/@shared/services/snack-bar.service';
 
 const log = new Logger('card list');
 
@@ -39,10 +37,11 @@ const log = new Logger('card list');
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit, AfterViewInit {
+export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('drawer') drawer: MatDrawer;
   @ViewChild('toTop') toTop: ElementRef;
+  subscription = new Subscription();
 
   characters$: Observable<any[]>;
   searchTerm$ = new BehaviorSubject<any>('');
@@ -113,7 +112,7 @@ export class ListComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.createForm();
     this.searchListening();
-    this.loadFilters()
+    this.subscription = this.loadFilters()
       .pipe(
         tap((result: FilterRequest) => {
           this.typesList = result[0].data;
@@ -126,6 +125,10 @@ export class ListComponent implements OnInit, AfterViewInit {
         })
       )
       .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   createForm() {
