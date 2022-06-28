@@ -8,8 +8,6 @@
 @import "theme/theme-variables";
 
 // Theme customization
-@import "theme/theme";
-@import "theme/custom-component-themes";
 @import "theme/material-themes";
 
 // 3rd party libraries
@@ -34,12 +32,25 @@ $custom-typography: mat.define-typography-config(
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-colors($app-theme);
-@include custom-components-theme($app-theme);
 
 $p: mat.define-palette(mat.$grey-palette);
 $primary-palette: mat.get-color-from-palette($p, 600);
 $w: mat.define-palette(mat.$red-palette);
 $warn-palette: mat.get-color-from-palette($w, a400);
+
+// stylelint-disable-next-line selector-max-universal
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: Roboto, Arial, sans-serif;
+  margin: 0;
+  height: 100%;
+}
 
 .snackbar-fail {
   background: $warn-palette;
@@ -50,13 +61,6 @@ $warn-palette: mat.get-color-from-palette($w, a400);
     color: rgb(255 255 255);
     border: none;
   }
-}
-
-html,
-body {
-  font-family: Roboto, Arial, sans-serif;
-  margin: 0;
-  height: 100%;
 }
 
 .flex-container {
