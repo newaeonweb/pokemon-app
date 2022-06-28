@@ -1,3 +1,12 @@
+## [1.3.3](https://github.com/newaeonweb/pokemon-app/compare/v1.3.2...v1.3.3) (2022-06-27)
+
+
+### Bug Fixes
+
+* duplicationg theme styles ([d6b07a7](https://github.com/newaeonweb/pokemon-app/commit/d6b07a7465701627962f17950310b631544bc27c))
+
+
+
 ## [1.3.2](https://github.com/newaeonweb/pokemon-app/compare/v1.3.1...v1.3.2) (2022-06-27)
 
 
@@ -26,10 +35,6 @@
 
 
 ## [1.2.12](https://github.com/newaeonweb/pokemon-app/compare/v1.2.11...v1.2.12) (2022-05-04)
-
-
-
-## [1.2.11](https://github.com/newaeonweb/pokemon-app/compare/v1.2.10...v1.2.11) (2022-05-04)
 
 
 
