@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -47,7 +47,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
   searchTerm$ = new BehaviorSubject<any>('');
   resultsLength = 0;
   queryParams: Params;
-  formFilter: FormGroup;
+  formFilter: UntypedFormGroup;
   searchListText = '';
   emptyResult = false;
 
@@ -61,7 +61,7 @@ export class ListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private pokemonService: PokemonService,
     private route: ActivatedRoute,
     private router: Router,
