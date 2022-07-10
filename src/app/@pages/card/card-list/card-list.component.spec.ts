@@ -21,23 +21,21 @@ describe('CardListComponent', () => {
   let component: CardListComponent;
   let fixture: ComponentFixture<CardListComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          BrowserAnimationsModule,
-          FlexLayoutModule,
-          MaterialModule,
-          RouterTestingModule,
-          Angulartics2Module.forRoot(),
-          CoreModule,
-          SharedModule,
-          HttpClientTestingModule,
-        ],
-        declarations: [CardListComponent],
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        BrowserAnimationsModule,
+        FlexLayoutModule,
+        MaterialModule,
+        RouterTestingModule,
+        Angulartics2Module.forRoot(),
+        CoreModule,
+        SharedModule,
+        HttpClientTestingModule,
+      ],
+      declarations: [CardListComponent],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CardListComponent);
