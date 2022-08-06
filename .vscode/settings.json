@@ -18,5 +18,10 @@
   "css.validate": false,
   "scss.validate": false,
   "stylelint.enable": true,
-  "stylelint.validate": ["css", "sass", "scss"]
+  "stylelint.validate": [
+    "css",
+    "sass",
+    "scss"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

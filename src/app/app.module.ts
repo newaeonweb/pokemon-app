@@ -21,7 +21,7 @@ import { ErrorInterceptor } from './@shared/interceptors/error.interceptor';
 
 @NgModule({
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     ServiceWorkerModule.register('./ngsw-worker.js', {
       enabled: environment.production,
     }),
