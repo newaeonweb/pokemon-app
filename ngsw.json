@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1656375799056,
+  "timestamp": 1659812184567,
   "index": "https://newaeonweb.github.io/pokemon-app/index.html",
   "assetGroups": [
     {
@@ -11,15 +11,15 @@
         "ignoreVary": true
       },
       "urls": [
-        "https://newaeonweb.github.io/pokemon-app/805.8758037ab2ab3e5b.js",
-        "https://newaeonweb.github.io/pokemon-app/89.0ef54445d39620e7.js",
+        "https://newaeonweb.github.io/pokemon-app/805.64c2a1310aad472a.js",
+        "https://newaeonweb.github.io/pokemon-app/89.6e64bd6aabf6cdde.js",
         "https://newaeonweb.github.io/pokemon-app/favicon.ico",
         "https://newaeonweb.github.io/pokemon-app/index.html",
-        "https://newaeonweb.github.io/pokemon-app/main.7ebf0a09f159194d.js",
+        "https://newaeonweb.github.io/pokemon-app/main.a94c3fe8886b787a.js",
         "https://newaeonweb.github.io/pokemon-app/manifest.webmanifest",
-        "https://newaeonweb.github.io/pokemon-app/polyfills.ca94550bcd70118a.js",
-        "https://newaeonweb.github.io/pokemon-app/runtime.d44ecdbb19976a2d.js",
-        "https://newaeonweb.github.io/pokemon-app/styles.04ce82f054cd285e.css"
+        "https://newaeonweb.github.io/pokemon-app/polyfills.ada46cca79efeb92.js",
+        "https://newaeonweb.github.io/pokemon-app/runtime.a3854628a99c8c2f.js",
+        "https://newaeonweb.github.io/pokemon-app/styles.ddf6fe29f7dfa4ab.css"
       ],
       "patterns": []
     },
@@ -31,10 +31,10 @@
         "ignoreVary": true
       },
       "urls": [
-        "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.4835719c5cad0589.eot",
-        "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.c1d81adbcabba679.ttf",
-        "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.f852a2b61645d303.woff",
-        "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.fc6b597816978750.woff2",
+        "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.14b0bb77466d9f38.woff",
+        "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.a973ee76274035a2.eot",
+        "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.d1b99623aaa86364.woff2",
+        "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.fa58bcb97f2ed321.ttf",
         "https://newaeonweb.github.io/pokemon-app/apple-touch-icon.png",
         "https://newaeonweb.github.io/pokemon-app/assets/images/notfound.gif",
         "https://newaeonweb.github.io/pokemon-app/assets/ngx-rocket-logo.png",
@@ -46,24 +46,24 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "https://newaeonweb.github.io/pokemon-app/805.8758037ab2ab3e5b.js": "200146f9d03c338ff3b04165881609ce8d2329a8",
-    "https://newaeonweb.github.io/pokemon-app/89.0ef54445d39620e7.js": "9afb57ef3a7a76e8c50e0ef189e702be7eec09c4",
-    "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.4835719c5cad0589.eot": "fd88b965c3cf932d029b064805dc57e2f64cf0ba",
-    "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.c1d81adbcabba679.ttf": "eb1eeaf2e84f626270d2b846bd9b603ba0c06ee8",
-    "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.f852a2b61645d303.woff": "8223f84d5b9a9772a12fb343490196aa6cd119c4",
-    "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.fc6b597816978750.woff2": "9a50c0ae80009fba6c03f7aaed10c4eaa819abf4",
+    "https://newaeonweb.github.io/pokemon-app/805.64c2a1310aad472a.js": "c8c5baa39699c85aa6bd60b25aa100b24bf16186",
+    "https://newaeonweb.github.io/pokemon-app/89.6e64bd6aabf6cdde.js": "70ca6cc515fea5b9da7549118359c04a53cba298",
+    "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.14b0bb77466d9f38.woff": "e5fa525648c74213cdeb8554aa77057f0c4d8488",
+    "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.a973ee76274035a2.eot": "59e47b6ddee7ccb7761b4ab9b81c4661b81811fd",
+    "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.d1b99623aaa86364.woff2": "7e67acf56f6d527980504c3d0dd2a30d706e5339",
+    "https://newaeonweb.github.io/pokemon-app/MaterialIcons-Regular.fa58bcb97f2ed321.ttf": "b582b869fe05f35f5a1d08cdf50b2b5eb37bae44",
     "https://newaeonweb.github.io/pokemon-app/apple-touch-icon.png": "229df2094cc590088de00ea97a1eb4e4493101d2",
     "https://newaeonweb.github.io/pokemon-app/assets/images/notfound.gif": "21f12f1a7af25851d7623588539f98e4c1f4738c",
     "https://newaeonweb.github.io/pokemon-app/assets/ngx-rocket-logo.png": "0ac53fd27406fe5a36e68285315fb0012e54058e",
     "https://newaeonweb.github.io/pokemon-app/assets/ngx-rocket-logo@192.png": "461b730f9c6dc818f8af9acbe62dfde24dc02d7a",
     "https://newaeonweb.github.io/pokemon-app/assets/pokemon.jpeg": "378128e63e294a70765e56801279e608fc6636b1",
     "https://newaeonweb.github.io/pokemon-app/favicon.ico": "b65083d46bbf63692d5d2cdd69622e6d7ecae317",
-    "https://newaeonweb.github.io/pokemon-app/index.html": "f0780783355af57b4527eac0e933ba07fa741d6f",
-    "https://newaeonweb.github.io/pokemon-app/main.7ebf0a09f159194d.js": "7f3d5a1ead7eeeed2107b1cbc72dc357333b1eea",
+    "https://newaeonweb.github.io/pokemon-app/index.html": "e7c2f997477c0244f6ef70730b067297d9f2417f",
+    "https://newaeonweb.github.io/pokemon-app/main.a94c3fe8886b787a.js": "985e7e3edbc72f5a52533ef070143cdda45d00b0",
     "https://newaeonweb.github.io/pokemon-app/manifest.webmanifest": "27d8a91784041d23ff0078bfcbf2a4bcd2b0c807",
-    "https://newaeonweb.github.io/pokemon-app/polyfills.ca94550bcd70118a.js": "9f912cc9907768d2fa8c5fd411d226cc2a16f6a1",
-    "https://newaeonweb.github.io/pokemon-app/runtime.d44ecdbb19976a2d.js": "9df275ed259c5d3504a1eb1c0ecb625f08e267b3",
-    "https://newaeonweb.github.io/pokemon-app/styles.04ce82f054cd285e.css": "fb81328f43bac462cf36aed4de401c2e32490b5d"
+    "https://newaeonweb.github.io/pokemon-app/polyfills.ada46cca79efeb92.js": "ddc736b7574bdd6b3f9faee41330fffc371fec17",
+    "https://newaeonweb.github.io/pokemon-app/runtime.a3854628a99c8c2f.js": "68d2703bcf6163b5c0911d361f17f8981f37867f",
+    "https://newaeonweb.github.io/pokemon-app/styles.ddf6fe29f7dfa4ab.css": "978ebe7fe54b9655c5262dbaac2a917a96f9cb1d"
   },
   "navigationUrls": [
     {
