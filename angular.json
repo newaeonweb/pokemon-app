@@ -185,7 +185,9 @@
           "options": {
             "routes": [
               "/",
-              "card?page=1&pageSize=10&orderBy=name"
+              "/home",
+              "/card",
+              "/about"
             ]
           },
           "configurations": {
