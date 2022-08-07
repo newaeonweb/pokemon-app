@@ -88,7 +88,7 @@
               "browserTarget": "pokemon-app:build:production"
             },
             "development": {
-              "browserTarget": "my-first-app:build:development"
+              "browserTarget": "pokemon-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -184,7 +184,8 @@
           "builder": "@nguniversal/builders:prerender",
           "options": {
             "routes": [
-              "/"
+              "/",
+              "card?page=1&pageSize=10&orderBy=name"
             ]
           },
           "configurations": {
@@ -203,6 +204,8 @@
     }
   },
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

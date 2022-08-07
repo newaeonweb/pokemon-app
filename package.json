@@ -19,10 +19,10 @@
     "prettier:check": "prettier --list-different \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
     "postinstall": "npm run prettier -s",
     "generate": "ng generate",
-    "dev:ssr": "ng run pokemon-app:serve-ssr",
+    "dev:ssr": "npm run write:env -s && ng run pokemon-app:serve-ssr",
     "serve:ssr": "node dist/pokemon-app/server/main.js",
-    "build:ssr": "ng build && ng run pokemon-app:server",
-    "prerender": "ng run pokemon-app:prerender"
+    "build:ssr": "npm run write:env -s && ng build && ng run pokemon-app:server",
+    "prerender": "npm run write:env -s && ng run pokemon-app:prerender"
   },
   "dependencies": {
     "@angular/animations": "^14.1.1",
