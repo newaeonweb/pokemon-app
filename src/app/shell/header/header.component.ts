@@ -3,7 +3,7 @@ import { Component, OnInit, Input, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { MatSidenav } from '@angular/material/sidenav';
 import { DeskService } from '@app/@pages/card/_services/desk.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ConfirmDialogComponent } from '@app/@pages/card/list/components/confirm-dialog/confirm-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Card } from '@app/@pages/card/_interfaces/card.interface';
