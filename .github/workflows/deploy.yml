@@ -1,16 +1,10 @@
-name: CI
-
+name: 'CI'
 on:
-  push:
-    branches:
-      - master
-    pull_request:
-      types:
-        - opened
-        - edited
-  workflow_dispatch: null
+  pull_request_target:
+    types: [opened, ready_for_review]
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -51,7 +45,7 @@ jobs:
       #   run: |
       #     npm run test
 
-      - name: Task list comleted
+      - name: Task Complete Checker
         uses: kentaro-m/task-completed-checker-action@v0.1.0
         with:
           repo-token: "${{ secrets.TOKEN_GITHUB_ACTION}}"
