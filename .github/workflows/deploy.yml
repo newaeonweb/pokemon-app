@@ -53,6 +53,7 @@ jobs:
         run: |
           npm ci
 
+      #  Run lint
       - name: Lint
         run: |
           npm run lint
@@ -61,8 +62,8 @@ jobs:
       #   run: |
       #     npm run test
 
-      - name: Task list comleted
       - uses: kentaro-m/task-completed-checker-action@v0.1.0
+      - name: Task list comleted
         with:
           repo-token: "${{ secrets.TOKEN_GITHUB_ACTION}}"
 
