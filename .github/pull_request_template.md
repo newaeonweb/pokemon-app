@@ -1,9 +1,11 @@
 ## Issue Type
 
-- [ ] Bug N/A
-- [ ] Feature N/A
-- [ ] Document N/A
-- [ ] Enhancement N/A
+<!-- ignore-task-list-start -->
+- [ ] Bug
+- [ ] Feature
+- [ ] Document
+- [ ] Enhancement
+<!-- ignore-task-list-end -->
 
 ## Checklist
 
