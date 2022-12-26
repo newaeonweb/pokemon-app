@@ -45,11 +45,6 @@ jobs:
       #   run: |
       #     npm run test
 
-      - name: Task Complete Checker
-        uses: kentaro-m/task-completed-checker-action@v0.1.0
-        with:
-          repo-token: "${{ secrets.TOKEN_GITHUB_ACTION}}"
-
       - name: Build
         run: |
           npm run build
