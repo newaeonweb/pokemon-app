@@ -1,6 +1,5 @@
 /* stylelint-disable value-keyword-case */
 @use "@angular/material" as mat;
-@import "~material-design-icons-iconfont/src/material-design-icons";
 
 $light-blue: mat.define-palette(mat.$light-blue-palette, A400);
 $red: mat.define-palette(mat.$red-palette);
@@ -25,7 +24,7 @@ $teal-light: mat.define-palette(mat.$teal-palette, A700);
 /* -- Default Theme -- */
 $default-theme: mat.define-dark-theme($amber-light, $light-blue);
 
-@include mat.all-component-themes($default-theme);
+@include mat.all-legacy-component-themes($default-theme);
 
 /* -- Dark Themes -- */
 .dark-green {
@@ -37,102 +36,102 @@ $default-theme: mat.define-dark-theme($amber-light, $light-blue);
 .dark-blue {
   $default-theme: mat.define-dark-theme($light-blue, $green-dark);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .dark-red {
   $default-theme: mat.define-dark-theme($red, $light-blue, $pink);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .dark-indigo {
   $default-theme: mat.define-dark-theme($indigo-dark, $deep-orange);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .dark-orange {
   $default-theme: mat.define-dark-theme($deep-orange, $indigo-dark);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .dark-purple {
   $default-theme: mat.define-dark-theme($purple-dark, $amber-dark);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .dark-amber {
   $default-theme: mat.define-dark-theme($amber-dark, $purple-dark);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .dark-crimson {
   $default-theme: mat.define-dark-theme($crimson, $teal-dark, $deep-orange);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .dark-teal {
   $default-theme: mat.define-dark-theme($teal-dark, $crimson, $deep-orange);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 /* -- Light Themes -- */
 .light-green {
   $default-theme: mat.define-light-theme($green-light, $light-blue);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .light-blue {
   $default-theme: mat.define-light-theme($light-blue, $green-light);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .light-red {
   $default-theme: mat.define-light-theme($red, $light-blue, $pink);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .light-indigo {
   $default-theme: mat.define-light-theme($indigo-light, $deep-orange);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .light-orange {
   $default-theme: mat.define-light-theme($deep-orange, $indigo-light);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .light-purple {
   $default-theme: mat.define-light-theme($purple-light, $amber-light);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .light-amber {
   $default-theme: mat.define-light-theme($amber-light, $purple-light);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .light-crimson {
   $default-theme: mat.define-light-theme($crimson, $teal-light, $deep-orange);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }
 
 .light-teal {
   $default-theme: mat.define-light-theme($teal-light, $crimson, $deep-orange);
 
-  @include mat.all-component-colors($default-theme);
+  @include mat.all-legacy-component-colors($default-theme);
 }

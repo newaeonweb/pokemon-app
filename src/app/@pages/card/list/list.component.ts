@@ -12,8 +12,8 @@ import {
   UntypedFormBuilder,
   UntypedFormGroup,
 } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { BehaviorSubject, forkJoin, Observable, of, Subscription } from 'rxjs';
 import {
