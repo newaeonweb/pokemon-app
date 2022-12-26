@@ -1,5 +1,6 @@
 name: CI
-'on':
+
+on:
   push:
     branches:
       - master
@@ -8,6 +9,7 @@ name: CI
         - opened
         - edited
   workflow_dispatch: null
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,10 +19,10 @@ jobs:
           - 14.17.0
     steps:
       - uses: actions/checkout@v2
-      - name: 'Use Node.js ${{ matrix.node-version }}'
+      - name: "Use Node.js ${{ matrix.node-version }}"
         uses: actions/setup-node@v1
         with:
-          node-version: '${{ matrix.node-version }}'
+          node-version: "${{ matrix.node-version }}"
       - name: Cache node modules
         id: cache-nodemodules
         uses: actions/cache@v2
@@ -49,10 +51,11 @@ jobs:
       #   run: |
       #     npm run test
 
-      - uses: kentaro-m/task-completed-checker-action@v0.1.0
       - name: Task list comleted
+        uses: kentaro-m/task-completed-checker-action@v0.1.0
         with:
-          repo-token: '${{ secrets.TOKEN_GITHUB_ACTION}}'
+          repo-token: "${{ secrets.TOKEN_GITHUB_ACTION}}"
+
       - name: Build
         run: |
           npm run build
@@ -60,7 +63,7 @@ jobs:
         id: changelog
         uses: TriPSs/conventional-changelog-action@v3
         with:
-          github-token: '${{ secrets.TOKEN_GITHUB_ACTION }}'
+          github-token: "${{ secrets.TOKEN_GITHUB_ACTION }}"
           preset: angular
           output-file: CHANGELOG.md
-          skip-on-empty: 'false'
+          skip-on-empty: "false"
